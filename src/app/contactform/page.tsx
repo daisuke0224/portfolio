@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 
 export default function passwordreissue() {
+  const [count, setCount] = React.useState("");
+
   return (
     <div className={styles.body}>
       <React.Fragment>

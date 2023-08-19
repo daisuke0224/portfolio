@@ -46,6 +46,9 @@ export const register = () => {
             <Button variant="contained" fullWidth>
               送信
             </Button>
+            <Button variant="contained" fullWidth>
+              送信
+            </Button>
           </div>
         </form>
       </div>
