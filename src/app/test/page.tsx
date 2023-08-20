@@ -16,6 +16,7 @@ import ResponsiveAppBar from "../components/appbar";
 export default function passwordreissue() {
   return (
     <div className={styles.body}>
+      <ResponsiveAppBar></ResponsiveAppBar>
       <Container
         sx={{
           display: "flex",
@@ -26,7 +27,6 @@ export default function passwordreissue() {
           height: "100vh",
         }}
       >
-        <ResponsiveAppBar></ResponsiveAppBar>
         <Stack
           sx={{
             display: "flex",
