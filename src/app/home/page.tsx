@@ -9,9 +9,7 @@ import TwoSimplePieChart from "../components/piecharts";
 import BottomAppBar from "../components/footer";
 import StackedBarChart from "../components/barscharts";
 import NumberOfProjecfts from "../components/numberofprojectscharts";
-import BoxSx from "../components/chat";
 import FullWidthGrid from "../components/achievements";
-import ClippedDrawer from "../components/sidebar";
 import FixedContainer from "../components/sidebar";
 
 const Item = styled(Paper)(({ theme }) => ({
