@@ -1,5 +1,6 @@
 import * as React from "react";
 import styles from "./page.module.css";
+
 import {
   Box,
   Button,
@@ -9,6 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 
 export default function passwordreissue() {
   return (
@@ -49,13 +51,13 @@ export default function passwordreissue() {
               </Typography>
               <Divider sx={{ mb: 3 }} />
               <Button variant="contained" fullWidth sx={{ mb: 3 }}>
-                ユーザー追加
+                <Link href={"/addadminmenuuser"}>ユーザー追加</Link>
               </Button>
               <Button variant="contained" fullWidth sx={{ mb: 3 }}>
-                ユーザー削除
+                <Link href={"/adminmenuuserdelete"}>ユーザー削除</Link>
               </Button>
               <Button variant="contained" fullWidth sx={{ mb: 3 }}>
-                営業目標数値入力
+                <Link href={"/addminmenutargetvalue"}>営業目標数値入力</Link>
               </Button>
             </Box>
           </Stack>
