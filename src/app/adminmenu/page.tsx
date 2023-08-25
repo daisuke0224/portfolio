@@ -7,10 +7,8 @@ import {
   Container,
   Divider,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
 
 export default function passwordreissue() {
   return (
@@ -50,14 +48,29 @@ export default function passwordreissue() {
                 管理者メニュー
               </Typography>
               <Divider sx={{ mb: 3 }} />
-              <Button variant="contained" fullWidth sx={{ mb: 3 }}>
-                <Link href={"/addadminmenuuser"}>ユーザー追加</Link>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 3 }}
+                href="/addadminmenuuser"
+              >
+                ユーザー追加
               </Button>
-              <Button variant="contained" fullWidth sx={{ mb: 3 }}>
-                <Link href={"/adminmenuuserdelete"}>ユーザー削除</Link>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 3 }}
+                href="/adminmenuuserdelete"
+              >
+                ユーザー削除
               </Button>
-              <Button variant="contained" fullWidth sx={{ mb: 3 }}>
-                <Link href={"/addminmenutargetvalue"}>営業目標数値入力</Link>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 3 }}
+                href="/addminmenutargetvalue"
+              >
+                営業目標数値入力
               </Button>
             </Box>
           </Stack>
