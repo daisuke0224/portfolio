@@ -25,7 +25,7 @@ const pages = [
   "ログアウト",
 ];
 
-const root = [
+const links = [
   "home", //ホーム
   "iteminput", //案件入力画面
   "projectmanagement", //案件一覧
