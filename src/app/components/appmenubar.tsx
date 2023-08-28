@@ -42,6 +42,22 @@ const links = [
   "login", //ログイン
 ];
 
+const manubarLinks = [
+  { text: "ホーム", to: "/home" },
+  { text: "案件入力画面", to: "/iteminput" },
+  { text: "案件一覧", to: "/projectmanagement" },
+  { text: "案件編集画面", to: "/itemedit" },
+  { text: "管理者メニュー", to: "/adminmenu" },
+  { text: "管理者メニューユーザー追加", to: "/addadminmenuuser" },
+  { text: "管理者メニューユーザー削除", to: "/adminmenuuserdelete" },
+  { text: "管理者メニュー営業目標数値", to: "/addminmenutargetvalue" },
+  { text: "アカウント登録", to: "/register" },
+  { text: "パスワードの再発行", to: "/passwordreissue" },
+  { text: "パスワードの再設定", to: "/resettingapassword" },
+  { text: "マイページ", to: "/mypage" },
+  { text: "ログイン", to: "/login" },
+];
+
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -55,17 +71,15 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Toolbar disableGutters>
         <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-          {pages.map((page, root) => (
-            // <Link href={`/${root === "ホーム" ? "" : root}`} key={root}>
-            //リンクを作成。よう確認
-            <Button
-              key={page}
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              {page}
-            </Button>
-            // </Link>
+          {manubarLinks.map((page) => (
+            <Link href={page.to} key={page.text}>
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                {page.text}
+              </Button>
+            </Link>
           ))}
         </Box>
       </Toolbar>

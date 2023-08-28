@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import styles from "./page.module.css";
 import {
@@ -12,6 +13,14 @@ import {
 } from "@mui/material";
 
 export default function passwordreissue() {
+  const [userPassword, setUserPassword] = React.useState("");
+
+  const onChangeUserPassword = (e: any) => setUserPassword(e.target.value);
+
+  const onClickAdd = () => {
+    alert(userPassword);
+  };
+
   return (
     <div className={styles.body}>
       <React.Fragment>
@@ -56,6 +65,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                value={userPassword}
+                onChange={onChangeUserPassword}
               />
               <TextField
                 id="パスワード再入力"
@@ -72,7 +83,11 @@ export default function passwordreissue() {
                 }}
               >
                 <Grid item>
-                  <Button variant="contained" color="secondary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={onClickAdd}
+                  >
                     保存する
                   </Button>
                 </Grid>
