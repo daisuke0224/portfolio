@@ -19,6 +19,7 @@ export default function passwordreissue() {
 
   const onClickAdd = () => {
     alert(userPassword);
+    console.log(userPassword);
   };
 
   return (
