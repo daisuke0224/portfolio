@@ -13,12 +13,15 @@ import {
 } from "@mui/material";
 
 export default function passwordreissue() {
-  const [userPassword, setUserPassword] = React.useState("");
+  const initialPassword = { password: "", reenterPassword: "" }; //複数の値を保管するためオブジェクトを持っておく
+  const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
 
-  const onChangeUserPassword = (e: any) => setUserPassword(e.target.value);
+  const handleChange = (e: any) => {
+    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
+    setUserPassword({ ...userPassword, [name]: value });
+  };
 
   const onClickAdd = () => {
-    alert(userPassword);
     console.log(userPassword);
   };
 
@@ -66,8 +69,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
-                value={userPassword}
-                onChange={onChangeUserPassword}
+                name="password"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="パスワード再入力"
@@ -76,6 +79,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="reenterPassword"
+                onChange={(e) => handleChange(e)}
               />
               <Grid
                 container
