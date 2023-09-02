@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import styles from "./page.module.css";
 import {
@@ -12,6 +13,23 @@ import {
 } from "@mui/material";
 
 export default function passwordreissue() {
+  const initialPassword = {
+    mailAddress: "",
+    userName: "",
+    password: "",
+    reenterPassword: "",
+  }; //複数の値を保管するためオブジェクトを持っておく
+  const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
+    setUserPassword({ ...userPassword, [name]: value });
+  };
+
+  const onClickAdd = () => {
+    console.log(userPassword);
+  };
+
   return (
     <div className={styles.body}>
       <React.Fragment>
@@ -56,6 +74,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="userName"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="メールアドレス"
@@ -64,6 +84,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="mailAddress"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="パスワード"
@@ -72,6 +94,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="password"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="パスワードの確認"
@@ -80,6 +104,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="reenterPassword"
+                onChange={(e) => handleChange(e)}
               />
               <Grid
                 container
@@ -88,7 +114,11 @@ export default function passwordreissue() {
                 }}
               >
                 <Grid item>
-                  <Button variant="contained" color="secondary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={onClickAdd}
+                  >
                     設定してメールを送信
                   </Button>
                 </Grid>

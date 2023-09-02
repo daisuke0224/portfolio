@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import styles from "./page.module.css";
 import {
@@ -11,6 +12,18 @@ import {
 } from "@mui/material";
 
 export default function passwordreissue() {
+  const initialPassword = { mailAddress: "" }; //複数の値を保管するためオブジェクトを持っておく
+  const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
+    setUserPassword({ ...userPassword, [name]: value });
+  };
+
+  const onClickAdd = () => {
+    console.log(userPassword);
+  };
+
   return (
     <div className={styles.body}>
       <React.Fragment>
@@ -59,8 +72,15 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="mailAddress"
+                onChange={(e) => handleChange(e)}
               />
-              <Button variant="contained" fullWidth sx={{ mb: 3 }}>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 3 }}
+                onClick={onClickAdd}
+              >
                 再発行
               </Button>
               <Button variant="contained">ログイン画面に戻る</Button>
