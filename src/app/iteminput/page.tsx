@@ -1,5 +1,5 @@
 "use client";
-import { Fragment } from "react";
+import { useState, Fragment } from "react";
 import styles from "./page.module.css";
 import {
   Box,
@@ -14,6 +14,26 @@ import {
 import ComboBox from "../components/autocomplete";
 
 export default function passwordreissue() {
+  const initialPassword = {
+    customerName: "",
+    projectTitle: "",
+    productName: "",
+    piece: "",
+    income: "",
+    negotiation: "",
+    comment: "",
+  }; //複数の値を保管するためオブジェクトを持っておく
+  const [userPassword, setUserPassword] = useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
+    setUserPassword({ ...userPassword, [name]: value });
+  };
+
+  const onClickAdd = () => {
+    console.log(userPassword);
+  };
+
   return (
     <div className={styles.body}>
       <Fragment>
@@ -58,6 +78,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="customerName"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="案件名"
@@ -66,6 +88,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="projectTitle"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="販売商品名"
@@ -74,6 +98,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="productName"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="見込個数（月間）"
@@ -82,6 +108,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="piece"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="見込収入（月間）"
@@ -90,6 +118,8 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                name="income"
+                onChange={(e) => handleChange(e)}
               />
               <ComboBox />
               <TextField
@@ -99,6 +129,8 @@ export default function passwordreissue() {
                 multiline
                 rows={10}
                 sx={{ mb: 3 }}
+                name="comment"
+                onChange={(e) => handleChange(e)}
               />
 
               <Grid
@@ -108,7 +140,11 @@ export default function passwordreissue() {
                 }}
               >
                 <Grid item>
-                  <Button variant="contained" color="secondary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={onClickAdd}
+                  >
                     登録
                   </Button>
                 </Grid>

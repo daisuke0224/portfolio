@@ -1,3 +1,4 @@
+"use client";
 import Button from "@mui/material/Button";
 import styles from "./page.module.css";
 import {
@@ -15,6 +16,23 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import React from "react";
 
 export const mypage = () => {
+  const initialPassword = {
+    mailAddress: "",
+    userName: "",
+    password: "",
+    reenterPassword: "",
+  }; //複数の値を保管するためオブジェクトを持っておく
+  const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
+    setUserPassword({ ...userPassword, [name]: value });
+  };
+
+  const onClickAdd = () => {
+    console.log(userPassword);
+  };
+
   return (
     <div className={styles.body}>
       <React.Fragment>
@@ -59,6 +77,8 @@ export const mypage = () => {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 1 }}
+                name="mailAddress"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="名前"
@@ -67,6 +87,8 @@ export const mypage = () => {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 1 }}
+                name="userName"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="パスワード"
@@ -75,6 +97,8 @@ export const mypage = () => {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 1 }}
+                name="password"
+                onChange={(e) => handleChange(e)}
               />
               <TextField
                 id="パスワード確認"
@@ -83,6 +107,8 @@ export const mypage = () => {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 1 }}
+                name="reenterPassword"
+                onChange={(e) => handleChange(e)}
               />
 
               <Grid
@@ -103,7 +129,7 @@ export const mypage = () => {
                   </Fab>
                 </Grid>
               </Grid>
-              <Button variant="contained" fullWidth>
+              <Button variant="contained" fullWidth onClick={onClickAdd}>
                 更新
               </Button>
             </Box>
