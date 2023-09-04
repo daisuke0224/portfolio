@@ -1,98 +1,112 @@
+"use client";
 import * as React from "react";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 import styles from "./page.module.css";
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import ResponsiveAppBar from "../components/appbar";
+import { Grid, Paper } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import PrimarySearchAppBar from "../components/appbar";
+import ResponsiveAppBar from "../components/appmenubar";
+import TwoSimplePieChart from "../components/piecharts";
+import BottomAppBar from "../components/footer";
+import StackedBarChart from "../components/barscharts";
+import NumberOfProjecfts from "../components/numberofprojectscharts";
+import FullWidthGrid from "../components/achievements";
+import FixedContainer from "../components/sidebar";
 
-export default function passwordreissue() {
+const drawerWidth = 240;
+
+export default function ClippedDrawer() {
   return (
     <div className={styles.body}>
+      <PrimarySearchAppBar></PrimarySearchAppBar>
       <ResponsiveAppBar></ResponsiveAppBar>
-      <Container
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          height: "100vh",
-        }}
-      >
-        <Stack
+      <Box sx={{ display: "flex" }}>
+        <Drawer
+          variant="permanent"
           sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "center",
-
-            width: "50%",
-            height: "60%",
+            width: drawerWidth,
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
           }}
         >
-          <Box
-            bgcolor={"#eeeeee"}
-            width={"sm"}
-            p={4}
-            borderRadius={"md"}
-            sx={{ boxShadow: 8, borderRadius: "16px" }}
-          >
-            <Typography
-              textTransform="capitalize"
-              textAlign="center"
-              mt={2}
-              sx={{ mb: 3 }}
-            >
-              パスワードの再設定
-            </Typography>
-            <Divider sx={{ mb: 3 }} />
-            <Typography variant="h6" textAlign="left" sx={{ mb: 3 }}>
-              新しいパスワードを入力いただき、 パスワードを再設定してください
-            </Typography>
-            <TextField
-              id="パスワード"
-              label="パスワード"
-              variant="outlined"
-              fullWidth
-              color="secondary"
-              sx={{ mb: 3 }}
-            />
-            <TextField
-              id="パスワード再入力"
-              label="パスワード再入力"
-              variant="outlined"
-              fullWidth
-              color="secondary"
-              sx={{ mb: 3 }}
-            />
-            <Grid
-              container
-              sx={{
-                justifyContent: "space-between",
-              }}
-            >
-              <Grid item>
-                <Button variant="contained" color="secondary">
-                  保存する
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" color="secondary">
-                  削除する
-                </Button>
-              </Grid>
-            </Grid>
+          <Box sx={{ overflow: "auto" }}>
+            <List>
+              {["Inbox", "Starred", "Send email", "Drafts"].map(
+                (text, index) => (
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              )}
+            </List>
+            <Divider />
+            <List>
+              {["All mail", "Trash", "Spam"].map((text, index) => (
+                <ListItem key={text} disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
           </Box>
-        </Stack>
-      </Container>
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <Toolbar />
+          <Typography paragraph>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
+            dolor purus non enim praesent elementum facilisis leo vel. Risus at
+            ultrices mi tempus imperdiet. Semper risus in hendrerit gravida
+            rutrum quisque non tellus. Convallis convallis tellus id interdum
+            velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean
+            sed adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
+            integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
+            eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
+            quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
+            vivamus at augue. At augue eget arcu dictum varius duis at
+            consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
+            donec massa sapien faucibus et molestie ac.
+          </Typography>
+          <Typography paragraph>
+            Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
+            ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
+            elementum integer enim neque volutpat ac tincidunt. Ornare
+            suspendisse sed nisi lacus sed viverra tellus. Purus sit amet
+            volutpat consequat mauris. Elementum eu facilisis sed odio morbi.
+            Euismod lacinia at quis risus sed vulputate odio. Morbi tincidunt
+            ornare massa eget egestas purus viverra accumsan in. In hendrerit
+            gravida rutrum quisque non tellus orci ac. Pellentesque nec nam
+            aliquam sem et tortor. Habitant morbi tristique senectus et.
+            Adipiscing elit duis tristique sollicitudin nibh sit. Ornare aenean
+            euismod elementum nisi quis eleifend. Commodo viverra maecenas
+            accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam
+            ultrices sagittis orci a.
+          </Typography>
+        </Box>
+      </Box>
     </div>
   );
 }

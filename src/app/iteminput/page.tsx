@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import ComboBox from "../components/autocomplete";
+import { useRouter } from "next/router";
 
 export default function passwordreissue() {
   const initialPassword = {
@@ -30,9 +31,15 @@ export default function passwordreissue() {
     setUserPassword({ ...userPassword, [name]: value });
   };
 
+  // const router = useRouter();
+
   const onClickAdd = () => {
     console.log(userPassword);
   };
+
+  // const onClickCancel = () => {
+  //   router.push("/home");
+  // };
 
   return (
     <div className={styles.body}>
@@ -149,7 +156,11 @@ export default function passwordreissue() {
                   </Button>
                 </Grid>
                 <Grid item sx={{ ml: 3 }}>
-                  <Button variant="contained" color="secondary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    // onClick={onClickCancel}
+                  >
                     キャンセル
                   </Button>
                 </Grid>
