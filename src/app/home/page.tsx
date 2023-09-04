@@ -84,9 +84,6 @@ export default function passwordreissue() {
             </Box>
           </Box>
         </Grid>
-        <Box sx={{ overflow: "auto" }}>
-          <FixedContainer></FixedContainer>
-        </Box>
       </Box>
 
       <BottomAppBar></BottomAppBar>
