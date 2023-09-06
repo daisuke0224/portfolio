@@ -13,16 +13,8 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import styles from "./page.module.css";
-import { Grid, Paper } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import PrimarySearchAppBar from "../components/appbar";
 import ResponsiveAppBar from "../components/appmenubar";
-import TwoSimplePieChart from "../components/piecharts";
-import BottomAppBar from "../components/footer";
-import StackedBarChart from "../components/barscharts";
-import NumberOfProjecfts from "../components/numberofprojectscharts";
-import FullWidthGrid from "../components/achievements";
-import FixedContainer from "../components/sidebar";
 
 const drawerWidth = 240;
 
