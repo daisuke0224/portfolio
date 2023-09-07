@@ -4,16 +4,17 @@ import Button from "@mui/material/Button";
 import styles from "./page.module.css";
 
 export const Login = () => {
-  const initialPassword = { mailAddress: "", password: "" }; //複数の値を保管するためオブジェクトを持っておく
-  const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+  const [mailAddress, setMailAddress] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
-    setUserPassword({ ...userPassword, [name]: value });
-  };
+  React.useEffect(() => {
+    setMailAddress("");
+    setPassword("");
+  }, []);
 
   const onClickAdd = () => {
-    console.log(userPassword);
+    console.log(mailAddress);
+    console.log(password);
   };
 
   return (
@@ -29,7 +30,7 @@ export const Login = () => {
                 type="text"
                 placeholder="メールアドレス"
                 name="mailAddress"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setMailAddress(e.target.value)}
               />
             </div>
             <div className={styles.formField}>
@@ -38,7 +39,7 @@ export const Login = () => {
                 type="text"
                 placeholder="パスワード"
                 name="password"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <a href="/">パスワードを忘れた方はこちら</a>
