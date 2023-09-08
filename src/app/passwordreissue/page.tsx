@@ -12,16 +12,14 @@ import {
 } from "@mui/material";
 
 export default function passwordreissue() {
-  const initialPassword = { mailAddress: "" }; //複数の値を保管するためオブジェクトを持っておく
-  const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+  const [mailAddress, setMailAddress] = React.useState("");
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
-    setUserPassword({ ...userPassword, [name]: value });
-  };
+  React.useEffect(() => {
+    setMailAddress("");
+  }, []);
 
   const onClickAdd = () => {
-    console.log(userPassword);
+    console.log(mailAddress);
   };
 
   return (
@@ -73,7 +71,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="mailAddress"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setMailAddress(e.target.value)}
               />
               <Button
                 variant="contained"
