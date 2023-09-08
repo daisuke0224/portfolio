@@ -16,21 +16,23 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import React from "react";
 
 export const mypage = () => {
-  const initialPassword = {
-    mailAddress: "",
-    userName: "",
-    password: "",
-    reenterPassword: "",
-  }; //複数の値を保管するためオブジェクトを持っておく
-  const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+  const [mailAddress, setMailAddress] = React.useState("");
+  const [userName, setUserName] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [reenterPassword, setReenterPassword] = React.useState("");
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
-    setUserPassword({ ...userPassword, [name]: value });
-  };
+  React.useEffect(() => {
+    setMailAddress("");
+    setUserName("");
+    setPassword("");
+    setReenterPassword("");
+  }, []);
 
   const onClickAdd = () => {
-    console.log(userPassword);
+    console.log(mailAddress);
+    console.log(userName);
+    console.log(password);
+    console.log(reenterPassword);
   };
 
   return (
@@ -78,7 +80,7 @@ export const mypage = () => {
                 color="secondary"
                 sx={{ mb: 1 }}
                 name="mailAddress"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setMailAddress(e.target.value)}
               />
               <TextField
                 id="名前"
@@ -88,7 +90,7 @@ export const mypage = () => {
                 color="secondary"
                 sx={{ mb: 1 }}
                 name="userName"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setUserName(e.target.value)}
               />
               <TextField
                 id="パスワード"
@@ -98,7 +100,7 @@ export const mypage = () => {
                 color="secondary"
                 sx={{ mb: 1 }}
                 name="password"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <TextField
                 id="パスワード確認"
@@ -108,7 +110,7 @@ export const mypage = () => {
                 color="secondary"
                 sx={{ mb: 1 }}
                 name="reenterPassword"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setReenterPassword(e.target.value)}
               />
 
               <Grid
