@@ -39,6 +39,7 @@ export const register = () => {
               fullWidth
               color="secondary"
               name="mailAddress"
+              value={mailAddress}
               onChange={(e) => setMailAddress(e.target.value)}
             />
             <TextField
@@ -48,6 +49,7 @@ export const register = () => {
               fullWidth
               color="secondary"
               name="userName"
+              value={userName}
               onChange={(e) => setUserName(e.target.value)}
             />
             <TextField
@@ -57,6 +59,7 @@ export const register = () => {
               fullWidth
               color="secondary"
               name="password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <TextField
@@ -66,6 +69,7 @@ export const register = () => {
               fullWidth
               color="secondary"
               name="reenterPassword"
+              value={reenterPassword}
               onChange={(e) => setReenterPassword(e.target.value)}
             />
             <Fab variant="extended">

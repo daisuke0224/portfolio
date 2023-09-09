@@ -70,6 +70,7 @@ export default function addminmenutargetvalue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="targetNumber"
+                value={targetNumber}
                 onChange={(e) => setTargetNumber(e.target.value)}
               />
               <Button variant="contained" onClick={onClickAdd}>

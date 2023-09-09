@@ -71,6 +71,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <TextField
@@ -81,6 +82,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="reenterPassword"
+                value={reenterPassword}
                 onChange={(e) => setReenterPassword(e.target.value)}
               />
               <Grid

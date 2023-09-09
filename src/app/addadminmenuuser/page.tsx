@@ -94,6 +94,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="userName"
+                value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
               <TextField
@@ -104,6 +105,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="mailAddress"
+                value={mailAddress}
                 onChange={(e) => setMailAddress(e.target.value)}
               />
               <TextField
@@ -114,6 +116,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <TextField
@@ -124,6 +127,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="reenterPassword"
+                value={reenterPassword}
                 onChange={(e) => setReenterPassword(e.target.value)}
               />
               <Grid
