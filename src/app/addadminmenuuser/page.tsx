@@ -13,22 +13,41 @@ import {
 } from "@mui/material";
 
 export default function passwordreissue() {
-  const initialPassword = {
-    mailAddress: "",
-    userName: "",
-    password: "",
-    reenterPassword: "",
-  }; //複数の値を保管するためオブジェクトを持っておく
-  const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+  const [userName, setUserName] = React.useState("");
+  const [mailAddress, setMailAddress] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [reenterPassword, setReenterPassword] = React.useState("");
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
-    setUserPassword({ ...userPassword, [name]: value });
-  };
+  React.useEffect(() => {
+    setUserName("");
+    setMailAddress("");
+    setPassword("");
+    setReenterPassword("");
+  }, []);
 
   const onClickAdd = () => {
-    console.log(userPassword);
+    console.log(userName);
+    console.log(mailAddress);
+    console.log(password);
+    console.log(reenterPassword);
   };
+
+  // const initialPassword = {
+  //   mailAddress: "",
+  //   userName: "",
+  //   password: "",
+  //   reenterPassword: "",
+  // }; //複数の値を保管するためオブジェクトを持っておく
+  // const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+
+  // const handleChange = (e: any) => {
+  //   const { name, value } = e.target; //ネーム属性のバリューを抽出できる
+  //   setUserPassword({ ...userPassword, [name]: value });
+  // };
+
+  // const onClickAdd = () => {
+  //   console.log(userPassword);
+  // };
 
   return (
     <div className={styles.body}>
@@ -75,7 +94,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="userName"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setUserName(e.target.value)}
               />
               <TextField
                 id="メールアドレス"
@@ -85,7 +104,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="mailAddress"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setMailAddress(e.target.value)}
               />
               <TextField
                 id="パスワード"
@@ -95,7 +114,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="password"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <TextField
                 id="パスワードの確認"
@@ -105,7 +124,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="reenterPassword"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setReenterPassword(e.target.value)}
               />
               <Grid
                 container

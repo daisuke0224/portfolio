@@ -11,19 +11,15 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function passwordreissue() {
-  const initialPassword = {
-    targetNumber: "",
-  }; //複数の値を保管するためオブジェクトを持っておく
-  const [userPassword, setUserPassword] = React.useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+export default function addminmenutargetvalue() {
+  const [targetNumber, setTargetNumber] = React.useState("");
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
-    setUserPassword({ ...userPassword, [name]: value });
-  };
+  React.useEffect(() => {
+    setTargetNumber("");
+  }, []);
 
   const onClickAdd = () => {
-    console.log(userPassword);
+    console.log(targetNumber);
   };
 
   return (
@@ -74,7 +70,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="targetNumber"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setTargetNumber(e.target.value)}
               />
               <Button variant="contained" onClick={onClickAdd}>
                 更新
