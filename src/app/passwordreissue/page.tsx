@@ -71,6 +71,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="mailAddress"
+                value={mailAddress}
                 onChange={(e) => setMailAddress(e.target.value)}
               />
               <Button

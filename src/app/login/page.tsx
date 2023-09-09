@@ -30,6 +30,7 @@ export const Login = () => {
                 type="text"
                 placeholder="メールアドレス"
                 name="mailAddress"
+                value={mailAddress}
                 onChange={(e) => setMailAddress(e.target.value)}
               />
             </div>
@@ -39,6 +40,7 @@ export const Login = () => {
                 type="text"
                 placeholder="パスワード"
                 name="password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>

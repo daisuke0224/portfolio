@@ -80,6 +80,7 @@ export const mypage = () => {
                 color="secondary"
                 sx={{ mb: 1 }}
                 name="mailAddress"
+                value={mailAddress}
                 onChange={(e) => setMailAddress(e.target.value)}
               />
               <TextField
@@ -90,6 +91,7 @@ export const mypage = () => {
                 color="secondary"
                 sx={{ mb: 1 }}
                 name="userName"
+                value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
               <TextField
@@ -100,6 +102,7 @@ export const mypage = () => {
                 color="secondary"
                 sx={{ mb: 1 }}
                 name="password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <TextField
@@ -110,6 +113,7 @@ export const mypage = () => {
                 color="secondary"
                 sx={{ mb: 1 }}
                 name="reenterPassword"
+                value={reenterPassword}
                 onChange={(e) => setReenterPassword(e.target.value)}
               />
 

@@ -23,7 +23,7 @@ export default function iteminput() {
   const [comment, setComment] = useState("");
 
   useEffect(() => {
-    setCustomerName("株式会社A");
+    setCustomerName("");
     setProjectTitle("");
     setProductName("");
     setPiece("");
@@ -98,6 +98,7 @@ export default function iteminput() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="projectTitle"
+                value={projectTitle}
                 onChange={(e) => setProjectTitle(e.target.value)}
               />
               <TextField
@@ -108,6 +109,7 @@ export default function iteminput() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="productName"
+                value={productName}
                 onChange={(e) => setProductName(e.target.value)}
               />
               <TextField
@@ -118,6 +120,7 @@ export default function iteminput() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="piece"
+                value={piece}
                 onChange={(e) => setPiece(e.target.value)}
               />
               <TextField
@@ -128,6 +131,7 @@ export default function iteminput() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="income"
+                value={income}
                 onChange={(e) => setIncome(e.target.value)}
               />
               <ComboBox />
@@ -139,6 +143,7 @@ export default function iteminput() {
                 rows={10}
                 sx={{ mb: 3 }}
                 name="comment"
+                value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <Grid

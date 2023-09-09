@@ -72,6 +72,7 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               <TextField
@@ -81,6 +82,7 @@ export default function passwordreissue() {
                 fullWidth
                 color="secondary"
                 sx={{ mb: 3 }}
+                value={mailaddress}
                 onChange={(e) => setMailAddress(e.target.value)}
               />
               <TextField
@@ -90,6 +92,7 @@ export default function passwordreissue() {
                 multiline
                 rows={10}
                 sx={{ mb: 3 }}
+                value={inquireyDetails}
                 onChange={(e) => setInquireyDetails(e.target.value)}
               />
               <Button variant="contained" onClick={onClickAdd}>
