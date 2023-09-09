@@ -23,7 +23,7 @@ export default function iteminput() {
   const [comment, setComment] = useState("");
 
   useEffect(() => {
-    setCustomerName("");
+    setCustomerName("株式会社A");
     setProjectTitle("");
     setProductName("");
     setPiece("");
@@ -87,6 +87,7 @@ export default function iteminput() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="customerName"
+                value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
               />
               <TextField
