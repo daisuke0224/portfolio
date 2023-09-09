@@ -1,5 +1,5 @@
 "use client";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import styles from "./page.module.css";
 import {
   Box,
@@ -13,26 +13,35 @@ import {
 } from "@mui/material";
 import ComboBox from "../components/autocomplete";
 
-export default function passwordreissue() {
-  const initialPassword = {
-    customerName: "",
-    projectTitle: "",
-    productName: "",
-    piece: "",
-    income: "",
-    negotiation: "",
-    comment: "",
-  }; //複数の値を保管するためオブジェクトを持っておく
-  const [userPassword, setUserPassword] = useState(initialPassword); //2つ保管するのがあるのでinitialPasswordを作る
+export default function iteminput() {
+  const [customerName, setCustomerName] = useState("");
+  const [projectTitle, setProjectTitle] = useState("");
+  const [productName, setProductName] = useState("");
+  const [piece, setPiece] = useState("");
+  const [income, setIncome] = useState("");
+  const [negotiation, setNegotiation] = useState("");
+  const [comment, setComment] = useState("");
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target; //ネーム属性のバリューを抽出できる
-    setUserPassword({ ...userPassword, [name]: value });
-  };
+  useEffect(() => {
+    setCustomerName("");
+    setProjectTitle("");
+    setProductName("");
+    setPiece("");
+    setIncome("");
+    setNegotiation("");
+    setComment("");
+  }, []);
 
   const onClickAdd = () => {
-    console.log(userPassword);
+    console.log(customerName);
+    console.log(projectTitle);
+    console.log(productName);
+    console.log(piece);
+    console.log(income);
+    console.log(negotiation);
+    console.log(comment);
   };
+
   return (
     <div className={styles.body}>
       <Fragment>
@@ -78,7 +87,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="customerName"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setCustomerName(e.target.value)}
               />
               <TextField
                 id="案件名"
@@ -88,7 +97,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="projectTitle"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setProjectTitle(e.target.value)}
               />
               <TextField
                 id="販売商品名"
@@ -98,7 +107,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="productName"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setProductName(e.target.value)}
               />
               <TextField
                 id="見込個数（月間）"
@@ -108,7 +117,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="piece"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setPiece(e.target.value)}
               />
               <TextField
                 id="見込収入（月間）"
@@ -118,7 +127,7 @@ export default function passwordreissue() {
                 color="secondary"
                 sx={{ mb: 3 }}
                 name="income"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setIncome(e.target.value)}
               />
               <ComboBox />
               <TextField
@@ -129,7 +138,7 @@ export default function passwordreissue() {
                 rows={10}
                 sx={{ mb: 3 }}
                 name="comment"
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setComment(e.target.value)}
               />
               <Grid
                 container
