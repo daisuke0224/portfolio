@@ -2,7 +2,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import styles from "./page.module.css";
-import { Box, Fab, Input, Paper, TextField } from "@mui/material";
+import { Fab, TextField } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 export const register = () => {
