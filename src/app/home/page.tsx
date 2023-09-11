@@ -10,7 +10,6 @@ import BottomAppBar from "../components/footer";
 import StackedBarChart from "../components/barscharts";
 import NumberOfProjecfts from "../components/numberofprojectscharts";
 import FullWidthGrid from "../components/achievements";
-import FixedContainer from "../components/sidebar";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
