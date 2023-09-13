@@ -12,8 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import ComboBox from "../components/autocomplete";
-import { useRouter } from "next/router";
-import Link from "next/link";
 
 export default function passwordreissue() {
   const [customerName, setCustomerName] = useState("");
@@ -42,12 +40,6 @@ export default function passwordreissue() {
     console.log(income);
     console.log(negotiation);
     console.log(comment);
-  };
-
-  // const router = useRouter();
-
-  const onClickCancel = () => {
-    <Link href={"/"} />;
   };
 
   return (
@@ -171,11 +163,7 @@ export default function passwordreissue() {
                   </Button>
                 </Grid>
                 <Grid item sx={{ ml: 3 }}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={onClickCancel}
-                  >
+                  <Button variant="contained" color="secondary" href="/home">
                     キャンセル
                   </Button>
                 </Grid>
