@@ -162,7 +162,7 @@ export default function iteminput() {
                   </Button>
                 </Grid>
                 <Grid item sx={{ ml: 3 }}>
-                  <Button variant="contained" color="secondary">
+                  <Button variant="contained" color="secondary" href="/home">
                     キャンセル
                   </Button>
                 </Grid>
