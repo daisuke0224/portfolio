@@ -1,5 +1,5 @@
 "use client";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styles from "./page.module.css";
 import {
   Box,
@@ -36,7 +36,7 @@ export default function passwordreissue() {
             }}
           >
             <Typography variant="h3" textAlign="center" mt={2} sx={{ mb: 3 }}>
-              案件編集画面
+              案件一覧
             </Typography>
             <Divider sx={{ mb: 3 }} />
 
