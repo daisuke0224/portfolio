@@ -2,11 +2,13 @@
 import * as React from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/client";
-import { signIn as signInByNextAuth } from "next-auth/react";
+import { useRouter } from 'next/navigation'
 import Button from "@mui/material/Button";
 import styles from "./page.module.css";
 
 export const Login = () => {
+  const router = useRouter()
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -14,18 +16,18 @@ export const Login = () => {
     if (!email) return;
     if (!password) return;
 
+    // ログイン処理：エラー時はとりあえずログを出しておく
     try {
-      const userCredential = await signInWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      const idToken = await userCredential.user.getIdToken();
-      await signInByNextAuth("credentials", {
-        idToken,
-        callbackUrl: "/",
-      });
+
+      router.push('/mypage')
+
     } catch (e) {
+      alert("ログインに失敗しました");
       console.error(e);
     }
   };
