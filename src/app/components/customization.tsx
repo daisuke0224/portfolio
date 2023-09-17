@@ -77,35 +77,44 @@ export default function CustomizedTables() {
             <StyledTableCell align="center">見込み個数</StyledTableCell>
             <StyledTableCell align="center">見込み収入</StyledTableCell>
             <StyledTableCell align="center">交渉フラグ</StyledTableCell>
+            <StyledTableCell align="center">コメント</StyledTableCell>
             <StyledTableCell align="center">編集</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-
-              <StyledTableCell align="right">
-                {row.customername}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.projecttitle}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.salesproductname}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-              <StyledTableCell align="right">{row.income}</StyledTableCell>
-              <StyledTableCell align="right">
-                {row.negotiationflag}
-              </StyledTableCell>
-              <Button variant="contained" color="secondary" sx={{ m: 1 }}>
-                編集
-              </Button>
-            </StyledTableRow>
-          ))}
+          {customerList.map((customer) => {
+            return (
+              <StyledTableRow key={customer.id}>
+                <StyledTableCell component="th" scope="row">
+                  {customer.id}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {customer.customerName}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {customer.projectTitle}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {customer.productName}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {customer.piece}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {customer.income}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {customer.negotiationflag}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {customer.comment}
+                </StyledTableCell>
+                <Button variant="contained" color="secondary" sx={{ m: 1 }}>
+                  編集
+                </Button>
+              </StyledTableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>
