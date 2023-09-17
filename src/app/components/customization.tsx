@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -8,6 +10,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebase/client";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,82 +33,38 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(
-  name: string,
-  customername: string,
-  projecttitle: string,
-  salesproductname: string,
-  quantity: number,
-  income: number,
-  negotiationflag: string,
-  edit: string
-) {
-  return {
-    name,
-    customername,
-    projecttitle,
-    salesproductname,
-    quantity,
-    income,
-    negotiationflag,
-    edit,
-  };
+interface CustomerData {
+  id: string;
+  date: string;
+  customerName: string;
+  projectTitle: string;
+  productName: string;
+  piece: string;
+  income: string;
+  negotiationflag: string;
+  comment: string;
+  edit: string;
+  venderTeamId: string;
+  venderUid: string;
 }
 
-const rows = [
-  createData(
-    "染井大輔",
-    "A商事株式会社",
-    "宅急便発送案件",
-    "宅急便",
-    10000,
-    5000,
-    "交渉中",
-    "編集"
-  ),
-  createData(
-    "染井大輔",
-    "A商事株式会社",
-    "宅急便発送案件",
-    "宅急便",
-    10000,
-    5000,
-    "交渉中",
-    "編集"
-  ),
-  createData(
-    "染井大輔",
-    "A商事株式会社",
-    "宅急便発送案件",
-    "宅急便",
-    10000,
-    5000,
-    "交渉中",
-    "編集"
-  ),
-  createData(
-    "染井大輔",
-    "A商事株式会社",
-    "宅急便発送案件",
-    "宅急便",
-    10000,
-    5000,
-    "交渉中",
-    "編集"
-  ),
-  createData(
-    "染井大輔",
-    "A商事株式会社",
-    "宅急便発送案件",
-    "宅急便",
-    10000,
-    5000,
-    "交渉中",
-    "編集"
-  ),
-];
-
 export default function CustomizedTables() {
+  const [customerList, setCustomerList] = React.useState<CustomerData[]>([]);
+
+  React.useEffect(() => {
+    const getCustomers = async () => {
+      const data = await getDocs(collection(db, "customers"));
+      // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const customersData = data.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as CustomerData[];
+      console.log(customersData);
+      setCustomerList(customersData);
+    };
+    getCustomers();
+  }, []);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 100 }} aria-label="customized table">
