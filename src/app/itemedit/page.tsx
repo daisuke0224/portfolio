@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 import { useState, Fragment, useEffect } from "react";
 import styles from "./page.module.css";
@@ -13,9 +14,16 @@ import {
   Typography,
 } from "@mui/material";
 import { db } from "@/firebase/client";
-import { doc, setDoc, collection } from "firebase/firestore";
+import { doc, setDoc, collection, getDoc, updateDoc } from "firebase/firestore";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function passwordreissue() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const customerId = searchParams.get("id");
+  console.log(customerId);
+
   const [date, setDate] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
@@ -24,42 +32,38 @@ export default function passwordreissue() {
   const [income, setIncome] = useState("");
   const [negotiation, setNegotiation] = useState("");
   const [comment, setComment] = useState("");
+  const getCustomerData = async () => {
+    const costomerRef = doc(db, "customers", customerId);
+    const costomerData = await getDoc(costomerRef);
+    const costomer = costomerData.data();
+    console.log(costomer);
+    setDate(costomer.date);
+    setCustomerName(costomer.customerName);
+    setProjectTitle(costomer.projectTitle);
+    setProductName(costomer.productName);
+    setPiece(costomer.piece);
+    setIncome(costomer.income);
+    setNegotiation(costomer.negotiationflag);
+    setComment(costomer.comment);
+  };
 
   useEffect(() => {
-    setDate("");
-    setCustomerName("");
-    setProjectTitle("");
-    setProductName("");
-    setPiece("");
-    setIncome("");
-    setNegotiation("");
-    setComment("");
+    getCustomerData();
   }, []);
 
-  const onClickAdd = async () => {
-    console.log(date);
-    console.log(customerName);
-    console.log(projectTitle);
-    console.log(productName);
-    console.log(piece);
-    console.log(income);
-    console.log(negotiation);
-    console.log(comment);
-    const collectionRef = collection(db, "customers");
-    const docRef = doc(collectionRef);
-    await setDoc(docRef, {
-      id: docRef.id,
+  const upDateCustomerData = async () => {
+    const customerRef = doc(db, "customers", customerId);
+    await updateDoc(customerRef, {
       date: date,
       customerName: customerName,
       projectTitle: projectTitle,
       productName: productName,
       piece: piece,
       income: income,
-      negotiationflag: negotiation,
+      negotiation: negotiation,
       comment: comment,
-      venderTeamId: "",
-      venderUid: "",
     });
+    router.push("/projectmanagement");
   };
 
   return (
@@ -204,7 +208,7 @@ export default function passwordreissue() {
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={onClickAdd}
+                    onClick={upDateCustomerData}
                   >
                     更新
                   </Button>

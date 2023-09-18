@@ -12,6 +12,7 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/client";
+import { useRouter } from "next/navigation";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,16 +50,16 @@ interface CustomerData {
 }
 
 export default function CustomizedTables() {
+  const router = useRouter();
   const [customerList, setCustomerList] = React.useState<CustomerData[]>([]);
 
   React.useEffect(() => {
     const getCustomers = async () => {
       const data = await getDocs(collection(db, "customers"));
       // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      const customersData = data.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as CustomerData[];
+      const customersData = data.docs.map((doc) =>
+        doc.data()
+      ) as CustomerData[];
       console.log(customersData);
       setCustomerList(customersData);
     };
@@ -109,7 +110,12 @@ export default function CustomizedTables() {
                 <StyledTableCell align="right">
                   {customer.comment}
                 </StyledTableCell>
-                <Button variant="contained" color="secondary" sx={{ m: 1 }}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{ m: 1 }}
+                  onClick={() => router.push(`/itemedit?id=${customer.id}`)}
+                >
                   編集
                 </Button>
               </StyledTableRow>
