@@ -99,6 +99,7 @@ export default function passwordreissue() {
                 案件入力画面
               </Typography>
               <Divider sx={{ mb: 3 }} />
+
               <TextField
                 id="日付"
                 label="更新日"
