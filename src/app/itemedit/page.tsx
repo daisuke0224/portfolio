@@ -7,13 +7,16 @@ import {
   Container,
   Divider,
   Grid,
+  MenuItem,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import ComboBox from "../components/autocomplete";
+import { db } from "@/firebase/client";
+import { doc, setDoc, collection } from "firebase/firestore";
 
-export default function iteminput() {
+export default function passwordreissue() {
+  const [date, setDate] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [projectTitle, setProjectTitle] = useState("");
   const [productName, setProductName] = useState("");
@@ -23,6 +26,7 @@ export default function iteminput() {
   const [comment, setComment] = useState("");
 
   useEffect(() => {
+    setDate("");
     setCustomerName("");
     setProjectTitle("");
     setProductName("");
@@ -32,7 +36,8 @@ export default function iteminput() {
     setComment("");
   }, []);
 
-  const onClickAdd = () => {
+  const onClickAdd = async () => {
+    console.log(date);
     console.log(customerName);
     console.log(projectTitle);
     console.log(productName);
@@ -40,6 +45,21 @@ export default function iteminput() {
     console.log(income);
     console.log(negotiation);
     console.log(comment);
+    const collectionRef = collection(db, "customers");
+    const docRef = doc(collectionRef);
+    await setDoc(docRef, {
+      id: docRef.id,
+      date: date,
+      customerName: customerName,
+      projectTitle: projectTitle,
+      productName: productName,
+      piece: piece,
+      income: income,
+      negotiationflag: negotiation,
+      comment: comment,
+      venderTeamId: "",
+      venderUid: "",
+    });
   };
 
   return (
@@ -52,7 +72,7 @@ export default function iteminput() {
             alignItems: "center",
             justifyContent: "center",
             width: "100%",
-            height: "120vh",
+            height: "100vh",
           }}
         >
           <Stack
@@ -76,9 +96,21 @@ export default function iteminput() {
               }}
             >
               <Typography variant="h3" textAlign="center" mt={2} sx={{ mb: 3 }}>
-                案件編集画面
+                案件編集
               </Typography>
               <Divider sx={{ mb: 3 }} />
+
+              <TextField
+                id="日付"
+                label="更新日"
+                fullWidth
+                color="secondary"
+                sx={{ mb: 3 }}
+                name="date"
+                value={date}
+                type="date"
+                onChange={(e) => setDate(e.target.value)}
+              />
               <TextField
                 id="顧客名"
                 label="顧客名"
@@ -134,7 +166,22 @@ export default function iteminput() {
                 value={income}
                 onChange={(e) => setIncome(e.target.value)}
               />
-              <ComboBox />
+              <TextField
+                select
+                id="交渉フラグ"
+                label="交渉フラグ"
+                variant="outlined"
+                fullWidth
+                color="secondary"
+                sx={{ mb: 3 }}
+                name="negotiation"
+                value={negotiation}
+                onChange={(e) => setNegotiation(e.target.value)}
+              >
+                <MenuItem value={"商談中"}>商談中</MenuItem>
+                <MenuItem value={"獲得"}>獲得</MenuItem>
+                <MenuItem value={"失注"}>失注</MenuItem>
+              </TextField>
               <TextField
                 id="コメント"
                 label="コメント"
@@ -146,6 +193,7 @@ export default function iteminput() {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
+
               <Grid
                 container
                 sx={{
