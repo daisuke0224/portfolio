@@ -42,7 +42,7 @@ export default function passwordreissue() {
 
             <Customization />
 
-            <Button variant="contained" color="secondary">
+            <Button variant="contained" color="secondary" href="/home">
               戻る
             </Button>
           </Box>
