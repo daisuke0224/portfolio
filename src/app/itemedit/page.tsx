@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { db } from "@/firebase/client";
-import { doc, setDoc, collection, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
