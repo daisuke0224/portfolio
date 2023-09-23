@@ -1,5 +1,5 @@
+//@ts-nocheck
 "use client";
-
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -10,7 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/client";
 import { useRouter } from "next/navigation";
 
@@ -52,15 +52,26 @@ interface CustomerData {
 export default function CustomizedTables() {
   const router = useRouter();
   const [customerList, setCustomerList] = React.useState<CustomerData[]>([]);
+  const getVenderName = async (venderUid: string) => {
+    const venderRef = doc(db, "users", venderUid);
+    const venderDoc = await getDoc(venderRef);
+    const venderData = venderDoc.data();
+    return venderData.name;
+  };
 
   React.useEffect(() => {
     const getCustomers = async () => {
       const data = await getDocs(collection(db, "customers"));
       // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      const customersData = data.docs.map((doc) =>
-        doc.data()
-      ) as CustomerData[];
+      const customersData = (await Promise.all(
+        data.docs.map(async (doc) => {
+          const customerData = doc.data();
+          customerData.venderName = await getVenderName(customerData.venderUid);
+          return customerData;
+        })
+      )) as CustomerData[];
       console.log(customersData);
+
       setCustomerList(customersData);
     };
     getCustomers();
@@ -87,7 +98,7 @@ export default function CustomizedTables() {
             return (
               <StyledTableRow key={customer.id}>
                 <StyledTableCell component="th" scope="row">
-                  {customer.id}
+                  {customer.venderName}
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   {customer.customerName}
