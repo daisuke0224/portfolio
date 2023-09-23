@@ -63,7 +63,7 @@ export default function passwordreissue() {
       negotiation: negotiation,
       comment: comment,
     });
-    router.push("/projectmanagement");
+    alert("案件情報更新しました");
   };
 
   return (

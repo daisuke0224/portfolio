@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 import { useState, Fragment, useEffect } from "react";
 import styles from "./page.module.css";
@@ -13,7 +14,9 @@ import {
   Typography,
 } from "@mui/material";
 import { db } from "@/firebase/client";
-import { doc, setDoc, collection } from "firebase/firestore";
+import { doc, setDoc, collection, getDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { userFirebaseAuthContext } from "@/firebase/auth";
 
 export default function passwordreissue() {
   const [date, setDate] = useState("");
@@ -36,19 +39,19 @@ export default function passwordreissue() {
     setComment("");
   }, []);
 
+  const auth = userFirebaseAuthContext();
+  const user = auth.currentUser;
+  console.log(user);
+
   const onClickAdd = async () => {
-    console.log(date);
-    console.log(customerName);
-    console.log(projectTitle);
-    console.log(productName);
-    console.log(piece);
-    console.log(income);
-    console.log(negotiation);
-    console.log(comment);
-    const collectionRef = collection(db, "customers");
-    const docRef = doc(collectionRef);
-    await setDoc(docRef, {
-      id: docRef.id,
+    console.log(user);
+    const userUID = user?.uid || "";
+
+    const customersRef = collection(db, "customers");
+    const customersDocRef = doc(customersRef);
+
+    await setDoc(customersDocRef, {
+      id: customersDocRef.id,
       date: date,
       customerName: customerName,
       projectTitle: projectTitle,
@@ -58,10 +61,9 @@ export default function passwordreissue() {
       negotiationflag: negotiation,
       comment: comment,
       venderTeamId: "",
-      venderUid: "",
+      venderUid: userUID,
     });
   };
-
   return (
     <div className={styles.body}>
       <Fragment>
