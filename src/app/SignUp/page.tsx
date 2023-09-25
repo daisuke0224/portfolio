@@ -9,11 +9,12 @@ import {
 } from "firebase/auth";
 import { FirebaseError, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
 import {
   getDownloadURL,
   getStorage,
   ref,
+  uploadBytes,
   uploadString,
 } from "firebase/storage";
 import { NextPage } from "next";
@@ -25,19 +26,23 @@ import Button from "@mui/material/Button";
 import styles from "./page.module.css";
 import { Fab, TextField } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { db, auth, storage } from "@/firebase/client";
+import { styled } from "@mui/material/styles";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 export const SignUp: FC<NextPage> = () => {
-  const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-    databaseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
-    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_APP_ID,
-    measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
-  };
-
   const router = useRouter();
   const [userName, setUserName] = React.useState("");
   const [mailAddress, setMailAddress] = React.useState("");
@@ -45,14 +50,10 @@ export const SignUp: FC<NextPage> = () => {
   const [teamId, setTeamId] = React.useState("");
   const [imageFile, setImageFile] = React.useState(null); // 画像ファイルの初期化
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
-
-  const uploadImage = async (imageFile) => {
+  const uploadImage = async (imageFile, userUID) => {
     try {
       const storageRef = ref(storage, "profile_images/" + userUID); //ユーザー毎にプロフィール画像を保存する
-      await uploadString(storageRef, imageFile, "data_url");
+      await uploadBytes(storageRef, imageFile);
 
       //アップロードが完了したら、画像のURLを取得
       const downloadURL = await getDownloadURL(storageRef);
@@ -71,19 +72,22 @@ export const SignUp: FC<NextPage> = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
+    console.log(imageFile);
   };
 
   const addUser = async (uid) => {
     try {
       const userData = {
         isValid: true,
-        userName: userName,
+        isTeamAdmin: true,
+        name: userName,
         teamId: teamId,
-        mailAddress: mailAddress,
+        email: mailAddress,
         id: uid,
       };
 
-      const docRef = await addDoc(collection(db, "users"), userData);
+      const docRef = await doc(collection(db, "users"), uid);
+      await setDoc(docRef, userData);
       console.log("Document written with ID:", docRef.id);
     } catch (error) {
       console.error("Error adding document:", error);
@@ -92,7 +96,6 @@ export const SignUp: FC<NextPage> = () => {
 
   const isValid = async (data: LoginForm) => {
     try {
-      const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         data.email,
@@ -105,15 +108,17 @@ export const SignUp: FC<NextPage> = () => {
       //Firestoreにユーザー情報を保存（UIDも含む）
       await addUser(userUID);
 
-      updateProfile(userCredential.user, {
+      await updateProfile(userCredential.user, {
         displayName: data.userName,
         TeamId: teamId,
       });
-      await sendEmailVerification(userCredential.user);
-      addUser();
 
       if (imageFile) {
-        const imageUrl = await uploadImage(imageFile);
+        const imageUrl = await uploadImage(imageFile, userUID);
+        console.log(imageUrl);
+        await updateProfile(userCredential.user, {
+          photoURL: imageUrl,
+        });
       }
 
       router.push("/home");
@@ -197,16 +202,14 @@ export const SignUp: FC<NextPage> = () => {
               onChange={(e) => setPassword(e.target.value)}
               {...errors.password?.message}
             />
-
-            <Fab variant="extended">
-              <CameraAltIcon sx={{ mr: 1 }} />
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+            >
               プロフィール画像ファイル選択
-              <input
-                type="file"
-                style={{ display: "none" }}
-                onClick={handleImageChange}
-              />
-            </Fab>
+              <VisuallyHiddenInput type="file" onChange={handleImageChange} />
+            </Button>
             <Button variant="contained" fullWidth type="submit">
               送信
             </Button>

@@ -2,7 +2,7 @@
 import "./globals.css";
 import { useEffect } from "react";
 import { getAuth } from "firebase/auth";
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from "next/navigation";
 import { Inter } from "next/font/google";
 import { FirebaseAuthProvider } from "@/firebase/auth";
 
@@ -13,18 +13,23 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const auth = getAuth()
-  const router = useRouter()
+  const auth = getAuth();
+  const router = useRouter();
+  const pathname = usePathname();
   useEffect(() => {
+    console.log(pathname);
+    if (pathname === "/login" || pathname === "/signup") {
+      return;
+    }
     const unsubscribed = auth.onAuthStateChanged(async (user) => {
-      console.log({ user })
+      console.log({ user });
 
       if (user === null) {
-        router.push('/login')
+        router.push("/login");
       }
-      unsubscribed()
-    })
-  }, [auth])
+      unsubscribed();
+    });
+  }, [auth]);
   return (
     // <html lang="en">
     //   <body className={inter.className}>{children}</body>
