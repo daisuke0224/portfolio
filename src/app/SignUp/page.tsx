@@ -7,13 +7,18 @@ import {
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
-import { firebaseConfig } from "@/firebase/client";
 import { FirebaseError, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadString,
+} from "firebase/storage";
 import { NextPage } from "next";
 import { FC } from "react";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { LoginForm } from "@/features/common/types";
 import Button from "@mui/material/Button";
@@ -33,21 +38,49 @@ export const SignUp: FC<NextPage> = () => {
     measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
   };
 
+  const router = useRouter();
   const [userName, setUserName] = React.useState("");
   const [mailAddress, setMailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [teamId, setTeamId] = React.useState("");
+  const [imageFile, setImageFile] = React.useState(null); // 画像ファイルの初期化
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const storage = getStorage(app);
 
-  const addUser = async () => {
+  const uploadImage = async (imageFile) => {
+    try {
+      const storageRef = ref(storage, "profile_images/" + userUID); //ユーザー毎にプロフィール画像を保存する
+      await uploadString(storageRef, imageFile, "data_url");
+
+      //アップロードが完了したら、画像のURLを取得
+      const downloadURL = await getDownloadURL(storageRef);
+
+      //画像のURLをFirestoreのユーザーデータに保存するなどの処理を追加できます
+      //ここでFirestoreのユーザーデータを更新するなどの処理を処理を行います.
+
+      return downloadURL;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      return null;
+    }
+  };
+
+  //画像選択ボタンのイベントハンドラ
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+  };
+
+  const addUser = async (uid) => {
     try {
       const userData = {
+        isValid: true,
         userName: userName,
         teamId: teamId,
         mailAddress: mailAddress,
-        password: password,
+        id: uid,
       };
 
       const docRef = await addDoc(collection(db, "users"), userData);
@@ -65,13 +98,25 @@ export const SignUp: FC<NextPage> = () => {
         data.email,
         data.password
       );
+
+      //ユーザーを作成した後に、ユーザーのUIDを取得
+      const userUID = userCredential.user.uid;
+
+      //Firestoreにユーザー情報を保存（UIDも含む）
+      await addUser(userUID);
+
       updateProfile(userCredential.user, {
         displayName: data.userName,
         TeamId: teamId,
       });
       await sendEmailVerification(userCredential.user);
       addUser();
-      router.push("/");
+
+      if (imageFile) {
+        const imageUrl = await uploadImage(imageFile);
+      }
+
+      router.push("/home");
     } catch (e) {
       if (e instanceof FirebaseError) {
         console.log(e);
@@ -156,6 +201,11 @@ export const SignUp: FC<NextPage> = () => {
             <Fab variant="extended">
               <CameraAltIcon sx={{ mr: 1 }} />
               プロフィール画像ファイル選択
+              <input
+                type="file"
+                style={{ display: "none" }}
+                onClick={handleImageChange}
+              />
             </Fab>
             <Button variant="contained" fullWidth type="submit">
               送信
