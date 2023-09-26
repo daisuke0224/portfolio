@@ -20,7 +20,6 @@ const manubarLinks = [
   { text: "パスワードの再設定", to: "/resettingapassword" },
   { text: "マイページ", to: "/mypage" },
   { text: "ログイン", to: "/login" },
-  { text: "ログアウト", to: "/Logout" },
 ];
 
 function ResponsiveAppBar() {
