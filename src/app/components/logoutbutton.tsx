@@ -1,8 +1,11 @@
+"use client";
+import React from "react";
 import { getAuth, signOut } from "firebase/auth";
-import router from "next/router";
-import * as React from "react";
+import { useRouter } from "next/navigation";
 
-export const Logout = async () => {
+export const logoutbutton = async () => {
+  const router = useRouter();
+
   const auth = getAuth();
   await signOut(auth)
     .then(() => {
@@ -12,5 +15,3 @@ export const Logout = async () => {
       alert("ログアウトに失敗しました");
     });
 };
-
-export default Logout;

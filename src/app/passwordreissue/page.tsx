@@ -10,16 +10,30 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "@/firebase/client";
 
 export default function passwordreissue() {
   const [mailAddress, setMailAddress] = React.useState("");
+  const [message, setMessage] = React.useState("");
 
   React.useEffect(() => {
     setMailAddress("");
+    setMessage("");
   }, []);
 
   const onClickAdd = () => {
-    console.log(mailAddress);
+    //FireBaseでパスワード再発行リクエストを送信
+    sendPasswordResetEmail(auth, mailAddress)
+      .then(() => {
+        setMessage(
+          "パスワード再発行リンクを送信しました。メールをご確認ください。"
+        );
+      })
+      .catch((error) => {
+        setMessage("パスワード再発行に失敗しました。");
+        console.error(error);
+      });
   };
 
   return (
@@ -82,6 +96,14 @@ export default function passwordreissue() {
               >
                 再発行
               </Button>
+              {/* メッセージを表示 */}
+              <Typography
+                variant="body1"
+                textAlign="center"
+                sx={{ color: "red" }}
+              >
+                {message}
+              </Typography>
               <Button variant="contained">ログイン画面に戻る</Button>
             </Box>
           </Stack>
