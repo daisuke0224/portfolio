@@ -47,6 +47,11 @@ export default function passwordreissue() {
     console.log(user);
     const userUID = user?.uid || "";
 
+    // usersドキュメントからteamIdを取得
+    const usersRef = doc(collection(db, "users"), userUID);
+    const usersDoc = await getDoc(usersRef);
+    const teamId = usersDoc.data()?.teamId || "";
+
     const customersRef = collection(db, "customers");
     const customersDocRef = doc(customersRef);
 
@@ -60,7 +65,7 @@ export default function passwordreissue() {
       income: income,
       negotiationflag: negotiation,
       comment: comment,
-      venderTeamId: "",
+      venderTeamId: teamId,
       venderUid: userUID,
     });
   };
