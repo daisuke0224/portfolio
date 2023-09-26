@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
@@ -16,6 +17,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import { Alert, Snackbar } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { logoutbutton } from "./logoutbutton";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,12 +62,32 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  //ログアウト実装するために追加
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  //ログアウト実装するために追加
+  const handleLogout = async () => {
+    const { logout } = await logoutbutton();
+    logout();
+    setOpen(true);
+    setAnchorEl(null);
+    setTimeout(() => {
+      router.push("/login");
+    }, 2000);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setOpen(false);
+  };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -99,9 +123,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleClose}>プロフィール</MenuItem>
+      <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
     </Menu>
   );
 
@@ -120,7 +143,7 @@ export default function PrimarySearchAppBar() {
         horizontal: "right",
       }}
       open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
+      onClose={handleClose}
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -234,6 +257,11 @@ export default function PrimarySearchAppBar() {
           </Box>
         </Toolbar>
       </AppBar>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          ログアウトしました
+        </Alert>
+      </Snackbar>
       {renderMobileMenu}
       {renderMenu}
     </Box>
