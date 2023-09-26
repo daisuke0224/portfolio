@@ -48,7 +48,7 @@ export const SignUp: FC<NextPage> = () => {
   const [mailAddress, setMailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [teamId, setTeamId] = React.useState("");
-  const [imageFile, setImageFile] = React.useState(null); // 画像ファイルの初期化
+  const [imageFile, setImageFile] = React.useState(""); // 画像ファイルの初期化
 
   const uploadImage = async (imageFile, userUID) => {
     try {
@@ -78,15 +78,15 @@ export const SignUp: FC<NextPage> = () => {
   const addUser = async (uid) => {
     try {
       const userData = {
-        isValid: true,
-        isTeamAdmin: true,
-        name: userName,
-        teamId: teamId,
-        email: mailAddress,
+        isValid: true, //有効なユーザーかどうか
+        isTeamAdmin: true, //チームの管理者かどうか
+        name: userName, //ユーザー名
+        teamId: teamId, //チームの識別子
+        email: mailAddress, //メールアドレス
         id: uid,
       };
 
-      const docRef = await doc(collection(db, "users"), uid);
+      const docRef = doc(collection(db, "users"), uid);
       await setDoc(docRef, userData);
       console.log("Document written with ID:", docRef.id);
     } catch (error) {
@@ -116,6 +116,7 @@ export const SignUp: FC<NextPage> = () => {
       if (imageFile) {
         const imageUrl = await uploadImage(imageFile, userUID);
         console.log(imageUrl);
+
         await updateProfile(userCredential.user, {
           photoURL: imageUrl,
         });

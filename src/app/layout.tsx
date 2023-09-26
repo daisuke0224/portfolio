@@ -18,7 +18,11 @@ export default function RootLayout({
   const pathname = usePathname();
   useEffect(() => {
     console.log(pathname);
-    if (pathname === "/login" || pathname === "/signup") {
+    if (
+      pathname === "/login" ||
+      pathname === "/signup" ||
+      pathname === "/passwordreissue"
+    ) {
       return;
     }
     const unsubscribed = auth.onAuthStateChanged(async (user) => {

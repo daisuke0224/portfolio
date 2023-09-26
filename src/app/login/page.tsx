@@ -2,12 +2,12 @@
 import * as React from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/client";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
 import styles from "./page.module.css";
 
 export const Login = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -18,14 +18,9 @@ export const Login = () => {
 
     // ログイン処理：エラー時はとりあえずログを出しておく
     try {
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      await signInWithEmailAndPassword(auth, email, password);
 
-      router.push('/mypage')
-
+      router.push("/mypage");
     } catch (e) {
       alert("ログインに失敗しました");
       console.error(e);
@@ -58,7 +53,7 @@ export const Login = () => {
                 onChange={(event) => setPassword(event.target.value)}
               />
             </div>
-            <a href="/">パスワードを忘れた方はこちら</a>
+            <a href="/passwordreissue">パスワードを忘れた方はこちら</a>
             <Button
               variant="contained"
               className={styles.login}
