@@ -20,6 +20,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { Alert, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { logoutbutton } from "./logoutbutton";
+import { auth } from "@/firebase/client";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -84,6 +85,14 @@ export default function PrimarySearchAppBar() {
     }, 2000);
   };
 
+  const handleMypage = () => {
+    router.push(
+      auth.currentUser?.uid
+        ? `/mypage2?id=${auth.currentUser?.uid}`
+        : "/mypage2"
+    );
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
     setOpen(false);
@@ -123,7 +132,7 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleClose}>プロフィール</MenuItem>
+      <MenuItem onClick={handleMypage}>マイページ</MenuItem>
       <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
     </Menu>
   );
@@ -243,6 +252,7 @@ export default function PrimarySearchAppBar() {
               <AccountCircle />
             </IconButton>
           </Box>
+
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"

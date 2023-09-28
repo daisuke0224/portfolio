@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { FirebaseError, initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, updateDoc } from "firebase/firestore";
 import { collection, doc, setDoc } from "firebase/firestore";
 import {
   getDownloadURL,
@@ -58,12 +58,15 @@ export const SignUp: FC<NextPage> = () => {
       //アップロードが完了したら、画像のURLを取得
       const downloadURL = await getDownloadURL(storageRef);
 
-      //画像のURLをFirestoreのユーザーデータに保存するなどの処理を追加できます
-      //ここでFirestoreのユーザーデータを更新するなどの処理を処理を行います.
+      // Firestoreのユーザードキュメントに画像のURLを追加
+      const docRef = doc(collection(db, "users"), userUID);
+      await updateDoc(docRef, {
+        photoURL: downloadURL,
+      });
 
       return downloadURL;
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("画像のアップロードエラー:", error);
       return null;
     }
   };
