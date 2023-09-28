@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Link from "next/link";
+import { auth } from "@/firebase/client";
 
 const manubarLinks = [
   { text: "ホーム", to: "/home" },
@@ -18,7 +19,6 @@ const manubarLinks = [
   { text: "アカウント登録", to: "/register" },
   { text: "パスワードの再発行", to: "/passwordreissue" },
   { text: "パスワードの再設定", to: "/resettingapassword" },
-  { text: "マイページ", to: "/mypage" },
   { text: "ログイン", to: "/login" },
 ];
 
