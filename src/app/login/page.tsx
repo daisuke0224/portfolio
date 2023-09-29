@@ -20,7 +20,7 @@ export const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
 
-      router.push("/mypage");
+      router.push("/home2");
     } catch (e) {
       alert("ログインに失敗しました");
       console.error(e);

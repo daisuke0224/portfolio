@@ -15,7 +15,7 @@ const getDocumentsByTeamId = async (venderTeamId: string) => {
   return documents;
 };
 
-// コンポーネント内で取得したドキュメントを表示する例
+// コンポーネント内で取得したドキュメントを表示する
 const ExampleComponent = ({ venderTeamId }: { venderTeamId: string }) => {
   const [documents, setDocuments] = useState([]);
 

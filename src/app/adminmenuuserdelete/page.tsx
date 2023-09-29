@@ -16,21 +16,43 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  where,
+  query,
+  getDoc,
+} from "firebase/firestore";
 import { auth, db, storage } from "@/firebase/client";
 import { deleteObject, getStorage, ref } from "firebase/storage";
+import { userFirebaseAuthContext } from "@/firebase/auth";
 
 export default function passwordreissue() {
   const [users, setUsers] = React.useState([]);
 
+  const auth = userFirebaseAuthContext();
+  const user = auth.currentUser;
+
   React.useEffect(() => {
+    if (!user) return;
     const fetchUsers = async () => {
-      const usersSnapshot = await getDocs(collection(db, "users"));
+      //ログインしている本人の情報を取得
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.data();
+      //チームの情報を取得
+      const usersQuery = query(
+        collection(db, "users"),
+        where("teamId", "==", userData.teamId)
+      );
+      const usersSnapshot = await getDocs(usersQuery);
       const usersData = usersSnapshot.docs.map((doc) => doc.data());
       setUsers(usersData);
     };
     fetchUsers();
-  }, []);
+  }, [auth]);
 
   const deleteUser = async (userId) => {
     try {

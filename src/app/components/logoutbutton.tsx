@@ -2,19 +2,15 @@
 import React from "react";
 import { getAuth, signOut } from "firebase/auth";
 
-export const logoutbutton = async () => {
-  const logout = async () => {
-    const auth = getAuth();
-    await signOut(auth)
-      .then(() => {
-        console.log("Sign-out successful.");
-      })
-      .catch((e) => {
-        alert("ログアウトに失敗しました");
-      });
-  };
-
-  return { logout };
+export const logout = async () => {
+  const auth = getAuth();
+  await signOut(auth)
+    .then(() => {
+      console.log("Sign-out successful.");
+    })
+    .catch((e) => {
+      alert("ログアウトに失敗しました");
+    });
 };
 
 //以下最初にログアウトとして導入したもの

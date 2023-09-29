@@ -19,7 +19,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Alert, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { logoutbutton } from "./logoutbutton";
+import { logout } from "./logoutbutton";
 import { auth } from "@/firebase/client";
 import { mypage } from "../mypage2/page";
 
@@ -77,8 +77,7 @@ export default function PrimarySearchAppBar() {
 
   //ログアウト実装するために追加
   const handleLogout = async () => {
-    const { logout } = await logoutbutton();
-    logout();
+    await logout();
     setOpen(true);
     setAnchorEl(null);
     setTimeout(() => {
