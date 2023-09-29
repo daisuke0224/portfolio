@@ -189,8 +189,16 @@ export const mypage = () => {
                   </Button>
                 </Grid>
               </Grid>
-              <Button variant="contained" fullWidth onClick={upDateUserData}>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 3 }}
+                onClick={upDateUserData}
+              >
                 更新
+              </Button>
+              <Button variant="contained" fullWidth sx={{ mb: 3 }} href="/home">
+                HOMEに戻る
               </Button>
             </Box>
           </Stack>

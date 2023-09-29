@@ -21,6 +21,7 @@ import { Alert, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { logoutbutton } from "./logoutbutton";
 import { auth } from "@/firebase/client";
+import { mypage } from "../mypage2/page";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",

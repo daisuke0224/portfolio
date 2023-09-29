@@ -55,7 +55,9 @@ export default function CustomizedTables() {
   const getVenderName = async (venderUid: string) => {
     const venderRef = doc(db, "users", venderUid);
     const venderDoc = await getDoc(venderRef);
-    const venderData = venderDoc.data();
+    const venderData = venderDoc.exists()
+      ? venderDoc.data()
+      : { name: "Unknown" };
     return venderData.name;
   };
 
