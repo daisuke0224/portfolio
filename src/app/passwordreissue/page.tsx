@@ -104,7 +104,9 @@ export default function passwordreissue() {
               >
                 {message}
               </Typography>
-              <Button variant="contained">ログイン画面に戻る</Button>
+              <Button variant="contained" href="/login">
+                ログイン画面に戻る
+              </Button>
             </Box>
           </Stack>
         </Container>

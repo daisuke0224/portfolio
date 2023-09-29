@@ -19,7 +19,7 @@ const manubarLinks = [
   { text: "アカウント登録", to: "/register" },
   { text: "パスワードの再発行", to: "/passwordreissue" },
   { text: "パスワードの再設定", to: "/resettingapassword" },
-  { text: "ログイン", to: "/login" },
+  { text: "お問合せ", to: "/contactform" },
 ];
 
 function ResponsiveAppBar() {
