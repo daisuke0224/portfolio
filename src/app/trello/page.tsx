@@ -3,7 +3,7 @@ import * as React from "react";
 import styles from "./page.module.css";
 import Main from "./Main";
 
-export default function trello() {
+const trello = () => {
   return (
     <div className={styles.body}>
       <div style={{ padding: "50px" }}>
@@ -12,4 +12,6 @@ export default function trello() {
       </div>
     </div>
   );
-}
+};
+
+export default trello;

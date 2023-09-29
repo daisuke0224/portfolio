@@ -11,7 +11,6 @@ import BottomAppBar from "../components/footer";
 import StackedBarChart from "../components/barscharts";
 import NumberOfProjecfts from "../components/numberofprojectscharts";
 import FullWidthGrid from "../components/achievements";
-import trello from "../trello/page";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -26,10 +25,10 @@ export default function passwordreissue() {
     <div className={styles.body}>
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <ResponsiveAppBar></ResponsiveAppBar>
-      <Box sx={{ display: "flex" }}>
-        <Grid container>
+      <Box sx={{ display: "block" }}>
+        <Grid>
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            <Grid xs={6} md={8}>
+            <Grid xs={12} md={8}>
               <Item>
                 <FullWidthGrid></FullWidthGrid>
               </Item>
@@ -38,13 +37,13 @@ export default function passwordreissue() {
             <h2>獲得済みと予定</h2>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <Grid container spacing={2}>
-                <Grid xs={6} md={3}>
-                  <Item>
+                <Grid xs={12} md={6}>
+                  <Item sx={{ padding: 2 }}>
                     <TwoSimplePieChart></TwoSimplePieChart>
                   </Item>
                 </Grid>
-                <Grid xs={6} md={5}>
-                  <Item>
+                <Grid xs={12} md={6}>
+                  <Item sx={{ padding: 2 }}>
                     <StackedBarChart></StackedBarChart>
                   </Item>
                 </Grid>
@@ -53,14 +52,14 @@ export default function passwordreissue() {
             <h2>現在の交渉中案件</h2>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <Grid container spacing={2}>
-                <Grid xs={6} md={4}>
-                  <Item>
+                <Grid xs={12} md={6}>
+                  <Item sx={{ padding: 2 }}>
                     <h2>案件数</h2>
                     <NumberOfProjecfts></NumberOfProjecfts>
                   </Item>
                 </Grid>
-                <Grid xs={6} md={4}>
-                  <Item>
+                <Grid xs={12} md={6}>
+                  <Item sx={{ padding: 2 }}>
                     <h2>案件金額</h2>
                     <StackedBarChart></StackedBarChart>
                   </Item>
@@ -70,16 +69,16 @@ export default function passwordreissue() {
             <h2>チャット</h2>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <Grid container spacing={2}>
-                <Grid md={8}>
-                  <Item></Item>
+                <Grid md={12}>
+                  <Item sx={{ padding: 2 }}></Item>
                 </Grid>
               </Grid>
             </Box>
             <h2>タスク管理</h2>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <Grid container spacing={2}>
-                <Grid md={8}>
-                  <Item></Item>
+                <Grid md={12}>
+                  <Item sx={{ padding: 2 }}></Item>
                 </Grid>
               </Grid>
             </Box>

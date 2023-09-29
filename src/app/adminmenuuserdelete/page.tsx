@@ -1,3 +1,5 @@
+//@ts-nocheck
+"use client";
 import * as React from "react";
 import styles from "./page.module.css";
 import {
@@ -14,8 +16,44 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { auth, db, storage } from "@/firebase/client";
+import { deleteObject, getStorage, ref } from "firebase/storage";
 
 export default function passwordreissue() {
+  const [users, setUsers] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchUsers = async () => {
+      const usersSnapshot = await getDocs(collection(db, "users"));
+      const usersData = usersSnapshot.docs.map((doc) => doc.data());
+      setUsers(usersData);
+    };
+    fetchUsers();
+  }, []);
+
+  const deleteUser = async (userId) => {
+    try {
+      //Firestoreのドキュメントを削除
+      await deleteDoc(doc(db, "users", userId));
+
+      //Authenticationのユーザーを削除
+      await auth.currentUser.delete();
+
+      // Storageのファイルを削除
+      const storage = getStorage();
+
+      const desertRef = ref(storage, `users/${photoURL}`);
+      deleteObject(desertRef).then(() => {
+        //成功した場合
+        console.log("削除に成功しました");
+      });
+    } catch (error) {
+      //失敗した場合
+      console.error("削除にエラーが発生しました", error);
+    }
+  };
+
   return (
     <div className={styles.body}>
       <React.Fragment>
@@ -64,44 +102,21 @@ export default function passwordreissue() {
                   bgcolor: "background.paper",
                 }}
               >
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/1.jpg"
-                    />
-                  </ListItemAvatar>
-                  <ListItemText primary="染井大輔" />
-                  <IconButton aria-label="delete" size="large">
-                    <DeleteIcon fontSize="inherit" />
-                  </IconButton>
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/1.jpg"
-                    />
-                  </ListItemAvatar>
-                  <ListItemText primary="染井大輔" />
-                  <IconButton aria-label="delete" size="large">
-                    <DeleteIcon fontSize="inherit" />
-                  </IconButton>
-                </ListItem>
-                <Divider variant="inset" component="li" />
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/1.jpg"
-                    />
-                  </ListItemAvatar>
-                  <ListItemText primary="染井大輔" />
-                  <IconButton aria-label="delete" size="large">
-                    <DeleteIcon fontSize="inherit" />
-                  </IconButton>
-                </ListItem>
+                {users.map((user) => (
+                  <ListItem key={user.id}>
+                    <ListItemAvatar>
+                      <Avatar alt={user.name} src={user.photoURL} />
+                    </ListItemAvatar>
+                    <ListItemText primary={user.name} />
+                    <IconButton
+                      aria-label="delete"
+                      size="large"
+                      onClick={() => deleteUser(user.id)}
+                    >
+                      <DeleteIcon fontSize="inherit" />
+                    </IconButton>
+                  </ListItem>
+                ))}
               </List>
             </Box>
           </Stack>
