@@ -16,7 +16,7 @@ const manubarLinks = [
   { text: "管理者メニューユーザー追加", to: "/addadminmenuuser" },
   { text: "管理者メニューユーザー削除", to: "/adminmenuuserdelete" },
   { text: "管理者メニュー営業目標数値", to: "/addminmenutargetvalue" },
-  { text: "アカウント登録", to: "/register" },
+  { text: "アカウント登録", to: "/signup" },
   { text: "パスワードの再発行", to: "/passwordreissue" },
   { text: "パスワードの再設定", to: "/resettingapassword" },
   { text: "お問合せ", to: "/contactform" },
