@@ -8,7 +8,7 @@ import Link from "next/link";
 import { auth } from "@/firebase/client";
 
 const manubarLinks = [
-  { text: "ホーム", to: "/home" },
+  { text: "ホーム", to: "/home2" },
   { text: "案件入力画面", to: "/iteminput" },
   { text: "案件一覧", to: "/projectmanagement" },
   { text: "案件編集画面", to: "/itemedit" },

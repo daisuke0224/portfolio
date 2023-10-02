@@ -3,12 +3,14 @@
 import Button from "@mui/material/Button";
 import styles from "./page.module.css";
 import {
+  Alert,
   Avatar,
   Box,
   Container,
   Divider,
   Fab,
   Grid,
+  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -43,6 +45,8 @@ export const mypage = () => {
   const [mailAddress, setMailAddress] = React.useState("");
   const [teamId, setTeamId] = React.useState("");
   const [photoURL, setPhotoURL] = React.useState("/static/images/avatar/1.jpg");
+  const [missingFields, setMissingFields] = React.useState([]);
+  const [success, setSuccess] = React.useState(false);
 
   const getUserData = async () => {
     const userRef = doc(db, "users", userId);
@@ -65,6 +69,17 @@ export const mypage = () => {
 
   const upDateUserData = async () => {
     const userRef = doc(db, "users", userId);
+
+    const missingFields = [];
+    if (!userName) missingFields.push("名前");
+    if (!teamId) missingFields.push("チームID");
+    if (!mailAddress) missingFields.push("メールアドレス");
+
+    if (missingFields.length > 0) {
+      setMissingFields(missingFields);
+      return;
+    }
+
     await updateDoc(userRef, {
       name: userName,
       teamId: teamId,
@@ -77,8 +92,7 @@ export const mypage = () => {
     if (user) {
       await updateEmail(user, mailAddress);
     }
-
-    alert("マイページを更新しました");
+    setSuccess(true);
   };
 
   // 1. `<Button>`の`onClick`プロパティに、画像ファイルを選択する処理を追加
@@ -201,6 +215,24 @@ export const mypage = () => {
                 HOMEに戻る
               </Button>
             </Box>
+            <Snackbar
+              open={missingFields.length > 0}
+              autoHideDuration={6000}
+              onClose={() => setMissingFields([])}
+            >
+              <Alert severity="error" onClose={() => setMissingFields([])}>
+                入力漏れの項目名: {missingFields.join(", ")} があります
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={success}
+              autoHideDuration={6000}
+              onClose={() => setSuccess(false)}
+            >
+              <Alert severity="success" onClose={() => setSuccess(false)}>
+                マイページを更新しました
+              </Alert>
+            </Snackbar>
           </Stack>
         </Container>
       </React.Fragment>

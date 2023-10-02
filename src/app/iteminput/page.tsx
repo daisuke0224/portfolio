@@ -17,8 +17,10 @@ import {
 } from "@mui/material";
 import { db } from "@/firebase/client";
 import { doc, setDoc, collection, getDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import { userFirebaseAuthContext } from "@/firebase/auth";
+import PrimarySearchAppBar from "../components/appbar";
+import ResponsiveAppBar from "../components/appmenubar";
+import BottomAppBar from "../components/footer";
 
 export default function passwordreissue() {
   const [date, setDate] = useState("");
@@ -48,7 +50,6 @@ export default function passwordreissue() {
   console.log(user);
 
   const onClickAdd = async () => {
-    console.log(user);
     const userUID = user?.uid || "";
 
     // usersドキュメントからteamIdを取得
@@ -94,14 +95,15 @@ export default function passwordreissue() {
   return (
     <div className={styles.body}>
       <Fragment>
+        <PrimarySearchAppBar></PrimarySearchAppBar>
+        <ResponsiveAppBar></ResponsiveAppBar>
         <Container
           sx={{
             display: "flex",
             flexWrap: "wrap",
             alignItems: "center",
             justifyContent: "center",
-            width: "100%",
-            height: "100vh",
+            minHeight: "100vh",
           }}
         >
           <Stack
@@ -110,8 +112,8 @@ export default function passwordreissue() {
               flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "center",
-              width: "50%",
-              height: "60vh",
+              width: "80%",
+              minHeight: "80vh",
             }}
           >
             <Box
@@ -230,16 +232,12 @@ export default function passwordreissue() {
                 }}
               >
                 <Grid item>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={onClickAdd}
-                  >
+                  <Button variant="contained" onClick={onClickAdd}>
                     登録
                   </Button>
                 </Grid>
                 <Grid item sx={{ ml: 3 }}>
-                  <Button variant="contained" color="secondary" href="/home2">
+                  <Button variant="contained" href="/home2">
                     キャンセル
                   </Button>
                 </Grid>
@@ -266,6 +264,7 @@ export default function passwordreissue() {
           </Stack>
         </Container>
       </Fragment>
+      <BottomAppBar></BottomAppBar>
     </div>
   );
 }
