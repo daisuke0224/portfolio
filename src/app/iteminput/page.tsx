@@ -3,12 +3,14 @@
 import { useState, Fragment, useEffect } from "react";
 import styles from "./page.module.css";
 import {
+  Alert,
   Box,
   Button,
   Container,
   Divider,
   Grid,
   MenuItem,
+  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -27,6 +29,8 @@ export default function passwordreissue() {
   const [income, setIncome] = useState("");
   const [negotiation, setNegotiation] = useState("");
   const [comment, setComment] = useState("");
+  const [missingFields, setMissingFields] = useState([]);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     setDate("");
@@ -55,6 +59,22 @@ export default function passwordreissue() {
     const customersRef = collection(db, "customers");
     const customersDocRef = doc(customersRef);
 
+    // 入力漏れのチェック
+    const missingFields = [];
+    if (!date) missingFields.push("更新日");
+    if (!customerName) missingFields.push("顧客名");
+    if (!projectTitle) missingFields.push("案件名");
+    if (!productName) missingFields.push("販売商品名");
+    if (!piece) missingFields.push("見込個数（月間）");
+    if (!income) missingFields.push("見込収入（月間）");
+    if (!negotiation) missingFields.push("交渉フラグ");
+    if (!comment) missingFields.push("コメント");
+
+    if (missingFields.length > 0) {
+      setMissingFields(missingFields);
+      return;
+    }
+
     await setDoc(customersDocRef, {
       id: customersDocRef.id,
       date: date,
@@ -68,6 +88,8 @@ export default function passwordreissue() {
       venderTeamId: teamId,
       venderUid: userUID,
     });
+
+    setSuccess(true);
   };
   return (
     <div className={styles.body}>
@@ -89,7 +111,7 @@ export default function passwordreissue() {
               alignItems: "center",
               justifyContent: "center",
               width: "50%",
-              height: "60%",
+              height: "60vh",
             }}
           >
             <Box
@@ -160,7 +182,7 @@ export default function passwordreissue() {
                 sx={{ mb: 3 }}
                 name="piece"
                 value={piece}
-                onChange={(e) => setPiece(e.target.value)}
+                onChange={(e) => setPiece(Number(e.target.value))}
               />
               <TextField
                 id="見込収入（月間）"
@@ -171,7 +193,7 @@ export default function passwordreissue() {
                 sx={{ mb: 3 }}
                 name="income"
                 value={income}
-                onChange={(e) => setIncome(e.target.value)}
+                onChange={(e) => setIncome(Number(e.target.value))}
               />
               <TextField
                 select
@@ -217,12 +239,30 @@ export default function passwordreissue() {
                   </Button>
                 </Grid>
                 <Grid item sx={{ ml: 3 }}>
-                  <Button variant="contained" color="secondary" href="/home">
+                  <Button variant="contained" color="secondary" href="/home2">
                     キャンセル
                   </Button>
                 </Grid>
               </Grid>
             </Box>
+            <Snackbar
+              open={missingFields.length > 0}
+              autoHideDuration={6000}
+              onClose={() => setMissingFields([])}
+            >
+              <Alert severity="error" onClose={() => setMissingFields([])}>
+                入力漏れの項目名: {missingFields.join(", ")} があります
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={success}
+              autoHideDuration={6000}
+              onClose={() => setSuccess(false)}
+            >
+              <Alert severity="success" onClose={() => setSuccess(false)}>
+                案件登録しました
+              </Alert>
+            </Snackbar>
           </Stack>
         </Container>
       </Fragment>

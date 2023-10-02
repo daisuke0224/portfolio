@@ -19,8 +19,8 @@ export const Login = () => {
     // ログイン処理：エラー時はとりあえずログを出しておく
     try {
       await signInWithEmailAndPassword(auth, email, password);
-
       router.push("/home2");
+      alert("ログインしました");
     } catch (e) {
       alert("ログインに失敗しました");
       console.error(e);
