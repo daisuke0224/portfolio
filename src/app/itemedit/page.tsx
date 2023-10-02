@@ -18,10 +18,8 @@ import {
 import { db } from "@/firebase/client";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 
 export default function passwordreissue() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const customerId = searchParams.get("id");
   console.log(customerId);
@@ -96,8 +94,7 @@ export default function passwordreissue() {
             flexWrap: "wrap",
             alignItems: "center",
             justifyContent: "center",
-            width: "100%",
-            height: "100vh",
+            minHeight: "100vh",
           }}
         >
           <Stack
@@ -106,8 +103,8 @@ export default function passwordreissue() {
               flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "center",
-              width: "50%",
-              height: "60%",
+              width: "80%",
+              minHeight: "80vh",
             }}
           >
             <Box

@@ -42,6 +42,8 @@ export default function passwordreissue() {
       const userRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userRef);
       const userData = userDoc.data();
+      console.log(userData);
+
       //チームの情報を取得
       const usersQuery = query(
         collection(db, "users"),
