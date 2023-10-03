@@ -125,7 +125,7 @@ export const SignUp: FC<NextPage> = () => {
         });
       }
 
-      router.push("/home");
+      router.push("/home2");
     } catch (e) {
       if (e instanceof FirebaseError) {
         console.log(e);
@@ -152,13 +152,14 @@ export const SignUp: FC<NextPage> = () => {
               fullWidth
               color="secondary"
               name="userName"
+              type="text"
               value={userName}
               {...register("userName", {
                 required: "ユーザー名を入力してください",
               })}
-              type="text"
               onChange={(e) => setUserName(e.target.value)}
-              {...errors.userName?.message}
+              helperText={errors.userName?.message}
+              error={!!errors.userName}
             />
             <TextField
               id="チームID"
@@ -173,7 +174,8 @@ export const SignUp: FC<NextPage> = () => {
               })}
               type="text"
               onChange={(e) => setTeamId(e.target.value)}
-              {...errors.teamId?.message}
+              helperText={errors.teamId?.message}
+              error={!!errors.teamId}
             />
             <TextField
               id="メールアドレス"
@@ -185,10 +187,15 @@ export const SignUp: FC<NextPage> = () => {
               value={mailAddress}
               {...register("email", {
                 required: "メールアドレスを入力してください",
+                pattern: {
+                  value: /^[a-z0-9.]+@[a-z]+\.[a-z]+$/,
+                  message: "emailの形式で入力してください。",
+                },
               })}
               type={"email"}
               onChange={(e) => setMailAddress(e.target.value)}
-              {...errors.email?.message}
+              helperText={errors.email?.message}
+              error={!!errors.email}
             />
             <TextField
               id="パスワード"
@@ -204,7 +211,8 @@ export const SignUp: FC<NextPage> = () => {
               })}
               type={"password"}
               onChange={(e) => setPassword(e.target.value)}
-              {...errors.password?.message}
+              helperText={errors.password?.message}
+              error={!!errors.password}
             />
             <Button
               component="label"
