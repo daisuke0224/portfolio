@@ -13,7 +13,7 @@ const manubarLinks = [
   { text: "案件一覧", to: "/projectmanagement" },
   { text: "案件編集画面", to: "/itemedit" },
   { text: "管理者メニュー", to: "/adminmenu" },
-  { text: "管理者メニューユーザー追加", to: "/addadminmenuuser" },
+  { text: "管理者メニューユーザー追加", to: "/adduser" },
   { text: "管理者メニューユーザー削除", to: "/adminmenuuserdelete" },
   { text: "管理者メニュー営業目標数値", to: "/addminmenutargetvalue" },
   { text: "アカウント登録", to: "/signup" },
