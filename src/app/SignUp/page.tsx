@@ -207,7 +207,7 @@ export const SignUp: FC<NextPage> = () => {
               value={password}
               {...register("password", {
                 required: "パスワードを入力してください",
-                minLength: { value: 6, message: "6文字以上入力してください" },
+                minLength: { value: 8, message: "8文字以上入力してください" },
               })}
               type={"password"}
               onChange={(e) => setPassword(e.target.value)}

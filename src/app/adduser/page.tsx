@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 import * as React from "react";
 import styles from "./page.module.css";
@@ -13,6 +14,7 @@ import {
 } from "@mui/material";
 import { functions } from "@/firebase/client";
 import { httpsCallable } from "firebase/functions";
+import { useForm } from "react-hook-form";
 
 export default function passwordreissue() {
   const [userName, setUserName] = React.useState("");
@@ -58,111 +60,167 @@ export default function passwordreissue() {
   //   console.log(userPassword);
   // };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
+
+  //reenterPasswordの値の監視
+  const reenterPasswordValue = watch("reenterPassword", "");
+
+  //パスワードと確認用パスワードが一致するかをチェックする独自のバリデーションルール
+  const validatePasswordMatch = (value) => {
+    return value === reenterPasswordValue || "パスワードが一致しません";
+  };
+
   return (
     <div className={styles.body}>
       <React.Fragment>
-        <Container
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            height: "100vh",
-          }}
-        >
-          <Stack
+        <form onSubmit={handleSubmit(onClickAdd)}>
+          <Container
             sx={{
               display: "flex",
               flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "center",
-              width: "50%",
-              height: "60%",
+              width: "100%",
+              height: "100vh",
             }}
           >
-            <Box
-              bgcolor={"#eeeeee"}
-              width={"sm"}
-              p={4}
-              borderRadius={"md"}
-              sx={{ boxShadow: 8, borderRadius: "16px" }}
+            <Stack
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "50%",
+                height: "60%",
+              }}
             >
-              <Typography variant="h3" textAlign="center" mt={2} sx={{ mb: 3 }}>
-                管理者メニュー
-              </Typography>
-              <Typography variant="h3" textAlign="center" mt={2} sx={{ mb: 3 }}>
-                ユーザー追加
-              </Typography>
-              <Divider sx={{ mb: 3 }} />
-              <TextField
-                id="名前"
-                label="名前"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="userName"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-              <TextField
-                id="メールアドレス"
-                label="メールアドレス"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="mailAddress"
-                value={mailAddress}
-                onChange={(e) => setMailAddress(e.target.value)}
-              />
-              <TextField
-                id="パスワード"
-                label="パスワード"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <TextField
-                id="パスワードの確認"
-                label="パスワードの確認"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="reenterPassword"
-                value={reenterPassword}
-                onChange={(e) => setReenterPassword(e.target.value)}
-              />
-              <Grid
-                container
-                sx={{
-                  justifyContent: "space-between",
-                }}
+              <Box
+                bgcolor={"#eeeeee"}
+                width={"sm"}
+                p={4}
+                borderRadius={"md"}
+                sx={{ boxShadow: 8, borderRadius: "16px" }}
               >
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={onClickAdd}
-                  >
-                    設定してメールを送信
-                  </Button>
+                <Typography
+                  variant="h3"
+                  textAlign="center"
+                  mt={2}
+                  sx={{ mb: 3 }}
+                >
+                  管理者メニュー
+                </Typography>
+                <Typography
+                  variant="h3"
+                  textAlign="center"
+                  mt={2}
+                  sx={{ mb: 3 }}
+                >
+                  ユーザー追加
+                </Typography>
+                <Divider sx={{ mb: 3 }} />
+                <TextField
+                  id="名前"
+                  label="名前"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="userName"
+                  value={userName}
+                  {...register("userName", {
+                    required: "ユーザー名を入力してください",
+                  })}
+                  onChange={(e) => setUserName(e.target.value)}
+                  helperText={errors.userName?.message}
+                  error={!!errors.userName}
+                />
+                <TextField
+                  id="メールアドレス"
+                  label="メールアドレス"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="mailAddress"
+                  value={mailAddress}
+                  {...register("mailAddress", {
+                    required: "メールアドレスを入力してください",
+                    pattern: {
+                      value: /^[a-z0-9.]+@[a-z]+\.[a-z]+$/,
+                      message: "メールアドレスの形式で入力してください。",
+                    },
+                  })}
+                  onChange={(e) => setMailAddress(e.target.value)}
+                  helperText={errors.mailAddress?.message}
+                  error={!!errors.mailAddress}
+                />
+                <TextField
+                  id="パスワード"
+                  label="パスワード"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="password"
+                  value={password}
+                  {...register("password", {
+                    required: "パスワードを入力してください",
+                    minLength: {
+                      value: 8,
+                      message: "パスワードは8文字以上で入力してください。",
+                    },
+                  })}
+                  onChange={(e) => setPassword(e.target.value)}
+                  helperText={errors.password?.message}
+                  error={!!errors.password}
+                />
+                <TextField
+                  id="パスワードの確認"
+                  label="パスワードの確認"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="reenterPassword"
+                  value={reenterPassword}
+                  {...register("reenterPassword", {
+                    required: "パスワードの確認を入力してください",
+                    minLength: {
+                      value: 8,
+                      message: "パスワードは8文字以上で入力してください。",
+                    },
+                    validate: validatePasswordMatch, //独自のバリデーションルール適用
+                  })}
+                  onChange={(e) => setReenterPassword(e.target.value)}
+                  helperText={errors.reenterPassword?.message}
+                  error={!!errors.reenterPassword}
+                />
+                <Grid
+                  container
+                  sx={{
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Grid item>
+                    <Button variant="contained" color="secondary" type="submit">
+                      設定してメールを送信
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button variant="contained" color="secondary" href="/home">
+                      キャンセル
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Button variant="contained" color="secondary" href="/home">
-                    キャンセル
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Stack>
-        </Container>
+              </Box>
+            </Stack>
+          </Container>
+        </form>
       </React.Fragment>
     </div>
   );
