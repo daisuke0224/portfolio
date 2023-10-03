@@ -11,6 +11,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { functions } from "@/firebase/client";
+import { httpsCallable } from "firebase/functions";
 
 export default function passwordreissue() {
   const [userName, setUserName] = React.useState("");
@@ -25,11 +27,18 @@ export default function passwordreissue() {
     setReenterPassword("");
   }, []);
 
-  const onClickAdd = () => {
+  const onClickAdd = async () => {
     console.log(userName);
     console.log(mailAddress);
     console.log(password);
     console.log(reenterPassword);
+
+    const functionCall = httpsCallable(functions, "addUser");
+    await functionCall({
+      userName: userName,
+      mailAddress: mailAddress,
+      password: password,
+    });
   };
 
   // const initialPassword = {
