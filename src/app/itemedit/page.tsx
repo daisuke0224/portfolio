@@ -18,11 +18,11 @@ import {
 import { db } from "@/firebase/client";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 export default function passwordreissue() {
   const searchParams = useSearchParams();
   const customerId = searchParams.get("id");
-  console.log(customerId);
 
   const [date, setDate] = useState("");
   const [customerName, setCustomerName] = useState("");
@@ -85,179 +85,236 @@ export default function passwordreissue() {
     setSuccess(true);
   };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   return (
     <div className={styles.body}>
       <Fragment>
-        <Container
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "100vh",
-          }}
-        >
-          <Stack
+        <form form onSubmit={handleSubmit(upDateCustomerData)}>
+          <Container
             sx={{
               display: "flex",
               flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "center",
-              width: "80%",
-              minHeight: "80vh",
+              minHeight: "100vh",
             }}
           >
-            <Box
-              bgcolor={"#eeeeee"}
-              width={"sm"}
-              p={4}
-              borderRadius={"md"}
+            <Stack
               sx={{
-                boxShadow: 8,
-                borderRadius: "16px",
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "80%",
+                minHeight: "80vh",
               }}
             >
-              <Typography variant="h3" textAlign="center" mt={2} sx={{ mb: 3 }}>
-                案件編集
-              </Typography>
-              <Divider sx={{ mb: 3 }} />
-
-              <TextField
-                id="日付"
-                label="更新日"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="date"
-                value={date}
-                type="date"
-                onChange={(e) => setDate(e.target.value)}
-              />
-              <TextField
-                id="顧客名"
-                label="顧客名"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="customerName"
-                value={customerName}
-                onChange={(e) => setCustomerName(e.target.value)}
-              />
-              <TextField
-                id="案件名"
-                label="案件名"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="projectTitle"
-                value={projectTitle}
-                onChange={(e) => setProjectTitle(e.target.value)}
-              />
-              <TextField
-                id="販売商品名"
-                label="販売商品名"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="productName"
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
-              />
-              <TextField
-                id="見込個数（月間）"
-                label="見込個数（月間）"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="piece"
-                value={piece}
-                onChange={(e) => setPiece(e.target.value)}
-              />
-              <TextField
-                id="見込収入（月間）"
-                label="見込収入（月間）"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="income"
-                value={income}
-                onChange={(e) => setIncome(e.target.value)}
-              />
-              <TextField
-                select
-                id="交渉フラグ"
-                label="交渉フラグ"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                name="negotiation"
-                value={negotiation}
-                onChange={(e) => setNegotiation(e.target.value)}
-              >
-                <MenuItem value={"商談中"}>商談中</MenuItem>
-                <MenuItem value={"獲得"}>獲得</MenuItem>
-                <MenuItem value={"失注"}>失注</MenuItem>
-              </TextField>
-              <TextField
-                id="コメント"
-                label="コメント"
-                fullWidth
-                multiline
-                rows={10}
-                sx={{ mb: 3 }}
-                name="comment"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-
-              <Grid
-                container
+              <Box
+                bgcolor={"#eeeeee"}
+                width={"sm"}
+                p={4}
+                borderRadius={"md"}
                 sx={{
-                  justifyContent: "start",
+                  boxShadow: 8,
+                  borderRadius: "16px",
                 }}
               >
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={upDateCustomerData}
-                  >
-                    更新
-                  </Button>
+                <Typography
+                  variant="h3"
+                  textAlign="center"
+                  mt={2}
+                  sx={{ mb: 3 }}
+                >
+                  案件編集
+                </Typography>
+                <Divider sx={{ mb: 3 }} />
+
+                <TextField
+                  id="日付"
+                  label="更新日"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="date"
+                  value={date}
+                  {...register("date", {
+                    required: "日付を入力してください",
+                  })}
+                  type="date"
+                  onChange={(e) => setDate(e.target.value)}
+                  helperText={errors.projectTitle?.message}
+                  error={!!errors.projectTitle}
+                />
+                <TextField
+                  id="顧客名"
+                  label="顧客名"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="customerName"
+                  value={customerName}
+                  {...register("customerName", {
+                    required: "顧客名を入力してください",
+                  })}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  helperText={errors.customerName?.message}
+                  error={!!errors.customerName}
+                />
+                <TextField
+                  id="案件名"
+                  label="案件名"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="projectTitle"
+                  value={projectTitle}
+                  {...register("projectTitle", {
+                    required: "案件名を入力してください",
+                  })}
+                  onChange={(e) => setProjectTitle(e.target.value)}
+                  helperText={errors.projectTitle?.message}
+                  error={!!errors.projectTitle}
+                />
+                <TextField
+                  id="販売商品名"
+                  label="販売商品名"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="productName"
+                  value={productName}
+                  {...register("productName", {
+                    required: "販売商品名を入力してください",
+                  })}
+                  onChange={(e) => setProductName(e.target.value)}
+                  helperText={errors.productName?.message}
+                  error={!!errors.productName}
+                />
+                <TextField
+                  id="見込個数（月間）"
+                  label="見込個数（月間）"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="piece"
+                  value={piece}
+                  {...register("piece", {
+                    required: "見込個数（月間）を入力してください",
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: "見込個数（月間）の形式が正しくありません。",
+                    },
+                  })}
+                  onChange={(e) => setPiece(e.target.value)}
+                  helperText={errors.piece?.message}
+                  error={!!errors.piece}
+                />
+                <TextField
+                  id="見込収入（月間）"
+                  label="見込収入（月間）"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="income"
+                  value={income}
+                  {...register("income", {
+                    required: "見込収入（月間）を入力してください",
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: "見込収入（月間）の形式が正しくありません。",
+                    },
+                  })}
+                  onChange={(e) => setIncome(e.target.value)}
+                  helperText={errors.income?.message}
+                  error={!!errors.income}
+                />
+                <TextField
+                  select
+                  id="交渉フラグ"
+                  label="交渉フラグ"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  name="negotiation"
+                  value={negotiation}
+                  {...register("negotiation", {
+                    required: "交渉フラグを入力してください",
+                  })}
+                  onChange={(e) => setNegotiation(e.target.value)}
+                  helperText={errors.negotiation?.message}
+                  error={!!errors.negotiation}
+                >
+                  <MenuItem value={"商談中"}>商談中</MenuItem>
+                  <MenuItem value={"獲得"}>獲得</MenuItem>
+                  <MenuItem value={"失注"}>失注</MenuItem>
+                </TextField>
+                <TextField
+                  id="コメント"
+                  label="コメント"
+                  fullWidth
+                  multiline
+                  rows={10}
+                  sx={{ mb: 3 }}
+                  name="comment"
+                  value={comment}
+                  {...register("comment", {
+                    required: "コメントを入力してください",
+                  })}
+                  onChange={(e) => setComment(e.target.value)}
+                  helperText={errors.comment?.message}
+                  error={!!errors.comment}
+                />
+
+                <Grid
+                  container
+                  sx={{
+                    justifyContent: "start",
+                  }}
+                >
+                  <Grid item>
+                    <Button variant="contained" color="secondary" type="submit">
+                      更新
+                    </Button>
+                  </Grid>
+                  <Grid item sx={{ ml: 3 }}>
+                    <Button variant="contained" color="secondary" href="/home2">
+                      キャンセル
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item sx={{ ml: 3 }}>
-                  <Button variant="contained" color="secondary" href="/home2">
-                    キャンセル
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-            <Snackbar
-              open={missingFields.length > 0}
-              autoHideDuration={6000}
-              onClose={() => setMissingFields([])}
-            >
-              <Alert severity="error" onClose={() => setMissingFields([])}>
-                入力漏れの項目名: {missingFields.join(", ")} があります
-              </Alert>
-            </Snackbar>
-            <Snackbar
-              open={success}
-              autoHideDuration={6000}
-              onClose={() => setSuccess(false)}
-            >
-              <Alert severity="success" onClose={() => setSuccess(false)}>
-                案件を更新しました
-              </Alert>
-            </Snackbar>
-          </Stack>
-        </Container>
+              </Box>
+              <Snackbar
+                open={missingFields.length > 0}
+                autoHideDuration={6000}
+                onClose={() => setMissingFields([])}
+              >
+                <Alert severity="error" onClose={() => setMissingFields([])}>
+                  入力漏れの項目名: {missingFields.join(", ")} があります
+                </Alert>
+              </Snackbar>
+              <Snackbar
+                open={success}
+                autoHideDuration={6000}
+                onClose={() => setSuccess(false)}
+              >
+                <Alert severity="success" onClose={() => setSuccess(false)}>
+                  案件を更新しました
+                </Alert>
+              </Snackbar>
+            </Stack>
+          </Container>
+        </form>
       </Fragment>
     </div>
   );
