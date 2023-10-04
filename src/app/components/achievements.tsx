@@ -109,6 +109,11 @@ export default function FullWidthGrid() {
     setDifference(difference); // 追加
   };
 
+  React.useEffect(() => {
+    console.log("effect")
+    fetchUser()
+  }, [auth]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
@@ -124,7 +129,7 @@ export default function FullWidthGrid() {
           <h2>残り</h2>
           <Item>{difference}</Item>
         </Grid>
-        <button onClick={fetchUser}>fetchUser</button>
+        {/* <button onClick={fetchUser}>fetchUser</button> */}
       </Grid>
     </Box>
   );
