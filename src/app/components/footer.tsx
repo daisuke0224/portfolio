@@ -12,7 +12,7 @@ export default function BottomAppBar() {
       >
         <Toolbar>
           <footer>
-            <p>営業管理効率化コミュニケーションアプリ</p>
+            <p>営業管理効率化コミュニケーションサイト</p>
           </footer>
         </Toolbar>
       </AppBar>
