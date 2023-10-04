@@ -79,7 +79,7 @@ const Main = () => {
                             opacity: snapshot.isDragging ? "0.5" : "1",
                           }}
                         >
-                          <div {...provided.dragHandleProps}></div>{" "}
+                          <div {...provided.dragHandleProps}></div>
                           <Card>{task.title}</Card>
                         </div>
                       )}

@@ -208,7 +208,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            営業管理効率化コミュニケーションアプリ
+            営業管理効率化コミュニケーションサイト
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />

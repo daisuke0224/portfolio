@@ -28,6 +28,8 @@ import {
 import { auth, db, storage } from "@/firebase/client";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import { userFirebaseAuthContext } from "@/firebase/auth";
+import { functions } from "@/firebase/client";
+import { httpsCallable } from "firebase/functions";
 
 export default function passwordreissue() {
   const [users, setUsers] = React.useState([]);
@@ -66,8 +68,8 @@ export default function passwordreissue() {
 
       // Storageのファイルを削除
       const storage = getStorage();
-
       const desertRef = ref(storage, `users/${photoURL}`);
+
       deleteObject(desertRef).then(() => {
         //成功した場合
         console.log("削除に成功しました");
@@ -76,6 +78,11 @@ export default function passwordreissue() {
       //失敗した場合
       console.error("削除にエラーが発生しました", error);
     }
+
+    const functionCall = httpsCallable(functions, "deleteUser");
+    await functionCall({
+      userId: userId,
+    });
   };
 
   return (

@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  onAuthStateChanged,
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
@@ -47,8 +48,24 @@ export const SignUp: FC<NextPage> = () => {
   const [userName, setUserName] = React.useState("");
   const [mailAddress, setMailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [teamId, setTeamId] = React.useState("");
   const [imageFile, setImageFile] = React.useState(""); // 画像ファイルの初期化
+  const [teamId, setTeamId] = React.useState(""); // チームの識別子を追加
+
+  // コンポーネントがマウントされたときに、ユーザー情報を取得し、teamId を設定する
+  React.useEffect(() => {
+    // Firebase Authentication から auth オブジェクトを取得
+    const auth = getAuth();
+    // ユーザーがログインしているかどうかを確認
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // ユーザーがログインしている場合、その UID を teamId に設定
+        setTeamId(user.uid);
+      } else {
+        // ユーザーがログインしていない場合、適切な処理を行う（例：ログインページにリダイレクト）
+        router.push("/login");
+      }
+    });
+  }, []); // 空の依存配列を渡すことで、マウント時に1回だけ実行されます
 
   const uploadImage = async (imageFile, userUID) => {
     try {
@@ -97,6 +114,22 @@ export const SignUp: FC<NextPage> = () => {
     }
   };
 
+  const addTeam = async (uid) => {
+    try {
+      const teamData = {
+        goalAmount: 0,
+        id: teamId,
+        adminUserId: uid,
+      };
+
+      const teamRef = doc(collection(db, "teams"), teamId);
+      await setDoc(teamRef, teamData);
+      console.log("Document written with ID:", teamRef.id);
+    } catch (error) {
+      console.error("Error adding document:", error);
+    }
+  };
+
   const isValid = async (data: LoginForm) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -110,6 +143,7 @@ export const SignUp: FC<NextPage> = () => {
 
       //Firestoreにユーザー情報を保存（UIDも含む）
       await addUser(userUID);
+      await addTeam(userUID);
 
       await updateProfile(userCredential.user, {
         displayName: data.userName,
@@ -160,22 +194,6 @@ export const SignUp: FC<NextPage> = () => {
               onChange={(e) => setUserName(e.target.value)}
               helperText={errors.userName?.message}
               error={!!errors.userName}
-            />
-            <TextField
-              id="チームID"
-              label="チームID"
-              variant="outlined"
-              fullWidth
-              color="secondary"
-              name="teamId"
-              value={teamId}
-              {...register("teamId", {
-                required: "チームID名を入力してください",
-              })}
-              type="text"
-              onChange={(e) => setTeamId(e.target.value)}
-              helperText={errors.teamId?.message}
-              error={!!errors.teamId}
             />
             <TextField
               id="メールアドレス"

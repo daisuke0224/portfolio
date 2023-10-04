@@ -66,14 +66,14 @@ export default function passwordreissue() {
                 </Grid>
               </Grid>
             </Box>
-            <h2>チャット</h2>
+            {/* <h2>チャット</h2>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <Grid container spacing={2}>
                 <Grid md={12}>
                   <Item sx={{ padding: 2 }}></Item>
                 </Grid>
               </Grid>
-            </Box>
+            </Box> */}
             <h2>タスク管理</h2>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <Grid container spacing={2}>
