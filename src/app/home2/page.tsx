@@ -11,6 +11,8 @@ import BottomAppBar from "../components/footer";
 import StackedBarChart from "../components/barscharts";
 import NumberOfProjecfts from "../components/numberofprojectscharts";
 import FullWidthGrid from "../components/achievements";
+import { TaskCards } from "../components/task/TaskCards";
+import { Header } from "../components/header/Header";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -74,11 +76,14 @@ export default function passwordreissue() {
                 </Grid>
               </Grid>
             </Box> */}
-            <h2>タスク管理</h2>
+
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <Grid container spacing={2}>
                 <Grid md={12}>
-                  <Item sx={{ padding: 2 }}></Item>
+                  <div className={styles.app}>
+                    <Header></Header>
+                    <TaskCards></TaskCards>
+                  </div>
                 </Grid>
               </Grid>
             </Box>

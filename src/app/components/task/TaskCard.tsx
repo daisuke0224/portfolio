@@ -6,25 +6,48 @@ import { TaskCardDeleteButton } from "./button/TaskCardDeleteButton";
 import { TaskAddInput } from "./input/TaskAddInput";
 import { Tasks } from "./Tasks";
 import { TaskCardTitle } from "./TaskCardTitle";
+import { Draggable } from "react-beautiful-dnd";
 
-export const TaskCard = () => {
+export const TaskCard = ({
+  taskCardList,
+  setTaskCardList,
+  taskCard,
+  index,
+}) => {
   const [inputText, setInputText] = React.useState("");
   const [taskList, setTaskList] = React.useState([]);
   return (
-    <div className={styles.taskCard}>
-      <TaskCardTitle />
-      <TaskCardDeleteButton />
-      <TaskAddInput
-        inputText={inputText}
-        setInputText={setInputText}
-        setTaskList={setTaskList}
-        taskList={taskList}
-      />
-      <Tasks
-        inputText={inputText}
-        taskList={taskList}
-        setTaskList={setTaskList}
-      />
-    </div>
+    <Draggable draggableId={taskCard.id} index={index}>
+      {(providid) => (
+        <div
+          className={styles.taskCard}
+          ref={providid.innerRef}
+          {...providid.draggableProps}
+        >
+          <div
+            className={styles.taskCardTitleAndTaskCardDeleteButtonArea}
+            {...providid.dragHandleProps}
+          >
+            <TaskCardTitle />
+            <TaskCardDeleteButton
+              taskCardList={taskCardList}
+              setTaskCardList={setTaskCardList}
+              taskCard={taskCard}
+            />
+          </div>
+          <TaskAddInput
+            inputText={inputText}
+            setInputText={setInputText}
+            setTaskList={setTaskList}
+            taskList={taskList}
+          />
+          <Tasks
+            inputText={inputText}
+            taskList={taskList}
+            setTaskList={setTaskList}
+          />
+        </div>
+      )}
+    </Draggable>
   );
 };
