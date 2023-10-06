@@ -114,12 +114,13 @@ export const SignUp: FC<NextPage> = () => {
     }
   };
 
+  //ドキュメントのTeamsの内容を追加
   const addTeam = async (uid) => {
     try {
       const teamData = {
         goalAmount: 0,
         id: teamId,
-        adminUserId: uid,
+        adminUserId: teamId,
       };
 
       const teamRef = doc(collection(db, "teams"), teamId);
@@ -173,7 +174,7 @@ export const SignUp: FC<NextPage> = () => {
     formState: { errors },
   } = useForm<LoginForm>();
   return (
-    <div className={styles.body}>
+    <div className={styles.app}>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit(isValid)}>
           <h1>アカウント登録フォーム</h1>

@@ -24,6 +24,9 @@ import { styled } from "@mui/material/styles";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { getAuth, updateEmail } from "firebase/auth";
+import BottomAppBar from "../components/footer";
+import PrimarySearchAppBar from "../components/appbar";
+import ResponsiveAppBar from "../components/appmenubar";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -43,7 +46,6 @@ export const mypage = () => {
 
   const [userName, setUserName] = React.useState("");
   const [mailAddress, setMailAddress] = React.useState("");
-  const [teamId, setTeamId] = React.useState("");
   const [photoURL, setPhotoURL] = React.useState("/static/images/avatar/1.jpg");
   const [missingFields, setMissingFields] = React.useState([]);
   const [success, setSuccess] = React.useState(false);
@@ -55,7 +57,6 @@ export const mypage = () => {
     console.log(user);
     setUserName(user.name);
     setMailAddress(user.email);
-    setTeamId(user.teamId);
     if (user.photoURL) {
       setPhotoURL(user.photoURL);
     } else {
@@ -72,7 +73,6 @@ export const mypage = () => {
 
     const missingFields = [];
     if (!userName) missingFields.push("名前");
-    if (!teamId) missingFields.push("チームID");
     if (!mailAddress) missingFields.push("メールアドレス");
 
     if (missingFields.length > 0) {
@@ -82,7 +82,6 @@ export const mypage = () => {
 
     await updateDoc(userRef, {
       name: userName,
-      teamId: teamId,
       email: mailAddress, // Firestoreのemailを更新する
     });
 
@@ -107,7 +106,9 @@ export const mypage = () => {
   };
 
   return (
-    <div className={styles.body}>
+    <div className={styles.app}>
+      <PrimarySearchAppBar></PrimarySearchAppBar>
+      <ResponsiveAppBar></ResponsiveAppBar>
       <React.Fragment>
         <Container
           sx={{
@@ -156,17 +157,6 @@ export const mypage = () => {
                 onChange={(e) => setUserName(e.target.value)}
               />
               <TextField
-                id="チームID"
-                label="チームID"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                sx={{ mb: 1 }}
-                name="teamId"
-                value={teamId}
-                onChange={(e) => setTeamId(e.target.value)}
-              />
-              <TextField
                 id="メールアドレス"
                 label="メールアドレス"
                 variant="outlined"
@@ -211,7 +201,12 @@ export const mypage = () => {
               >
                 更新
               </Button>
-              <Button variant="contained" fullWidth sx={{ mb: 3 }} href="/home">
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mb: 3 }}
+                href="/home2"
+              >
                 HOMEに戻る
               </Button>
             </Box>
@@ -236,6 +231,7 @@ export const mypage = () => {
           </Stack>
         </Container>
       </React.Fragment>
+      <BottomAppBar></BottomAppBar>
     </div>
   );
 };

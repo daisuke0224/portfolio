@@ -20,7 +20,7 @@ initializeApp();
 const auth = getAuth();
 const firestore = getFirestore();
 
-export const addUser = onCall(async (request) => {
+export const createUser = onCall(async (request) => {
   console.log("Hello from Firebase!");
   const userName = request.data.userName;
   const mailAddress = request.data.mailAddress;
@@ -51,6 +51,11 @@ export const deleteUser = onCall(async (request) => {
   const userId = request.data.userId;
   console.log(userId);
   await auth.deleteUser(userId);
+
+  const deleteUserDoc = await firestore
+    .collection("users")
+    .doc(userId)
+    .delete();
   // await firestore.collection("users").doc(userId).set({
   //   name: userName,
   //   email: mailAddress,

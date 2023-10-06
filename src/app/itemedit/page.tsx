@@ -19,6 +19,9 @@ import { db } from "@/firebase/client";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
+import PrimarySearchAppBar from "../components/appbar";
+import ResponsiveAppBar from "../components/appmenubar";
+import BottomAppBar from "../components/footer";
 
 export default function passwordreissue() {
   const searchParams = useSearchParams();
@@ -92,7 +95,9 @@ export default function passwordreissue() {
   } = useForm();
 
   return (
-    <div className={styles.body}>
+    <div className={styles.app}>
+      <PrimarySearchAppBar></PrimarySearchAppBar>
+      <ResponsiveAppBar></ResponsiveAppBar>
       <Fragment>
         <form form onSubmit={handleSubmit(upDateCustomerData)}>
           <Container
@@ -316,6 +321,7 @@ export default function passwordreissue() {
           </Container>
         </form>
       </Fragment>
+      <BottomAppBar></BottomAppBar>
     </div>
   );
 }

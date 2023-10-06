@@ -23,12 +23,13 @@ export const Login = () => {
       alert("ログインしました");
     } catch (e) {
       alert("ログインに失敗しました");
+
       console.error(e);
     }
   };
 
   return (
-    <div className={styles.body}>
+    <div className={styles.app}>
       <div className={styles.formContainer}>
         <form>
           <h1>ログインフォーム</h1>

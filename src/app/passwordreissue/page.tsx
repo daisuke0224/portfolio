@@ -45,7 +45,7 @@ export default function passwordreissue() {
   } = useForm();
 
   return (
-    <div className={styles.body}>
+    <div className={styles.app}>
       <React.Fragment>
         <form onSubmit={handleSubmit(onClickAdd)}>
           <Container

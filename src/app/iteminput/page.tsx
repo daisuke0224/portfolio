@@ -61,22 +61,6 @@ export default function passwordreissue() {
     const customersRef = collection(db, "customers");
     const customersDocRef = doc(customersRef);
 
-    // 入力漏れのチェック
-    const missingFields = [];
-    if (!date) missingFields.push("更新日");
-    if (!customerName) missingFields.push("顧客名");
-    if (!projectTitle) missingFields.push("案件名");
-    if (!productName) missingFields.push("販売商品名");
-    if (!piece) missingFields.push("見込個数（月間）");
-    if (!income) missingFields.push("見込収入（月間）");
-    if (!negotiation) missingFields.push("交渉フラグ");
-    if (!comment) missingFields.push("コメント");
-
-    if (missingFields.length > 0) {
-      setMissingFields(missingFields);
-      return;
-    }
-
     await setDoc(customersDocRef, {
       id: customersDocRef.id,
       date: date,
@@ -100,7 +84,7 @@ export default function passwordreissue() {
     formState: { errors },
   } = useForm();
   return (
-    <div className={styles.body}>
+    <div className={styles.app}>
       <Fragment>
         <PrimarySearchAppBar></PrimarySearchAppBar>
         <ResponsiveAppBar></ResponsiveAppBar>
@@ -135,7 +119,8 @@ export default function passwordreissue() {
                 }}
               >
                 <Typography
-                  variant="h3"
+                  variant="h2"
+                  fontFamily={"sans-serif"}
                   textAlign="center"
                   mt={2}
                   sx={{ mb: 3 }}
@@ -305,21 +290,14 @@ export default function passwordreissue() {
                 </Grid>
               </Box>
               <Snackbar
-                open={missingFields.length > 0}
-                autoHideDuration={6000}
-                onClose={() => setMissingFields([])}
-              >
-                <Alert severity="error" onClose={() => setMissingFields([])}>
-                  入力漏れの項目名: {missingFields.join(", ")} があります
-                </Alert>
-              </Snackbar>
-              <Snackbar
                 open={success}
                 autoHideDuration={6000}
                 onClose={() => setSuccess(false)}
               >
                 <Alert severity="success" onClose={() => setSuccess(false)}>
-                  案件登録しました
+                  <Button color="inherit" size="small">
+                    案件登録しました
+                  </Button>
                 </Alert>
               </Snackbar>
             </Stack>
