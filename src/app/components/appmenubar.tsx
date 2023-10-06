@@ -11,26 +11,10 @@ const manubarLinks = [
   { text: "ホーム", to: "/home2" },
   { text: "案件入力画面", to: "/iteminput" },
   { text: "案件一覧", to: "/projectmanagement" },
-  { text: "案件編集画面", to: "/itemedit" },
-  { text: "管理者メニュー", to: "/adminmenu" },
-  { text: "管理者メニューユーザー追加", to: "/adduser" },
-  { text: "管理者メニューユーザー削除", to: "/adminmenuuserdelete" },
-  { text: "管理者メニュー営業目標数値", to: "/addminmenutargetvalue" },
-  { text: "アカウント登録", to: "/signup" },
-  { text: "パスワードの再発行", to: "/passwordreissue" },
-  { text: "パスワードの再設定", to: "/resettingapassword" },
   { text: "お問合せ", to: "/contactform" },
 ];
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   return (
     <AppBar position="static">
       <Toolbar disableGutters>
@@ -38,8 +22,12 @@ function ResponsiveAppBar() {
           {manubarLinks.map((page) => (
             <Link href={page.to} key={page.text}>
               <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  fontSize: "16px",
+                }}
               >
                 {page.text}
               </Button>

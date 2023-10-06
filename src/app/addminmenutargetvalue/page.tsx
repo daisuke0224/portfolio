@@ -16,6 +16,9 @@ import {
 import { db } from "@/firebase/client";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { userFirebaseAuthContext } from "@/firebase/auth";
+import BottomAppBar from "../components/footer";
+import ResponsiveAppBar from "../components/appmenubar";
+import PrimarySearchAppBar from "../components/appbar";
 
 export default function addminmenutargetvalue() {
   const [targetNumber, setTargetNumber] = React.useState("");
@@ -52,7 +55,9 @@ export default function addminmenutargetvalue() {
   };
 
   return (
-    <div className={styles.body}>
+    <div className={styles.app}>
+      <PrimarySearchAppBar></PrimarySearchAppBar>
+      <ResponsiveAppBar></ResponsiveAppBar>
       <React.Fragment>
         <Container
           sx={{
@@ -125,6 +130,7 @@ export default function addminmenutargetvalue() {
           </Stack>
         </Container>
       </React.Fragment>
+      <BottomAppBar></BottomAppBar>
     </div>
   );
 }

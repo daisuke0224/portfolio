@@ -12,10 +12,15 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Customization from "../components/customization";
+import PrimarySearchAppBar from "../components/appbar";
+import ResponsiveAppBar from "../components/appmenubar";
+import BottomAppBar from "../components/footer";
 
 export default function passwordreissue() {
   return (
-    <div className={styles.body}>
+    <div className={styles.app}>
+      <PrimarySearchAppBar></PrimarySearchAppBar>
+      <ResponsiveAppBar></ResponsiveAppBar>
       <Container
         sx={{
           display: "flex",
@@ -49,6 +54,7 @@ export default function passwordreissue() {
           </Box>
         </Box>
       </Container>
+      <BottomAppBar></BottomAppBar>
     </div>
   );
 }

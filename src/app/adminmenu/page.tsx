@@ -9,10 +9,15 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import PrimarySearchAppBar from "../components/appbar";
+import ResponsiveAppBar from "../components/appmenubar";
+import BottomAppBar from "../components/footer";
 
 export default function passwordreissue() {
   return (
-    <div className={styles.body}>
+    <div className={styles.app}>
+      <PrimarySearchAppBar></PrimarySearchAppBar>
+      <ResponsiveAppBar></ResponsiveAppBar>
       <React.Fragment>
         <Container
           sx={{
@@ -52,7 +57,7 @@ export default function passwordreissue() {
                 variant="contained"
                 fullWidth
                 sx={{ mb: 3 }}
-                href="/addadminmenuuser"
+                href="/adduser"
               >
                 ユーザー追加
               </Button>
@@ -76,6 +81,7 @@ export default function passwordreissue() {
           </Stack>
         </Container>
       </React.Fragment>
+      <BottomAppBar></BottomAppBar>
     </div>
   );
 }

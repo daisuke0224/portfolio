@@ -20,53 +20,16 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { Alert, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { logout } from "./logoutbutton";
-import { auth } from "@/firebase/client";
+import { auth, db } from "@/firebase/client";
 import { mypage } from "../mypage2/page";
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
+import { userFirebaseAuthContext } from "@/firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function PrimarySearchAppBar() {
   //ログアウト実装するために追加
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const [isTeamAdmin, setIsTeamAdmin] = React.useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -85,12 +48,35 @@ export default function PrimarySearchAppBar() {
     }, 2000);
   };
 
+  const auth = userFirebaseAuthContext();
+
+  const fetchUser = async () => {
+    //ログインしている本人の情報を取得
+    const user = auth.currentUser;
+    if (!user) {
+      return;
+    }
+    const userRef = doc(db, "users", user.uid);
+    const userDocSnapshot = await getDoc(userRef);
+    const userData = userDocSnapshot.data();
+    const isTeamAdmin = userData.isTeamAdmin;
+    console.log(isTeamAdmin);
+    if (userData.isTeamAdmin === true) {
+      setIsTeamAdmin(true);
+    }
+  };
+  fetchUser();
+
   const handleMypage = () => {
     router.push(
       auth.currentUser?.uid
         ? `/mypage2?id=${auth.currentUser?.uid}`
         : "/mypage2"
     );
+  };
+
+  const handleAdomin = () => {
+    router.push("/adminmenu");
   };
 
   const handleClose = () => {
@@ -111,10 +97,6 @@ export default function PrimarySearchAppBar() {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -133,6 +115,9 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMypage}>マイページ</MenuItem>
+      {isTeamAdmin && (
+        <MenuItem onClick={handleAdomin}>管理者メニュー</MenuItem>
+      )}
       <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
     </Menu>
   );
@@ -193,53 +178,19 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
-            variant="h6"
+            variant="h4"
             noWrap
             component="div"
+            fontFamily={"sans-serif"}
             sx={{ display: { xs: "none", sm: "block" } }}
           >
             営業管理効率化コミュニケーションサイト
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
             <IconButton
               size="large"
               edge="end"
@@ -250,19 +201,6 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
-          </Box>
-
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
             </IconButton>
           </Box>
         </Toolbar>
