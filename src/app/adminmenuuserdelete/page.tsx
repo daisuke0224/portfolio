@@ -3,10 +3,13 @@
 import * as React from "react";
 import styles from "./page.module.css";
 import {
+  Alert,
   Box,
+  Button,
   Container,
   Divider,
   IconButton,
+  Snackbar,
   Stack,
   Typography,
 } from "@mui/material";
@@ -36,6 +39,7 @@ import BottomAppBar from "../components/footer";
 
 export default function passwordreissue() {
   const [users, setUsers] = React.useState([]);
+  const [isDeleteSuccess, setIsDeleteSuccess] = React.useState(false);
 
   const auth = userFirebaseAuthContext();
   const user = auth.currentUser;
@@ -66,6 +70,7 @@ export default function passwordreissue() {
     await functionCall({
       userId: userId,
     });
+    setIsDeleteSuccess(true); //ユーザー削除成功時きどう
   };
 
   return (
@@ -127,7 +132,10 @@ export default function passwordreissue() {
                     <IconButton
                       aria-label="delete"
                       size="large"
-                      onClick={() => deleteUser(user.id)}
+                      onClick={() => {
+                        deleteUser(user.id);
+                        setIsDeleteSuccess(true); // 画面を更新する処理
+                      }}
                     >
                       <DeleteIcon fontSize="inherit" />
                     </IconButton>
@@ -135,9 +143,21 @@ export default function passwordreissue() {
                 ))}
               </List>
             </Box>
+            {isDeleteSuccess && (
+              <Alert
+                severity="success"
+                sx={{
+                  position: "absolute",
+                }}
+                onClose={() => setIsDeleteSuccess(false)}
+              >
+                ユーザー削除に成功しました
+              </Alert>
+            )}
           </Stack>
         </Container>
       </React.Fragment>
+
       <BottomAppBar></BottomAppBar>
     </div>
   );

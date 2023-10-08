@@ -26,7 +26,6 @@ export default function passwordreissue() {
   const [mailAddress, setMailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [reenterPassword, setReenterPassword] = React.useState("");
-  const [missingFields, setMissingFields] = React.useState([]);
   const [success, setSuccess] = React.useState(false);
 
   React.useEffect(() => {
@@ -48,7 +47,6 @@ export default function passwordreissue() {
         mailAddress: mailAddress,
         password: password,
       });
-      //ここにonSubmitを入れる！！！！！
       setSuccess(true);
     } catch {
       console.log("error");
@@ -80,11 +78,11 @@ export default function passwordreissue() {
   } = useForm();
 
   //reenterPasswordの値の監視
-  const reenterPasswordValue = watch("reenterPassword", "");
+  const passwordValue = watch("password", "");
 
-  //パスワードと確認用パスワードが一致するかをチェックする独自のバリデーションルール
+  // パスワードと確認用パスワードが一致するかをチェックする独自のバリデーションルール
   const validatePasswordMatch = (value) => {
-    return value === reenterPasswordValue || "パスワードが一致しません";
+    return value === passwordValue || "パスワードが一致しません";
   };
 
   return (
