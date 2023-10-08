@@ -27,14 +27,6 @@ export default function passwordreissue() {
   const searchParams = useSearchParams();
   const customerId = searchParams.get("id");
 
-  const [date, setDate] = useState("");
-  const [customerName, setCustomerName] = useState("");
-  const [projectTitle, setProjectTitle] = useState("");
-  const [productName, setProductName] = useState("");
-  const [piece, setPiece] = useState("");
-  const [income, setIncome] = useState("");
-  const [negotiation, setNegotiation] = useState("");
-  const [comment, setComment] = useState("");
   const [success, setSuccess] = useState(false);
 
   const getCustomerData = async () => {
@@ -42,14 +34,14 @@ export default function passwordreissue() {
     const costomerData = await getDoc(costomerRef);
     const costomer = costomerData.data();
     console.log(costomer);
-    setDate(costomer.date);
-    setCustomerName(costomer.customerName);
-    setProjectTitle(costomer.projectTitle);
-    setProductName(costomer.productName);
-    setPiece(costomer.piece);
-    setIncome(costomer.income);
-    setNegotiation(costomer.negotiationflag);
-    setComment(costomer.comment);
+    setValue(costomer.date);
+    setValue(costomer.customerName);
+    setValue(costomer.projectTitle);
+    setValue(costomer.productName);
+    setValue(costomer.piece);
+    setValue(costomer.income);
+    setValue(costomer.negotiationflag);
+    setValue(costomer.comment);
   };
 
   useEffect(() => {
@@ -60,14 +52,14 @@ export default function passwordreissue() {
     const customerRef = doc(db, "customers", customerId);
 
     await updateDoc(customerRef, {
-      date: date,
-      customerName: customerName,
-      projectTitle: projectTitle,
-      productName: productName,
-      piece: piece,
-      income: income,
-      negotiation: negotiation,
-      comment: comment,
+      date: getValues("date"),
+      customerName: getValues("customerName"),
+      projectTitle: getValues("projectTitle"),
+      productName: getValues("productName"),
+      piece: getValues("piece"),
+      income: getValues("income"),
+      negotiation: getValues("negotiation"),
+      comment: getValues("comment"),
     });
     setSuccess(true);
   };
@@ -75,9 +67,20 @@ export default function passwordreissue() {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm({
-    validateCriteriaMode: "onSubmit", // フォームの値が変更されたときにのみバリデーションを実行
+    defaultValues: {
+      date: "",
+      customerName: "",
+      projectTitle: "",
+      productName: "",
+      piece: "",
+      income: "",
+      negotiation: "",
+      comment: "",
+    },
   });
 
   return (
@@ -85,7 +88,7 @@ export default function passwordreissue() {
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <ResponsiveAppBar></ResponsiveAppBar>
       <Fragment>
-        <form form onSubmit={handleSubmit(upDateCustomerData)}>
+        <form onSubmit={handleSubmit(upDateCustomerData)}>
           <Container
             sx={{
               display: "flex",
@@ -131,15 +134,13 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="date"
-                  value={date}
                   {...register("date", {
                     required: "日付を入力してください",
                   })}
-                  type="date"
-                  onChange={(e) => setDate(e.target.value)}
-                  helperText={errors.projectTitle?.message}
-                  error={!!errors.projectTitle}
+                  value={getValues("date")} // 値を取得
+                  onChange={(e) => setValue("date", e.target.value)} // 値を変更
+                  helperText={errors.date?.message}
+                  error={!!errors.date}
                 />
                 <TextField
                   id="顧客名"
@@ -148,12 +149,11 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="customerName"
-                  value={customerName}
+                  value={getValues("customerName")} // 値を取得
                   {...register("customerName", {
                     required: "顧客名を入力してください",
                   })}
-                  onChange={(e) => setCustomerName(e.target.value)}
+                  onChange={(e) => setValue("customerName", e.target.value)} // 値を変更
                   helperText={errors.customerName?.message}
                   error={!!errors.customerName}
                 />
@@ -164,12 +164,11 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="projectTitle"
-                  value={projectTitle}
+                  value={getValues("projectTitle")} // 値を取得
                   {...register("projectTitle", {
                     required: "案件名を入力してください",
                   })}
-                  onChange={(e) => setProjectTitle(e.target.value)}
+                  onChange={(e) => setValue("projectTitle", e.target.value)} // 値を変更
                   helperText={errors.projectTitle?.message}
                   error={!!errors.projectTitle}
                 />
@@ -180,12 +179,11 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="productName"
-                  value={productName}
+                  value={getValues("productName")} // 値を取得
                   {...register("productName", {
                     required: "販売商品名を入力してください",
                   })}
-                  onChange={(e) => setProductName(e.target.value)}
+                  onChange={(e) => setValue("productName", e.target.value)} // 値を変更
                   helperText={errors.productName?.message}
                   error={!!errors.productName}
                 />
@@ -196,8 +194,7 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="piece"
-                  value={piece}
+                  value={getValues("piece")} // 値を取得
                   {...register("piece", {
                     required: "見込個数（月間）を入力してください",
                     pattern: {
@@ -205,7 +202,7 @@ export default function passwordreissue() {
                       message: "見込個数（月間）の形式が正しくありません。",
                     },
                   })}
-                  onChange={(e) => setPiece(e.target.value)}
+                  onChange={(e) => setValue("piece", e.target.value)} // 値を変更
                   helperText={errors.piece?.message}
                   error={!!errors.piece}
                 />
@@ -216,8 +213,7 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="income"
-                  value={income}
+                  value={getValues("income")} // 値を取得
                   {...register("income", {
                     required: "見込収入（月間）を入力してください",
                     pattern: {
@@ -225,7 +221,7 @@ export default function passwordreissue() {
                       message: "見込収入（月間）の形式が正しくありません。",
                     },
                   })}
-                  onChange={(e) => setIncome(e.target.value)}
+                  onChange={(e) => setValue("income", e.target.value)} // 値を変更
                   helperText={errors.income?.message}
                   error={!!errors.income}
                 />
@@ -237,12 +233,11 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="negotiation"
-                  value={negotiation}
+                  value={getValues("negotiation")} // 値を取得
                   {...register("negotiation", {
                     required: "交渉フラグを入力してください",
                   })}
-                  onChange={(e) => setNegotiation(e.target.value)}
+                  onChange={(e) => setValue("negotiation", e.target.value)} // 値を変更
                   helperText={errors.negotiation?.message}
                   error={!!errors.negotiation}
                 >
@@ -257,16 +252,14 @@ export default function passwordreissue() {
                   multiline
                   rows={10}
                   sx={{ mb: 3 }}
-                  name="comment"
-                  value={comment}
+                  value={getValues("comment")} // 値を取得
                   {...register("comment", {
                     required: "コメントを入力してください",
                   })}
-                  onChange={(e) => setComment(e.target.value)}
+                  onChange={(e) => setValue("comment", e.target.value)} // 値を変更
                   helperText={errors.comment?.message}
                   error={!!errors.comment}
                 />
-
                 <Grid
                   container
                   sx={{
