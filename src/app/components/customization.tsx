@@ -63,6 +63,16 @@ export default function CustomizedTables() {
     return venderData.name;
   };
 
+  //VenderUidからVenderteamIdを取得・・・追加
+  const getVenderTeam = async (venderUid: string) => {
+    const venderTeamRef = doc(db, "users", venderUid);
+    const venderTeamDoc = await getDoc(venderTeamRef);
+    const venderTeamData = venderTeamDoc.exists()
+      ? venderTeamDoc.data()
+      : { teamId: "Unknown" };
+    return venderTeamData.teamId;
+  };
+
   React.useEffect(() => {
     const getCustomers = async () => {
       // ユーザーのログイン情報を取得
@@ -70,6 +80,8 @@ export default function CustomizedTables() {
       if (!user) return; // ユーザーがログインしていない場合は処理を終了
 
       const venderUid = user.uid;
+      //追加
+      const venderTeamId = await getVenderTeam(venderUid);
 
       const data = await getDocs(collection(db, "customers"));
       // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
@@ -83,7 +95,10 @@ export default function CustomizedTables() {
 
       // ログインしている本人のvenderUidと一致する情報のみをフィルタリング
       const filteredCustomersData = customersData.filter(
-        (customer) => customer.venderUid === venderUid
+        (customer) =>
+          customer.venderUid === venderUid &&
+          //上記の&&から追加
+          customer.venderTeamId === venderTeamId
       );
       console.log(filteredCustomersData);
       setCustomerList(filteredCustomersData);

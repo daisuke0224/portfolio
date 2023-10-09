@@ -27,8 +27,7 @@ export default function passwordreissue() {
           flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "center",
-          width: "100%",
-          height: "120vh",
+          minHeight: "100vh",
         }}
       >
         <Box

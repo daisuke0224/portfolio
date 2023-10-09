@@ -18,6 +18,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "@/firebase/client";
+import { set } from "react-hook-form";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -109,22 +110,48 @@ export default function FullWidthGrid() {
     setDifference(difference); // 追加
   };
 
+  React.useEffect(() => {
+    console.log("effect");
+    fetchUser();
+  }, [auth]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid xs={6} md={4}>
-          <h2>収入目標</h2>
-          <Item>{goalAmount}</Item>
+          <h1>収入目標</h1>
+          <Item
+            sx={{
+              fontSize: "3rem",
+              border: "10px solid #ccc",
+            }}
+          >
+            {goalAmount.toLocaleString()}
+          </Item>
         </Grid>
         <Grid xs={6} md={4}>
-          <h2>現在</h2>
-          <Item>{totalIncome}</Item>
+          <h1>現在</h1>
+          <Item
+            sx={{
+              fontSize: "3rem",
+              border: "10px solid #ccc",
+            }}
+          >
+            {totalIncome.toLocaleString()}
+          </Item>
         </Grid>
         <Grid xs={6} md={4}>
-          <h2>残り</h2>
-          <Item>{difference}</Item>
+          <h1>残り</h1>
+          <Item
+            sx={{
+              fontSize: "3rem",
+              border: "10px solid #ccc",
+            }}
+          >
+            {difference.toLocaleString()}
+          </Item>
         </Grid>
-        <button onClick={fetchUser}>fetchUser</button>
+        {/* <button onClick={fetchUser}>fetchUser</button> */}
       </Grid>
     </Box>
   );
