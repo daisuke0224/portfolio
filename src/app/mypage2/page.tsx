@@ -8,18 +8,16 @@ import {
   Box,
   Container,
   Divider,
-  Fab,
   Grid,
   Snackbar,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { auth, db } from "@/firebase/client";
+import { db } from "@/firebase/client";
 import { styled } from "@mui/material/styles";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
