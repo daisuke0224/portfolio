@@ -32,7 +32,6 @@ export default function passwordreissue() {
   const [income, setIncome] = useState("");
   const [negotiation, setNegotiation] = useState("");
   const [comment, setComment] = useState("");
-  const [missingFields, setMissingFields] = useState([]);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
