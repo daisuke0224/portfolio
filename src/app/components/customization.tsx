@@ -111,6 +111,7 @@ export default function CustomizedTables() {
       <Table sx={{ minWidth: 100 }} aria-label="customized table">
         <TableHead>
           <TableRow>
+            <StyledTableCell align="center">No</StyledTableCell>
             <StyledTableCell align="center">チーム名</StyledTableCell>
             <StyledTableCell align="center">営業マン名</StyledTableCell>
             <StyledTableCell align="center">顧客名</StyledTableCell>
@@ -124,9 +125,12 @@ export default function CustomizedTables() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {customerList.map((customer) => {
+          {customerList.map((customer, index) => {
             return (
               <StyledTableRow key={customer.id}>
+                <StyledTableCell component="th" scope="row">
+                  {index + 1}
+                </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
                   {customer.venderTeamId}
                 </StyledTableCell>
