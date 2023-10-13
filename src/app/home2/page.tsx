@@ -15,6 +15,7 @@ import { TaskCards } from "../components/task/TaskCards";
 import { TaskCards2 } from "../components/task/TaskCards2";
 
 import { Header } from "../components/header/Header";
+import AcquisitionBarChart from "../components/AcquisitionBarChart";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -50,7 +51,8 @@ export default function passwordreissue() {
                   </Grid>
                   <Grid xs={12} md={6}>
                     <Item sx={{ padding: 2 }}>
-                      <StackedBarChart></StackedBarChart>
+                      <h1>金額</h1>
+                      <AcquisitionBarChart></AcquisitionBarChart>
                     </Item>
                   </Grid>
                 </Grid>
@@ -63,13 +65,13 @@ export default function passwordreissue() {
                 <Grid container spacing={2}>
                   <Grid xs={12} md={6}>
                     <Item sx={{ padding: 2 }}>
-                      <h2>案件数</h2>
+                      <h1>案件数</h1>
                       <NumberOfProjecfts></NumberOfProjecfts>
                     </Item>
                   </Grid>
                   <Grid xs={12} md={6}>
                     <Item sx={{ padding: 2 }}>
-                      <h2>案件金額</h2>
+                      <h1>案件金額</h1>
                       <StackedBarChart></StackedBarChart>
                     </Item>
                   </Grid>
