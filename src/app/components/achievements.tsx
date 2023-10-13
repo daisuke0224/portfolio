@@ -113,7 +113,7 @@ export default function FullWidthGrid() {
   React.useEffect(() => {
     console.log("effect");
     fetchUser();
-  }, [auth]);
+  }, [auth, goalAmount]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

@@ -83,7 +83,6 @@ export default function passwordreissue() {
     },
   });
 
-  // 以下の部分を追加
   useEffect(() => {
     setValue("date", getValues("date"));
     setValue("customerName", getValues("customerName"));
@@ -152,6 +151,7 @@ export default function passwordreissue() {
                   onChange={(e) => setValue("date", e.target.value)} // 値を変更
                   helperText={errors.date?.message}
                   error={!!errors.date}
+                  focused
                 />
                 <TextField
                   id="顧客名"
@@ -166,6 +166,7 @@ export default function passwordreissue() {
                   onChange={(e) => setValue("customerName", e.target.value)} // 値を変更
                   helperText={errors.customerName?.message}
                   error={!!errors.customerName}
+                  focused
                 />
                 <TextField
                   id="案件名"
@@ -180,6 +181,7 @@ export default function passwordreissue() {
                   onChange={(e) => setValue("projectTitle", e.target.value)} // 値を変更
                   helperText={errors.projectTitle?.message}
                   error={!!errors.projectTitle}
+                  focused
                 />
                 <TextField
                   id="販売商品名"
@@ -194,6 +196,7 @@ export default function passwordreissue() {
                   onChange={(e) => setValue("productName", e.target.value)} // 値を変更
                   helperText={errors.productName?.message}
                   error={!!errors.productName}
+                  focused
                 />
                 <TextField
                   id="見込個数（月間）"
@@ -212,6 +215,7 @@ export default function passwordreissue() {
                   onChange={(e) => setValue("piece", e.target.value)} // 値を変更
                   helperText={errors.piece?.message}
                   error={!!errors.piece}
+                  focused
                 />
                 <TextField
                   id="見込収入（月間）"
@@ -230,6 +234,7 @@ export default function passwordreissue() {
                   onChange={(e) => setValue("income", e.target.value)} // 値を変更
                   helperText={errors.income?.message}
                   error={!!errors.income}
+                  focused
                 />
                 <TextField
                   select
@@ -245,6 +250,7 @@ export default function passwordreissue() {
                   onChange={(e) => setValue("negotiationflag", e.target.value)} // 値を変更
                   helperText={errors.negotiationflag?.message}
                   error={!!errors.negotiationflag}
+                  focused
                 >
                   <MenuItem value={"商談中"}>商談中</MenuItem>
                   <MenuItem value={"獲得"}>獲得</MenuItem>
@@ -256,6 +262,7 @@ export default function passwordreissue() {
                   fullWidth
                   multiline
                   rows={10}
+                  color="secondary"
                   sx={{ mb: 3 }}
                   {...register("comment", {
                     required: "コメントを入力してください",
@@ -263,6 +270,7 @@ export default function passwordreissue() {
                   onChange={(e) => setValue("comment", e.target.value)} // 値を変更
                   helperText={errors.comment?.message}
                   error={!!errors.comment}
+                  focused
                 />
                 <Grid
                   container
