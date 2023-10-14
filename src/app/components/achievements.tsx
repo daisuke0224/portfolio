@@ -57,8 +57,8 @@ export default function FullWidthGrid() {
     const teamData = teamDoc.exists() ? teamDoc.data() : {};
 
     //ドキュメントにログインユーザーの情報を追加する。
-    teamData.id = userData.teamId;
-    teamData.adminUserId = userData.id;
+    // teamData.id = userData.teamId;
+    // teamData.adminUserId = userData.id;
 
     //このコードはドキュメントにusersのログインユーザーの情報を全て追加する場合。
     // teamData[user.uid] = userData;
@@ -70,8 +70,8 @@ export default function FullWidthGrid() {
     // };
 
     //同じチームIDを持つメンバーのIDを配列に追加する
-    const memberIds = usersData.map((user) => user.id);
-    teamData.memberIds = arrayUnion(...memberIds);
+    // const memberIds = usersData.map((user) => user.id);
+    // teamData.memberIds = arrayUnion(...memberIds);
 
     // if (teamDoc.exists()) {
     //   await updateDoc(teamRef, teamData);
