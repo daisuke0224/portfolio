@@ -56,8 +56,8 @@ export default function passwordreissue() {
       customerName: getValues("customerName"),
       projectTitle: getValues("projectTitle"),
       productName: getValues("productName"),
-      piece: getValues("piece"),
-      income: getValues("income"),
+      piece: Number(getValues("piece")),
+      income: Number(getValues("income")),
       negotiationflag: getValues("negotiationflag"),
       comment: getValues("comment"),
     });
