@@ -13,6 +13,8 @@ import {
 import PrimarySearchAppBar from "../components/appbar";
 import ResponsiveAppBar from "../components/appmenubar";
 import BottomAppBar from "../components/footer";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/firebase/client";
 
 export default function passwordreissue() {
   const [name, setName] = React.useState("");
@@ -25,10 +27,26 @@ export default function passwordreissue() {
     setInquireyDetails("");
   }, []);
 
-  const onClickAdd = () => {
-    console.log(name);
-    console.log(mailaddress);
-    console.log(inquireyDetails);
+  const onClickAdd = async () => {
+    const data = {
+      name: name,
+      email: mailaddress,
+      comment: inquireyDetails,
+      sentAt: 0,
+    };
+
+    try {
+      // Firestoreのcontactsコレクションにデータを追加
+      const docRef = await addDoc(collection(db, "contact"), data);
+      console.log("Document added with ID: ", docRef.id);
+
+      //データの送信が成功した場合、フォームをクリア
+      setName("");
+      setMailAddress("");
+      setInquireyDetails("");
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
 
   return (
