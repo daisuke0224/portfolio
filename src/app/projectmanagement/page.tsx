@@ -21,6 +21,7 @@ export default function passwordreissue() {
     <div className={styles.app}>
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <ResponsiveAppBar></ResponsiveAppBar>
+      <div style={{ margin: "20px" }}></div>
       <Container
         sx={{
           display: "flex",
@@ -53,6 +54,7 @@ export default function passwordreissue() {
           </Box>
         </Box>
       </Container>
+      <div style={{ margin: "20px" }}></div>
       <BottomAppBar></BottomAppBar>
     </div>
   );

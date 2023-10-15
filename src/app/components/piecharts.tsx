@@ -23,7 +23,7 @@ const CustomPieChart = ({ data, innerRadius, outerRadius, centerText }) => {
             outerRadius,
           },
         ]}
-        height={440}
+        height={400}
         legend={{ hidden: true }}
       />
       <div style={centerTextStyle}>{centerText}</div>
@@ -31,20 +31,37 @@ const CustomPieChart = ({ data, innerRadius, outerRadius, centerText }) => {
   );
 };
 
-export default function TwoSimplePieChart() {
-  const data2 = [
-    { label: "獲得", value: 2400 },
-    { label: "交渉中", value: 4567 },
+export default function TwoSimplePieChart({ itemdatas }) {
+  console.log(itemdatas);
+  let inprogressItemsTotalValue = 0;
+  let completedItemsTotalValue = 0;
+  itemdatas.map((itemdata) => {
+    if (itemdata.label === "商談中") {
+      inprogressItemsTotalValue += Number(itemdata.value);
+    } else if (itemdata.label === "獲得") {
+      completedItemsTotalValue += Number(itemdata.value);
+    }
+  });
+
+  const pieChartData = [
+    {
+      label: "獲得",
+      value: completedItemsTotalValue,
+    },
+    {
+      label: "商談中",
+      value: inprogressItemsTotalValue,
+    },
   ];
 
   return (
     <CustomPieChart
-      data={data2}
+      data={pieChartData}
       innerRadius={90}
       outerRadius={180}
-      centerText={`獲得: ${data2[0].value}
-      交渉中: ${data2[1].value}`}
-      conterText={`獲得: ${data2[0].value} 交渉中: ${data2[1].value}`}
+      centerText={`獲得: ${pieChartData[0].value}
+      商談中: ${pieChartData[1].value}`}
+      conterText={`獲得: ${pieChartData[0].value} 商談中: ${pieChartData[1].value}`}
     />
   );
 }

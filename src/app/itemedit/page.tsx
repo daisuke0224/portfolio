@@ -100,6 +100,7 @@ export default function passwordreissue() {
       <ResponsiveAppBar></ResponsiveAppBar>
       <Fragment>
         <form onSubmit={handleSubmit(upDateCustomerData)}>
+          <div style={{ margin: "20px" }}></div>
           <Container
             sx={{
               display: "flex",
@@ -303,6 +304,8 @@ export default function passwordreissue() {
           </Container>
         </form>
       </Fragment>
+      <div style={{ margin: "20px" }}></div>
+
       <BottomAppBar></BottomAppBar>
     </div>
   );
