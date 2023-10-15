@@ -210,7 +210,7 @@ export default function passwordreissue() {
                       message: "見込個数（月間）の形式が正しくありません。",
                     },
                   })}
-                  onChange={(e) => setPiece(e.target.value)}
+                  onChange={(e) => setPiece(Number(e.target.value))}
                   helperText={errors.piece?.message}
                   error={!!errors.piece}
                 />
@@ -230,7 +230,7 @@ export default function passwordreissue() {
                       message: "見込収入（月間）の形式が正しくありません。",
                     },
                   })}
-                  onChange={(e) => setIncome(e.target.value)}
+                  onChange={(e) => setIncome(Number(e.target.value))}
                   helperText={errors.income?.message}
                   error={!!errors.income}
                 />

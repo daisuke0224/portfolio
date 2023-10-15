@@ -87,11 +87,13 @@ export default function FullWidthGrid() {
     console.log(userData.teamId);
     const customersQuery = query(
       collection(db, "customers"),
-      where("venderTeamId", "==", userData.teamId)
+      where("venderTeamId", "==", userData.teamId),
+      where("negotiationflag", "==", "獲得") //negotiationが獲得と一致する条件をついか
     );
 
     const customersDocs = await getDocs(customersQuery);
     const customersData = customersDocs.docs.map((doc) => doc.data());
+    console.log(customersData);
 
     // incomeの合計値を計算
     const totalIncome = customersData.reduce(
