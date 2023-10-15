@@ -148,7 +148,7 @@ export default function FullWidthGrid() {
               border: "10px solid #ccc",
             }}
           >
-            {difference.toLocaleString()}
+            {difference <= 0 ? "達成" : difference.toLocaleString()}
           </Item>
         </Grid>
         {/* <button onClick={fetchUser}>fetchUser</button> */}

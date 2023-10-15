@@ -88,6 +88,8 @@ export default function passwordreissue() {
         <PrimarySearchAppBar></PrimarySearchAppBar>
         <ResponsiveAppBar></ResponsiveAppBar>
         <form onSubmit={handleSubmit(onClickAdd)}>
+          <div style={{ margin: "20px" }}></div>
+
           <Container
             sx={{
               display: "flex",
@@ -303,6 +305,8 @@ export default function passwordreissue() {
           </Container>
         </form>
       </Fragment>
+      <div style={{ margin: "20px" }}></div>
+
       <BottomAppBar></BottomAppBar>
     </div>
   );
