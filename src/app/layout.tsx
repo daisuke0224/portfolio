@@ -20,8 +20,9 @@ export default function RootLayout({
     console.log(pathname);
     if (
       pathname === "/login" ||
-      pathname === "/signup" ||
-      pathname === "/passwordreissue"
+      pathname === "/passwordreissue" ||
+      pathname === "/" ||
+      pathname === "signup"
     ) {
       return;
     }
