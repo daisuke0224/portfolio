@@ -60,10 +60,11 @@ export const SignUp: FC<NextPage> = () => {
       if (user) {
         // ユーザーがログインしている場合、その UID を teamId に設定
         setTeamId(user.uid);
-      } else {
-        // ユーザーがログインしていない場合、適切な処理を行う（例：ログインページにリダイレクト）
-        router.push("/login");
       }
+      // else {
+      //   // ユーザーがログインしていない場合、適切な処理を行う（例：ログインページにリダイレクト）
+      //   router.push("/login");
+      // }
     });
   }, []); // 空の依存配列を渡すことで、マウント時に1回だけ実行されます
 
