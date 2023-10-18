@@ -158,16 +158,18 @@ export default function passwordreissue() {
               </Grid>
             </Box> */}
 
-              <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <Grid container spacing={2}>
-                  <Grid md={12}>
-                    <div className={styles.app}>
-                      <Header></Header>
-                      <TaskCards></TaskCards>
-                    </div>
+              <header className={styles.header}>
+                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                  <Grid container spacing={2.5}>
+                    <Grid md={12}>
+                      <div className={styles.app}>
+                        <Header></Header>
+                        <TaskCards></TaskCards>
+                      </div>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Box>
+                </Box>
+              </header>
             </Box>
           </Grid>
         </Box>
