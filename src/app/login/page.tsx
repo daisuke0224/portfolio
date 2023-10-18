@@ -5,6 +5,7 @@ import { auth } from "@/firebase/client";
 import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
 import styles from "./page.module.css";
+import { Divider, Typography } from "@mui/material";
 
 export const Login = () => {
   const router = useRouter();
@@ -32,8 +33,10 @@ export const Login = () => {
     <div className={styles.app}>
       <div className={styles.formContainer}>
         <form>
-          <h1>ログインフォーム</h1>
-          <hr />
+          <Typography variant="h2" textAlign="center" mt={1} sx={{ mb: 3 }}>
+            ログイン
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
           <div className={styles.uiForm}>
             <div className={styles.formField}>
               <label>メールアドレス</label>

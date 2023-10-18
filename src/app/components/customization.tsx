@@ -112,7 +112,6 @@ export default function CustomizedTables() {
         <TableHead>
           <TableRow>
             <StyledTableCell align="center">No</StyledTableCell>
-            <StyledTableCell align="center">チーム名</StyledTableCell>
             <StyledTableCell align="center">営業マン名</StyledTableCell>
             <StyledTableCell align="center">顧客名</StyledTableCell>
             <StyledTableCell align="center">案件名</StyledTableCell>
@@ -132,9 +131,6 @@ export default function CustomizedTables() {
                   {index + 1}
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  {customer.venderTeamId}
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
                   {customer.venderName}
                 </StyledTableCell>
                 <StyledTableCell align="right">
@@ -147,10 +143,10 @@ export default function CustomizedTables() {
                   {customer.productName}
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  {customer.piece}
+                  {new Intl.NumberFormat().format(Number(customer.piece))}
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  {customer.income}
+                  {new Intl.NumberFormat().format(Number(customer.income))}
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   {customer.negotiationflag}
