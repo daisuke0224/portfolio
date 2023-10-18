@@ -101,15 +101,7 @@ export default function passwordreissue() {
       <Fragment>
         <form onSubmit={handleSubmit(upDateCustomerData)}>
           <div style={{ margin: "20px" }}></div>
-          <Container
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: "center",
-              minHeight: "100vh",
-            }}
-          >
+          <Container sx={{}}>
             <Stack
               sx={{
                 display: "flex",

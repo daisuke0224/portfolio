@@ -168,16 +168,6 @@ export default function passwordreissue() {
                   </Grid>
                 </Grid>
               </Box>
-              <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <Grid container spacing={2}>
-                  <Grid md={12}>
-                    <div className={styles.app}>
-                      <Header></Header>
-                      <TaskCards2></TaskCards2>
-                    </div>
-                  </Grid>
-                </Grid>
-              </Box>
             </Box>
           </Grid>
         </Box>

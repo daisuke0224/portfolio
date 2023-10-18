@@ -45,7 +45,6 @@ export default function passwordreissue() {
             案件一覧
           </Typography>
           <Divider sx={{ mb: 3 }} />
-
           <Customization />
           <Box sx={{ mt: 2 }}>
             <Button variant="contained" color="secondary" href="/home2">

@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { LoginForm } from "@/features/common/types";
 import Button from "@mui/material/Button";
 import styles from "./page.module.css";
-import { Fab, TextField } from "@mui/material";
+import { Divider, Fab, TextField, Typography } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { db, auth, storage } from "@/firebase/client";
 import { styled } from "@mui/material/styles";
@@ -178,8 +178,12 @@ export const SignUp: FC<NextPage> = () => {
     <div className={styles.app}>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit(isValid)}>
-          <h1>アカウント登録フォーム</h1>
-          <hr />
+          <Typography variant="h3" textAlign="center" mt={2} sx={{ mb: 3 }}>
+            管理者アカウント
+            <br />
+            登録フォーム
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
           <div className={styles.uiForm}>
             <TextField
               id="名前"
