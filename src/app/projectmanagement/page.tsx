@@ -22,7 +22,7 @@ export default function passwordreissue() {
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <ResponsiveAppBar></ResponsiveAppBar>
       <div style={{ margin: "20px" }}></div>
-      <Container
+      <Stack
         sx={{
           display: "flex",
           flexWrap: "wrap",
@@ -39,6 +39,7 @@ export default function passwordreissue() {
           sx={{
             boxShadow: 8,
             borderRadius: "16px",
+            width: "80%",
           }}
         >
           <Typography variant="h3" textAlign="center" mt={2} sx={{ mb: 3 }}>
@@ -52,7 +53,7 @@ export default function passwordreissue() {
             </Button>
           </Box>
         </Box>
-      </Container>
+      </Stack>
       <div style={{ margin: "20px" }}></div>
       <BottomAppBar></BottomAppBar>
     </div>
