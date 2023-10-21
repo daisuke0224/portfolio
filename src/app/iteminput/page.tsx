@@ -202,7 +202,6 @@ export default function passwordreissue() {
                   color="secondary"
                   sx={{ mb: 3 }}
                   name="piece"
-                  value={piece}
                   {...register("piece", {
                     required: "見込個数（月間）を入力してください",
                     pattern: {
@@ -222,7 +221,6 @@ export default function passwordreissue() {
                   color="secondary"
                   sx={{ mb: 3 }}
                   name="income"
-                  value={income}
                   {...register("income", {
                     required: "見込収入（月間）を入力してください",
                     pattern: {

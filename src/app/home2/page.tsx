@@ -142,7 +142,10 @@ export default function passwordreissue() {
                     <Grid xs={12} md={6}>
                       <Item sx={{ padding: 2 }}>
                         <h1>案件金額</h1>
-                        <StackedBarChart></StackedBarChart>
+                        <StackedBarChart
+                          itemdatas={barChartDatas}
+                          teamId={userData.teamId}
+                        ></StackedBarChart>
                       </Item>
                     </Grid>
                   </Grid>

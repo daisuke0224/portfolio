@@ -93,6 +93,15 @@ export default function CustomizedTables() {
     return venderTeamData.teamId;
   };
 
+  const getTeamAdmin = async (venderUid: string) => {
+    const teamAdminRef = doc(db, "users", venderUid);
+    const teamAdminDoc = await getDoc(teamAdminRef);
+    const teamAdminData = teamAdminDoc.exists()
+      ? teamAdminDoc.data()
+      : { isTeamAdmin: "Unknown" };
+    return teamAdminData.isTeamAdmin;
+  };
+
   React.useEffect(() => {
     const getCustomers = async () => {
       // ユーザーのログイン情報を取得
@@ -102,6 +111,7 @@ export default function CustomizedTables() {
       const venderUid = user.uid;
       //追加
       const venderTeamId = await getVenderTeam(venderUid);
+      const isTeamAdmin = await getTeamAdmin(venderUid);
 
       const data = await getDocs(collection(db, "customers"));
       // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
@@ -114,19 +124,25 @@ export default function CustomizedTables() {
       )) as CustomerData[];
 
       // ログインしている本人のvenderUidと一致する情報のみをフィルタリング
-      const filteredCustomersData = customersData.filter(
-        (customer) =>
-          customer.venderUid === venderUid &&
-          //上記の&&から追加
-          customer.venderTeamId === venderTeamId
-      );
+      const filteredCustomersData = customersData.filter((customer) => {
+        if (isTeamAdmin === true) {
+          return customer.venderTeamId === venderTeamId;
+        } else {
+          return (
+            customer.venderUid === venderUid &&
+            customer.venderTeamId === venderTeamId
+          );
+        }
+      });
+      console.log(venderTeamId);
+      console.log(isTeamAdmin);
+
       console.log(filteredCustomersData);
       setCustomerList(filteredCustomersData);
     };
     getCustomers();
   }, []);
 
-  //削除
   const handleDeleteClick = (id) => {
     //削除対象のidをセット
     setCustomerToDelete(id);
