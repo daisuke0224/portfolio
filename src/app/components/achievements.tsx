@@ -113,7 +113,7 @@ export default function FullWidthGrid() {
   };
 
   React.useEffect(() => {
-    console.log("effect");
+    // console.log("effect");
     fetchUser();
   }, [auth, goalAmount]);
 

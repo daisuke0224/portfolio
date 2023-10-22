@@ -53,6 +53,7 @@ export default function passwordreissue() {
     const userData = userDoc.data();
     setUserData(userData);
 
+    console.log("1")
     // //チームの情報を取得
     // const usersQuery = query(collection(db, "users"));
     // const usersSnapshot = await getDocs(usersQuery);
@@ -74,6 +75,7 @@ export default function passwordreissue() {
       };
     });
     setPieChartDatas(pieChartData);
+    console.log("2")
 
     const barChartData = customersData.map((customer) => {
       return {
@@ -82,7 +84,8 @@ export default function passwordreissue() {
         value: customer.income,
       };
     });
-    console.log(barChartData);
+    console.log("3")
+    console.log({ barChartData });
     setBarChartDatas(barChartData);
   };
 
@@ -119,10 +122,13 @@ export default function passwordreissue() {
                     <Grid xs={12} md={6}>
                       <Item sx={{ padding: 2 }}>
                         <h1>金額</h1>
-                        <AcquisitionBarChart
-                          itemdatas={barChartDatas}
-                          teamId={userData.teamId}
-                        ></AcquisitionBarChart>
+                        {userData?.teamId && barChartDatas.length && (
+                          <AcquisitionBarChart
+                            itemdatas={barChartDatas}
+                            teamId={userData.teamId}
+                          ></AcquisitionBarChart>
+                        )}
+
                       </Item>
                     </Grid>
                   </Grid>
