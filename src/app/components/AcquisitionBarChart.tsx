@@ -19,15 +19,16 @@ const xLabels = [
 ];
 
 export default function AcquisitionBarChart({ itemdatas, teamId }) {
-  console.log(itemdatas);
+  console.log({ itemdatas });
+  console.log({ teamId });
   const [completedData, setCompletedData] = React.useState([]);
   const [inprogressData, setInprogressData] = React.useState([]);
   const [memberNames, setMemberNames] = React.useState([]);
 
   const fetch = async () => {
-    console.log(completedData);
-    console.log(inprogressData);
-    console.log(memberNames);
+    console.log({ completedData });
+    console.log({ inprogressData });
+    console.log({ memberNames });
     if (!teamId) {
       return;
     }
@@ -84,24 +85,32 @@ export default function AcquisitionBarChart({ itemdatas, teamId }) {
   };
 
   React.useEffect(() => {
+    console.log("effect");
     fetch().then(() => {
-      console.log(completedData);
-      console.log(inprogressData);
-      console.log(memberNames);
+      console.log({ completedData });
+      console.log({ inprogressData });
+      console.log({ memberNames });
     });
   }, [teamId, itemdatas]);
 
   return (
     <Box display="flex" justifyContent="center">
-      <BarChart
-        width={600}
-        height={400}
-        series={[
-          { data: pData, label: "獲得", id: "pvId", stack: "total" },
-          { data: uData, label: "商談中", id: "uvId", stack: "total" },
-        ]}
-        xAxis={[{ data: xLabels, scaleType: "band" }]}
-      />
+      {completedData.length && inprogressData.length && memberNames.length && (
+        <BarChart
+          width={600}
+          height={400}
+          series={[
+            { data: completedData, label: "獲得", id: "pvId", stack: "total" },
+            {
+              data: inprogressData,
+              label: "商談中",
+              id: "uvId",
+              stack: "total",
+            },
+          ]}
+          xAxis={[{ data: memberNames, scaleType: "band" }]}
+        />
+      )}
     </Box>
   );
 }
