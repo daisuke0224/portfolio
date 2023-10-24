@@ -102,16 +102,36 @@ export default function StackedBarChart({ itemdatas, teamId }) {
 
   return (
     <Box display="flex" justifyContent="center">
-      <BarChart
-        width={600}
-        height={400}
-        series={[
-          { data: pData, label: "獲得", id: "pvId", stack: "total" },
-          { data: uData, label: "商談中", id: "uvId", stack: "total" },
-          { data: aData, label: "失注", id: "avId", stack: "total" },
-        ]}
-        xAxis={[{ data: xLabels, scaleType: "band" }]}
-      />
+      {completedData.length &&
+        inprogressData.length &&
+        lostOrderData.length &&
+        memberNames.length && (
+          <BarChart
+            width={600}
+            height={400}
+            series={[
+              {
+                data: completedData,
+                label: "獲得",
+                id: "pvId",
+                stack: "total",
+              },
+              {
+                data: inprogressData,
+                label: "商談中",
+                id: "uvId",
+                stack: "total",
+              },
+              {
+                data: lostOrderData,
+                label: "失注",
+                id: "avId",
+                stack: "total",
+              },
+            ]}
+            xAxis={[{ data: memberNames, scaleType: "band" }]}
+          />
+        )}
     </Box>
   );
 }
