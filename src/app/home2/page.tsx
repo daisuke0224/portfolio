@@ -26,6 +26,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "@/firebase/client";
+import { count } from "console";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -38,6 +39,8 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function passwordreissue() {
   const [pieChartDatas, setPieChartDatas] = React.useState([]);
   const [barChartDatas, setBarChartDatas] = React.useState([]);
+  const [numberofprojectschartsDatas, setNumberofprojectschartsDatas] =
+    React.useState([]);
   const [userData, setUserData] = React.useState([]);
 
   const auth = userFirebaseAuthContext();
@@ -84,6 +87,14 @@ export default function passwordreissue() {
     });
     console.log(barChartData);
     setBarChartDatas(barChartData);
+
+    const numberofprojectschartsDatas = customersData.map((customer) => {
+      return {
+        venderUid: customer.venderUid,
+        label: customer.negotiationflag,
+      };
+    });
+    setNumberofprojectschartsDatas(numberofprojectschartsDatas);
   };
 
   React.useEffect(() => {
@@ -136,7 +147,10 @@ export default function passwordreissue() {
                     <Grid xs={12} md={6}>
                       <Item sx={{ padding: 2 }}>
                         <h1>案件数</h1>
-                        <NumberOfProjecfts></NumberOfProjecfts>
+                        <NumberOfProjecfts
+                          itemdatas={numberofprojectschartsDatas}
+                          teamId={userData.teamId}
+                        ></NumberOfProjecfts>
                       </Item>
                     </Grid>
                     <Grid xs={12} md={6}>
