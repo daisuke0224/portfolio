@@ -1,4 +1,3 @@
-//@ts-nocheck
 "use client";
 import * as React from "react";
 import styles from "./page.module.css";
@@ -120,7 +119,7 @@ export default function passwordreissue() {
                     required: "お名前を入力してください",
                   })}
                   onChange={(e) => setName(e.target.value)}
-                  helperText={errors.name?.message}
+                  helperText={errors.name?.message as React.ReactNode}
                   error={!!errors.name}
                 />
                 <TextField
@@ -139,7 +138,7 @@ export default function passwordreissue() {
                     },
                   })}
                   onChange={(e) => setMailAddress(e.target.value)}
-                  helperText={errors.mailaddress?.message}
+                  helperText={errors.mailaddress?.message as React.ReactNode}
                   error={!!errors.mailaddress}
                 />
                 <TextField
@@ -154,7 +153,9 @@ export default function passwordreissue() {
                     required: "お問合せ内容を入力してください",
                   })}
                   onChange={(e) => setInquireyDetails(e.target.value)}
-                  helperText={errors.inquireyDetails?.message}
+                  helperText={
+                    errors.inquireyDetails?.message as React.ReactNode
+                  }
                   error={!!errors.inquireyDetails}
                 />
                 <Button type="submit" variant="contained">

@@ -1,4 +1,3 @@
-//@ts-nocheck
 "use client";
 import * as React from "react";
 import styles from "./page.module.css";
@@ -81,7 +80,7 @@ export default function passwordreissue() {
   const passwordValue = watch("password", "");
 
   // パスワードと確認用パスワードが一致するかをチェックする独自のバリデーションルール
-  const validatePasswordMatch = (value) => {
+  const validatePasswordMatch = (value: string) => {
     return value === passwordValue || "パスワードが一致しません";
   };
 
@@ -142,13 +141,12 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="userName"
                   value={userName}
                   {...register("userName", {
                     required: "ユーザー名を入力してください",
                   })}
                   onChange={(e) => setUserName(e.target.value)}
-                  helperText={errors.userName?.message}
+                  helperText={errors.userName?.message as React.ReactNode}
                   error={!!errors.userName}
                 />
                 <TextField
@@ -158,7 +156,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="mailAddress"
                   value={mailAddress}
                   {...register("mailAddress", {
                     required: "メールアドレスを入力してください",
@@ -168,7 +165,7 @@ export default function passwordreissue() {
                     },
                   })}
                   onChange={(e) => setMailAddress(e.target.value)}
-                  helperText={errors.mailAddress?.message}
+                  helperText={errors.mailAddress?.message as React.ReactNode}
                   error={!!errors.mailAddress}
                 />
                 <TextField
@@ -178,7 +175,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="password"
                   value={password}
                   {...register("password", {
                     required: "パスワードを入力してください",
@@ -188,7 +184,7 @@ export default function passwordreissue() {
                     },
                   })}
                   onChange={(e) => setPassword(e.target.value)}
-                  helperText={errors.password?.message}
+                  helperText={errors.password?.message as React.ReactNode}
                   error={!!errors.password}
                 />
                 <TextField
@@ -198,7 +194,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="reenterPassword"
                   value={reenterPassword}
                   {...register("reenterPassword", {
                     required: "パスワードの確認を入力してください",
@@ -209,7 +204,9 @@ export default function passwordreissue() {
                     validate: validatePasswordMatch, //独自のバリデーションルール適用
                   })}
                   onChange={(e) => setReenterPassword(e.target.value)}
-                  helperText={errors.reenterPassword?.message}
+                  helperText={
+                    errors.reenterPassword?.message as React.ReactNode
+                  }
                   error={!!errors.reenterPassword}
                 />
                 <Grid

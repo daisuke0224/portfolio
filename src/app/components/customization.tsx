@@ -1,4 +1,3 @@
-//@ts-nocheck
 "use client";
 import * as React from "react";
 import { styled } from "@mui/material/styles";
@@ -64,12 +63,15 @@ interface CustomerData {
   edit: string;
   venderTeamId: string;
   venderUid: string;
+  venderName: string; // 新しいプロパティを追加
 }
 
 export default function CustomizedTables() {
   const router = useRouter();
   const [customerList, setCustomerList] = React.useState<CustomerData[]>([]);
-  const [customerToDelete, setCustomerToDelete] = React.useState(null);
+  const [customerToDelete, setCustomerToDelete] = React.useState<string | null>(
+    null
+  );
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     React.useState(false);
 
@@ -143,7 +145,7 @@ export default function CustomizedTables() {
     getCustomers();
   }, []);
 
-  const handleDeleteClick = (id) => {
+  const handleDeleteClick = (id: string) => {
     //削除対象のidをセット
     setCustomerToDelete(id);
     //確認ダイアログを開く
@@ -161,12 +163,14 @@ export default function CustomizedTables() {
   const handleDeleteCOnfirmed = async () => {
     try {
       //Firestoreから削除
-      await deleteDoc(doc(db, "customers", customerToDelete));
-      //削除が成功したら顧客リストを更新
-      const updatedCustomerList = customerList.filter(
-        (customer) => customer.id !== customerToDelete
-      );
-      setCustomerList(updatedCustomerList);
+      if (customerToDelete !== null) {
+        await deleteDoc(doc(db, "customers", customerToDelete));
+        //削除が成功したら顧客リストを更新
+        const updatedCustomerList = customerList.filter(
+          (customer) => customer.id !== customerToDelete
+        );
+        setCustomerList(updatedCustomerList);
+      }
     } catch (error) {
       console.log(error);
     } finally {

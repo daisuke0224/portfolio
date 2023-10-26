@@ -1,4 +1,3 @@
-//@ts-nocheck
 "use client";
 import * as React from "react";
 import styles from "./page.module.css";
@@ -23,7 +22,7 @@ export default function passwordreissue() {
     setMessage("");
   }, []);
 
-  const onClickAdd = (data) => {
+  const onClickAdd: any = (data: { mailAddress: string }) => {
     const { mailAddress } = data;
     //FireBaseでパスワード再発行リクエストを送信
     sendPasswordResetEmail(auth, mailAddress)
@@ -98,7 +97,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="mailAddress"
                   {...register("mailAddress", {
                     required: "メールアドレスを入力してください",
                     pattern: {
@@ -107,7 +105,7 @@ export default function passwordreissue() {
                     },
                   })}
                   onChange={(e) => setMailAddress(e.target.value)}
-                  helperText={errors.mailAddress?.message}
+                  helperText={errors.mailAddress?.message as React.ReactNode}
                   error={!!errors.mailAddress}
                 />
                 <Button
