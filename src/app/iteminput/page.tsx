@@ -47,7 +47,9 @@ export default function passwordreissue() {
 
   const auth = userFirebaseAuthContext();
   const user = auth.currentUser;
-  console.log(user);
+  if (user) {
+    console.log(user);
+  }
 
   const onClickAdd = async () => {
     const userUID = user?.uid || "";
@@ -136,7 +138,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="date"
                   value={date}
                   {...register("date", {
                     required: "日付を入力してください",
@@ -153,7 +154,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="customerName"
                   value={customerName}
                   {...register("customerName", {
                     required: "顧客名を入力してください",
@@ -169,7 +169,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="projectTitle"
                   value={projectTitle}
                   {...register("projectTitle", {
                     required: "案件名を入力してください",
@@ -185,7 +184,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="productName"
                   value={productName}
                   {...register("productName", {
                     required: "販売商品名を入力してください",
@@ -201,7 +199,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="piece"
                   {...register("piece", {
                     required: "見込個数（月間）を入力してください",
                     pattern: {
@@ -220,7 +217,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="income"
                   {...register("income", {
                     required: "見込収入（月間）を入力してください",
                     pattern: {
@@ -240,7 +236,6 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
-                  name="negotiation"
                   value={negotiation}
                   {...register("negotiation", {
                     required: "交渉フラグを入力してください",
@@ -260,7 +255,6 @@ export default function passwordreissue() {
                   multiline
                   rows={10}
                   sx={{ mb: 3 }}
-                  name="comment"
                   value={comment}
                   {...register("comment", {
                     required: "コメントを入力してください",

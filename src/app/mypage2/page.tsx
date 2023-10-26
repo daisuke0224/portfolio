@@ -17,7 +17,7 @@ import {
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "@/firebase/client";
+import { db, storage } from "@/firebase/client";
 import { styled } from "@mui/material/styles";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -25,6 +25,7 @@ import { getAuth, updateEmail } from "firebase/auth";
 import BottomAppBar from "../components/footer";
 import PrimarySearchAppBar from "../components/appbar";
 import ResponsiveAppBar from "../components/appmenubar";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -44,7 +45,7 @@ export const mypage = () => {
 
   const [userName, setUserName] = React.useState("");
   const [mailAddress, setMailAddress] = React.useState("");
-  const [photoURL, setPhotoURL] = React.useState("/static/images/avatar/1.jpg");
+  const [photoURL, setPhotoURL] = React.useState(null);
   const [missingFields, setMissingFields] = React.useState([]);
   const [success, setSuccess] = React.useState(false);
 
@@ -58,13 +59,31 @@ export const mypage = () => {
     if (user.photoURL) {
       setPhotoURL(user.photoURL);
     } else {
-      setPhotoURL(`/static/images/avatar/${user.name[0].toLowerCase()}.jpg`);
+      const storageRef = ref(storage, `profile_images/${userId}`);
+      const photoURL = await getDownloadURL(storageRef);
+      setPhotoURL(photoURL);
     }
   };
 
   React.useEffect(() => {
     getUserData();
   }, []);
+
+  // 1. `<Button>`の`onClick`プロパティに、画像ファイルを選択する処理を追加
+  let file;
+
+  const handleFileSelect = (event) => {
+    file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const photoDataUrl = reader.result;
+      const storageRef = ref(storage, `profile_images/${userId}`);
+      await uploadBytes(storageRef, file);
+      const photoURL = await getDownloadURL(storageRef);
+      setPhotoURL(photoURL);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const upDateUserData = async () => {
     const userRef = doc(db, "users", userId);
@@ -78,10 +97,26 @@ export const mypage = () => {
       return;
     }
 
-    await updateDoc(userRef, {
-      name: userName,
-      email: mailAddress, // Firestoreのemailを更新する
-    });
+    if (photoURL !== null) {
+      // Storageに画像を保存する
+      const storageRef = ref(storage, `user_photos/${userId}`);
+      await uploadBytes(storageRef, file);
+
+      // Storageから画像のURLを取得する
+      const photoURL = await getDownloadURL(storageRef);
+
+      await updateDoc(userRef, {
+        name: userName,
+        email: mailAddress,
+        photoURL: photoURL,
+      });
+    } else {
+      await updateDoc(userRef, {
+        name: userName,
+        email: mailAddress,
+        photoURL: null,
+      });
+    }
 
     // Authenticationのメールアドレスを更新する
     const auth = getAuth();
@@ -90,17 +125,6 @@ export const mypage = () => {
       await updateEmail(user, mailAddress);
     }
     setSuccess(true);
-  };
-
-  // 1. `<Button>`の`onClick`プロパティに、画像ファイルを選択する処理を追加
-  const handleFileSelect = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      const photoDataUrl = reader.result;
-      setPhotoURL(photoDataUrl);
-    };
-    reader.readAsDataURL(file);
   };
 
   return (
@@ -195,7 +219,7 @@ export const mypage = () => {
                 variant="contained"
                 fullWidth
                 sx={{ mb: 3 }}
-                onClick={upDateUserData}
+                onClick={() => upDateUserData()}
               >
                 更新
               </Button>
