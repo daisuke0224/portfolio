@@ -111,12 +111,11 @@ export default function CustomizedTables() {
       if (!user) return; // ユーザーがログインしていない場合は処理を終了
 
       const venderUid = user.uid;
-      //追加
+
       const venderTeamId = await getVenderTeam(venderUid);
       const isTeamAdmin = await getTeamAdmin(venderUid);
 
       const data = await getDocs(collection(db, "customers"));
-      // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       const customersData = (await Promise.all(
         data.docs.map(async (doc) => {
           const customerData = doc.data();
