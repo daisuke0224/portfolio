@@ -7,18 +7,14 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { userFirebaseAuthContext } from "@/firebase/auth";
 import {
-  arrayUnion,
   collection,
   doc,
   getDoc,
   getDocs,
   query,
-  setDoc,
-  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "@/firebase/client";
-import { set } from "react-hook-form";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
