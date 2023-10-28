@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function passwordreissue() {
+export default function passwordReissue() {
   const [password, setPassword] = React.useState("");
   const [reenterPassword, setReenterPassword] = React.useState("");
 
