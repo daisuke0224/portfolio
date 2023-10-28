@@ -35,7 +35,7 @@ import PrimarySearchAppBar from "../components/appbar";
 import ResponsiveAppBar from "../components/appmenubar";
 import BottomAppBar from "../components/footer";
 
-export default function passwordreissue() {
+export default function adminMenuUserDelete() {
   const [users, setUsers] = React.useState([]);
   const [isDeleteSuccess, setIsDeleteSuccess] = React.useState(false);
 

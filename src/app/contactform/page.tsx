@@ -19,7 +19,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/firebase/client";
 import { useForm } from "react-hook-form";
 
-export default function passwordreissue() {
+export default function contactForm() {
   const [name, setName] = React.useState("");
   const [mailaddress, setMailAddress] = React.useState("");
   const [inquireyDetails, setInquireyDetails] = React.useState("");

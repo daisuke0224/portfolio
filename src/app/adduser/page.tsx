@@ -20,7 +20,7 @@ import BottomAppBar from "../components/footer";
 import PrimarySearchAppBar from "../components/appbar";
 import ResponsiveAppBar from "../components/appmenubar";
 
-export default function passwordreissue() {
+export default function adduser() {
   const [userName, setUserName] = React.useState("");
   const [mailAddress, setMailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
