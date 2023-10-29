@@ -62,9 +62,22 @@ export default function passwordreissue() {
     // const usersData = usersSnapshot.docs.map((doc) => doc.data());
     // setUsers(usersData);
 
+    const now = new Date();
+
+    const currentYear = now.getFullYear();
+    const currentMonth = ("0" + (now.getMonth() + 1)).slice(-2);
+    const currentDate = now.getDate();
+
+    console.log(currentYear);
+    console.log(currentMonth);
+    console.log(currentDate);
+
+    const dateString = `${currentYear}-${currentMonth}-01`;
+
     const customersQuery = query(
       collection(db, "customers"),
-      where("venderTeamId", "==", userData.teamId)
+      where("venderTeamId", "==", userData.teamId),
+      where("date", ">=", dateString)
     );
 
     const customersDocs = await getDocs(customersQuery);
