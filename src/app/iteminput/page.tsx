@@ -32,6 +32,7 @@ export default function passwordreissue() {
   const [income, setIncome] = useState("");
   const [negotiation, setNegotiation] = useState("");
   const [comment, setComment] = useState("");
+  const [acquisitionDate, setAcquisitionDate] = useState("");
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function passwordreissue() {
     setIncome("");
     setNegotiation("");
     setComment("");
+    setAcquisitionDate("");
   }, []);
 
   const auth = userFirebaseAuthContext();
@@ -62,6 +64,10 @@ export default function passwordreissue() {
     const customersRef = collection(db, "customers");
     const customersDocRef = doc(customersRef);
 
+    // 1. dateから年と月の情報を抽出
+    const dateParts = date.split("-"); // dateを年と月に分割
+    const month = dateParts[1] + "月";
+
     await setDoc(customersDocRef, {
       id: customersDocRef.id,
       date: date,
@@ -74,6 +80,8 @@ export default function passwordreissue() {
       comment: comment,
       venderTeamId: teamId,
       venderUid: userUID,
+      month: month, // ここでmonthプロパティを追加
+      acquisitionDate: acquisitionDate,
     });
 
     setSuccess(true);
@@ -248,6 +256,37 @@ export default function passwordreissue() {
                   <MenuItem value={"獲得"}>獲得</MenuItem>
                   <MenuItem value={"失注"}>失注</MenuItem>
                 </TextField>
+                <TextField
+                  select
+                  id="獲得月"
+                  label="獲得日"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  value={acquisitionDate}
+                  {...register("acquisitionDate", {
+                    required: "獲得日項目を入力してください",
+                  })}
+                  onChange={(e) => setAcquisitionDate(e.target.value)}
+                  helperText={errors.acquisitionDate?.message}
+                  error={!!errors.acquisitionDate}
+                >
+                  <MenuItem value={"未獲得"}>未獲得</MenuItem>
+                  <MenuItem value={"1月"}>1月</MenuItem>
+                  <MenuItem value={"2月"}>2月</MenuItem>
+                  <MenuItem value={"3月"}>3月</MenuItem>
+                  <MenuItem value={"4月"}>4月</MenuItem>
+                  <MenuItem value={"5月"}>5月</MenuItem>
+                  <MenuItem value={"6月"}>6月</MenuItem>
+                  <MenuItem value={"7月"}>7月</MenuItem>
+                  <MenuItem value={"8月"}>8月</MenuItem>
+                  <MenuItem value={"9月"}>9月</MenuItem>
+                  <MenuItem value={"10月"}>10月</MenuItem>
+                  <MenuItem value={"11月"}>11月</MenuItem>
+                  <MenuItem value={"12月"}>12月</MenuItem>
+                </TextField>
+
                 <TextField
                   id="コメント"
                   label="コメント"

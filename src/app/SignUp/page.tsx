@@ -5,19 +5,12 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
-  sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
-import { FirebaseError, initializeApp } from "firebase/app";
-import { getFirestore, updateDoc } from "firebase/firestore";
+import { FirebaseError } from "firebase/app";
+import { updateDoc } from "firebase/firestore";
 import { collection, doc, setDoc } from "firebase/firestore";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytes,
-  uploadString,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { NextPage } from "next";
 import { FC } from "react";
 import { useRouter } from "next/navigation";
@@ -25,8 +18,7 @@ import { useForm } from "react-hook-form";
 import { LoginForm } from "@/features/common/types";
 import Button from "@mui/material/Button";
 import styles from "./page.module.css";
-import { Divider, Fab, TextField, Typography } from "@mui/material";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { Divider, TextField, Typography } from "@mui/material";
 import { db, auth, storage } from "@/firebase/client";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -50,23 +42,6 @@ export const SignUp: FC<NextPage> = () => {
   const [password, setPassword] = React.useState("");
   const [imageFile, setImageFile] = React.useState(""); // 画像ファイルの初期化
   const [teamId, setTeamId] = React.useState(""); // チームの識別子を追加
-
-  // コンポーネントがマウントされたときに、ユーザー情報を取得し、teamId を設定する
-  React.useEffect(() => {
-    // Firebase Authentication から auth オブジェクトを取得
-    const auth = getAuth();
-    // ユーザーがログインしているかどうかを確認
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // ユーザーがログインしている場合、その UID を teamId に設定
-        setTeamId(user.uid);
-      }
-      // else {
-      //   // ユーザーがログインしていない場合、適切な処理を行う（例：ログインページにリダイレクト）
-      //   router.push("/login");
-      // }
-    });
-  }, []); // 空の依存配列を渡すことで、マウント時に1回だけ実行されます
 
   const uploadImage = async (imageFile, userUID) => {
     try {
@@ -102,7 +77,7 @@ export const SignUp: FC<NextPage> = () => {
         isValid: true, //有効なユーザーかどうか
         isTeamAdmin: true, //チームの管理者かどうか
         name: userName, //ユーザー名
-        teamId: teamId, //チームの識別子
+        teamId: uid, //チームの識別子
         email: mailAddress, //メールアドレス
         id: uid,
       };

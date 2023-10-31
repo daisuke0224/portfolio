@@ -1,7 +1,16 @@
+//@ts-nocheck
 "use client";
 import { Fragment, useEffect, useState } from "react";
 import styles from "./page.module.css";
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Customization from "../components/customization";
 import PrimarySearchAppBar from "../components/appbar";
 import ResponsiveAppBar from "../components/appmenubar";
@@ -36,6 +45,7 @@ export default function passwordreissue() {
           <Typography variant="h3" textAlign="center" mt={2} sx={{ mb: 3 }}>
             案件一覧
           </Typography>
+
           <Divider sx={{ mb: 3 }} />
           <Customization />
           <Box sx={{ mt: 2 }}>
