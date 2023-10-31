@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 import * as React from "react";
 import { styled } from "@mui/material/styles";
@@ -15,6 +16,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  MenuItem,
+  TextField,
 } from "@mui/material";
 import {
   collection,
@@ -59,6 +62,7 @@ interface CustomerData {
   piece: string;
   income: string;
   negotiationflag: string;
+  acquisitionMonth: string;
   comment: string;
   edit: string;
   venderTeamId: string;
@@ -74,6 +78,22 @@ export default function CustomizedTables() {
   );
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     React.useState(false);
+  const [selectedNegotiationFlag, setSelectedNegotiationFlag] =
+    React.useState("すべて");
+  const [selectedMonth, setSelectedMonth] = React.useState("すべて");
+  const [selectedAcquisitionMonth, setSelectedAcquisitionMonth] =
+    React.useState("すべて");
+
+  const handleNegotiationFlagChange = (e) => {
+    setSelectedNegotiationFlag(e.target.value);
+  };
+  const handleMonthChange = (e) => {
+    setSelectedMonth(e.target.value);
+  };
+
+  const handleAcquisitionMonthChange = (e) => {
+    setSelectedAcquisitionMonth(e.target.value);
+  };
 
   //VenderUidからVenderNameを取得
   const getVenderName = async (venderUid: string) => {
@@ -210,74 +230,225 @@ export default function CustomizedTables() {
               </DialogActions>
             </Dialog>
           )}
+
           <TableRow>
             <StyledTableCell align="center">No</StyledTableCell>
             <StyledTableCell align="center">営業マン名</StyledTableCell>
+            <StyledTableCell align="center">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <div style={{ marginBottom: 4, fontSize: 14 }}>
+                  更新日付
+                  <br />
+                  ↓以下より選択可能
+                </div>
+                <TextField
+                  select
+                  value={selectedMonth}
+                  onChange={handleMonthChange}
+                  variant="outlined"
+                  style={{
+                    width: "100%",
+                    backgroundColor: "black", // 背景色を黒に設定
+                  }}
+                  InputProps={{
+                    style: { color: "white" }, // テキスト色を白に設定
+                  }}
+                  size="small"
+                >
+                  <MenuItem value="すべて">すべて</MenuItem>
+                  <MenuItem value="1月">1月</MenuItem>
+                  <MenuItem value="2月">2月</MenuItem>
+                  <MenuItem value="3月">3月</MenuItem>
+                  <MenuItem value="4月">4月</MenuItem>
+                  <MenuItem value="5月">5月</MenuItem>
+                  <MenuItem value="6月">6月</MenuItem>
+                  <MenuItem value="7月">7月</MenuItem>
+                  <MenuItem value="8月">8月</MenuItem>
+                  <MenuItem value="9月">9月</MenuItem>
+                  <MenuItem value="10月">10月</MenuItem>
+                  <MenuItem value="11月">11月</MenuItem>
+                  <MenuItem value="12月">12月</MenuItem>
+                </TextField>
+              </div>
+            </StyledTableCell>
+
             <StyledTableCell align="center">顧客名</StyledTableCell>
             <StyledTableCell align="center">案件名</StyledTableCell>
             <StyledTableCell align="center">販売商品名</StyledTableCell>
             <StyledTableCell align="center">見込み個数</StyledTableCell>
             <StyledTableCell align="center">見込み収入</StyledTableCell>
-            <StyledTableCell align="center">交渉フラグ</StyledTableCell>
+            <StyledTableCell align="center">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <div style={{ marginBottom: 4, fontSize: 14 }}>
+                  交渉フラグ
+                  <br />
+                  ↓以下より選択可能
+                </div>
+                <TextField
+                  select
+                  value={selectedNegotiationFlag}
+                  onChange={handleNegotiationFlagChange}
+                  variant="outlined"
+                  style={{
+                    width: "100%",
+                    backgroundColor: "black", // 背景色を黒に設定
+                  }}
+                  InputProps={{
+                    style: { color: "white" }, // テキスト色を白に設定
+                  }}
+                  size="small"
+                >
+                  <MenuItem value="すべて">すべて</MenuItem>
+                  <MenuItem value="商談中">商談中</MenuItem>
+                  <MenuItem value="獲得">獲得</MenuItem>
+                  <MenuItem value="失注">失注</MenuItem>
+                </TextField>
+              </div>
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <div style={{ marginBottom: 4, fontSize: 14 }}>
+                  獲得月
+                  <br />
+                  ↓以下より選択可能
+                </div>
+                <TextField
+                  select
+                  value={selectedAcquisitionMonth}
+                  onChange={handleAcquisitionMonthChange}
+                  variant="outlined"
+                  style={{
+                    width: "100%",
+                    backgroundColor: "black", // 背景色を黒に設定
+                  }}
+                  InputProps={{
+                    style: { color: "white" }, // テキスト色を白に設定
+                  }}
+                  size="small"
+                >
+                  <MenuItem value="すべて">すべて</MenuItem>
+                  <MenuItem value="未獲得">未獲得</MenuItem>
+                  <MenuItem value="1月">1月</MenuItem>
+                  <MenuItem value="2月">2月</MenuItem>
+                  <MenuItem value="3月">3月</MenuItem>
+                  <MenuItem value="4月">4月</MenuItem>
+                  <MenuItem value="5月">5月</MenuItem>
+                  <MenuItem value="6月">6月</MenuItem>
+                  <MenuItem value="7月">7月</MenuItem>
+                  <MenuItem value="8月">8月</MenuItem>
+                  <MenuItem value="9月">9月</MenuItem>
+                  <MenuItem value="10月">10月</MenuItem>
+                  <MenuItem value="11月">11月</MenuItem>
+                  <MenuItem value="12月">12月</MenuItem>
+                </TextField>
+              </div>
+            </StyledTableCell>
             <StyledTableCell align="center">コメント</StyledTableCell>
             <StyledTableCell align="center">編集</StyledTableCell>
             <StyledTableCell align="center">削除</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {customerList.map((customer, index) => {
-            return (
-              <StyledTableRow key={customer.id}>
-                <StyledTableCell component="th" scope="row">
-                  {index + 1}
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  {customer.venderName}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {customer.customerName}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {customer.projectTitle}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {customer.productName}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {new Intl.NumberFormat().format(Number(customer.piece))}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {new Intl.NumberFormat().format(Number(customer.income))}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {customer.negotiationflag}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {customer.comment}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    sx={{ m: 1 }}
-                    onClick={() => router.push(`/itemedit?id=${customer.id}`)}
-                  >
-                    編集
-                  </Button>
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    sx={{ m: 1 }}
-                    onClick={() => handleDeleteClick(customer.id)}
-                  >
-                    削除
-                  </Button>
-                </StyledTableCell>
-              </StyledTableRow>
-            );
-          })}
+          {customerList
+            .filter((customer) => {
+              if (selectedNegotiationFlag === "すべて") {
+                return true;
+              } else {
+                return customer.negotiationflag === selectedNegotiationFlag;
+              }
+            })
+            .filter((customer) => {
+              if (selectedMonth === "すべて") {
+                return true;
+              } else {
+                return customer.month === selectedMonth; // データの月が選択された月と一致するかを確認
+              }
+            })
+            .filter((customer) => {
+              if (selectedAcquisitionMonth === "すべて") {
+                return true;
+              } else {
+                return customer.acquisitionDate === selectedAcquisitionMonth; // データの月が選択された月と一致するかを確認
+              }
+            })
+
+            .map((customer, index) => {
+              return (
+                <StyledTableRow key={customer.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {index + 1}
+                  </StyledTableCell>
+                  <StyledTableCell component="th" scope="row">
+                    {customer.venderName}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {customer.date}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {customer.customerName}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {customer.projectTitle}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {customer.productName}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {new Intl.NumberFormat().format(Number(customer.piece))}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {new Intl.NumberFormat().format(Number(customer.income))}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {customer.negotiationflag}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {customer.acquisitionDate}
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    {customer.comment}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      sx={{ m: 1 }}
+                      onClick={() => router.push(`/itemedit?id=${customer.id}`)}
+                    >
+                      編集
+                    </Button>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      sx={{ m: 1 }}
+                      onClick={() => handleDeleteClick(customer.id)}
+                    >
+                      削除
+                    </Button>
+                  </StyledTableCell>
+                </StyledTableRow>
+              );
+            })}
         </TableBody>
       </Table>
     </TableContainer>

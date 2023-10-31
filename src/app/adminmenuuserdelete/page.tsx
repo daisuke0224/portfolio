@@ -19,7 +19,6 @@ import Avatar from "@mui/material/Avatar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   collection,
-  deleteDoc,
   doc,
   getDocs,
   where,
@@ -27,7 +26,6 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { auth, db, storage } from "@/firebase/client";
-import { deleteObject, getStorage, ref } from "firebase/storage";
 import { userFirebaseAuthContext } from "@/firebase/auth";
 import { functions } from "@/firebase/client";
 import { httpsCallable } from "firebase/functions";

@@ -12,7 +12,6 @@ import StackedBarChart from "../components/barscharts";
 import NumberOfProjecfts from "../components/numberofprojectscharts";
 import FullWidthGrid from "../components/achievements";
 import { TaskCards } from "../components/task/TaskCards";
-import { TaskCards2 } from "../components/task/TaskCards2";
 
 import { Header } from "../components/header/Header";
 import AcquisitionBarChart from "../components/AcquisitionBarChart";
@@ -26,7 +25,6 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "@/firebase/client";
-import { count } from "console";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -55,12 +53,6 @@ export default function passwordreissue() {
     const userDoc = await getDoc(userRef);
     const userData = userDoc.data();
     setUserData(userData);
-
-    // //チームの情報を取得
-    // const usersQuery = query(collection(db, "users"));
-    // const usersSnapshot = await getDocs(usersQuery);
-    // const usersData = usersSnapshot.docs.map((doc) => doc.data());
-    // setUsers(usersData);
 
     const now = new Date();
 

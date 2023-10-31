@@ -41,6 +41,7 @@ export default function passwordreissue() {
     setValue("piece", costomer.piece);
     setValue("income", costomer.income);
     setValue("negotiationflag", costomer.negotiationflag);
+    setValue("acquisitionDate", costomer.acquisitionDate);
     setValue("comment", costomer.comment);
   };
 
@@ -51,6 +52,11 @@ export default function passwordreissue() {
   const upDateCustomerData = async () => {
     const customerRef = doc(db, "customers", customerId);
 
+    // 1. dateから年と月の情報を抽出
+    const date = getValues("date"); // フォームから日付を取得
+    const dateParts = date.split("-"); // dateを年と月に分割
+    const month = dateParts[1] + "月";
+
     await updateDoc(customerRef, {
       date: getValues("date"),
       customerName: getValues("customerName"),
@@ -59,7 +65,9 @@ export default function passwordreissue() {
       piece: Number(getValues("piece")),
       income: Number(getValues("income")),
       negotiationflag: getValues("negotiationflag"),
+      acquisitionDate: getValues("acquisitionDate"),
       comment: getValues("comment"),
+      month: month,
     });
     setSuccess(true);
   };
@@ -79,7 +87,9 @@ export default function passwordreissue() {
       piece: "",
       income: "",
       negotiationflag: "",
+      acquisitionDate: "",
       comment: "",
+      month: "",
     },
   });
 
@@ -91,7 +101,9 @@ export default function passwordreissue() {
     setValue("piece", getValues("piece"));
     setValue("income", getValues("income"));
     setValue("negotiationflag", getValues("negotiationflag"));
+    setValue("acquisitionDate", getValues("acquisitionDate"));
     setValue("comment", getValues("comment"));
+    setValue("month", getValues("month"));
   }, [getValues]);
 
   return (
@@ -248,6 +260,36 @@ export default function passwordreissue() {
                   <MenuItem value={"商談中"}>商談中</MenuItem>
                   <MenuItem value={"獲得"}>獲得</MenuItem>
                   <MenuItem value={"失注"}>失注</MenuItem>
+                </TextField>
+                <TextField
+                  select
+                  id="獲得月"
+                  label="獲得日"
+                  variant="outlined"
+                  fullWidth
+                  color="secondary"
+                  sx={{ mb: 3 }}
+                  {...register("acquisitionDate", {
+                    required: "獲得日項目を入力してください",
+                  })}
+                  onChange={(e) => setValue("acquisitionDate", e.target.value)} // 値を変更(e.target.value)}
+                  helperText={errors.acquisitionDate?.message}
+                  error={!!errors.acquisitionDate}
+                  focused
+                >
+                  <MenuItem value={"未獲得"}>未獲得</MenuItem>
+                  <MenuItem value={"1月"}>1月</MenuItem>
+                  <MenuItem value={"2月"}>2月</MenuItem>
+                  <MenuItem value={"3月"}>3月</MenuItem>
+                  <MenuItem value={"4月"}>4月</MenuItem>
+                  <MenuItem value={"5月"}>5月</MenuItem>
+                  <MenuItem value={"6月"}>6月</MenuItem>
+                  <MenuItem value={"7月"}>7月</MenuItem>
+                  <MenuItem value={"8月"}>8月</MenuItem>
+                  <MenuItem value={"9月"}>9月</MenuItem>
+                  <MenuItem value={"10月"}>10月</MenuItem>
+                  <MenuItem value={"11月"}>11月</MenuItem>
+                  <MenuItem value={"12月"}>12月</MenuItem>
                 </TextField>
                 <TextField
                   id="コメント"

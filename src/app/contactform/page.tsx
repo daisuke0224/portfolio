@@ -23,8 +23,6 @@ export default function contactForm() {
   const [name, setName] = React.useState("");
   const [mailaddress, setMailAddress] = React.useState("");
   const [inquireyDetails, setInquireyDetails] = React.useState("");
-  const [nameError, setNameError] = React.useState("");
-  const [mailAddressError, setMailAddressError] = React.useState("");
   const [success, setSuccess] = React.useState(false);
 
   React.useEffect(() => {

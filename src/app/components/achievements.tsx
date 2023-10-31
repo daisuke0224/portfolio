@@ -52,29 +52,6 @@ export default function FullWidthGrid() {
     const teamDoc = await getDoc(teamRef);
     const teamData = teamDoc.exists() ? teamDoc.data() : {};
 
-    //ドキュメントにログインユーザーの情報を追加する。
-    // teamData.id = userData.teamId;
-    // teamData.adminUserId = userData.id;
-
-    //このコードはドキュメントにusersのログインユーザーの情報を全て追加する場合。
-    // teamData[user.uid] = userData;
-
-    // //ドキュメントにログインユーザーの情報を追加する。このコードはマップとして保存されてしまう。
-    // teamData[user.uid] = {
-    //   id: userData.teamId,
-    //   adminUserId: userData.id,
-    // };
-
-    //同じチームIDを持つメンバーのIDを配列に追加する
-    // const memberIds = usersData.map((user) => user.id);
-    // teamData.memberIds = arrayUnion(...memberIds);
-
-    // if (teamDoc.exists()) {
-    //   await updateDoc(teamRef, teamData);
-    // } else {
-    //   await setDoc(teamRef, teamData);
-    // }
-
     // goalAmountの値を設定
     console.log(teamData.goalAmount);
     setGoalAmount(teamData.goalAmount || 0);
