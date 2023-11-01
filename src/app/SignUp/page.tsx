@@ -1,12 +1,7 @@
 //@ts-nocheck
 "use client";
 import * as React from "react";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  onAuthStateChanged,
-  updateProfile,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { updateDoc } from "firebase/firestore";
 import { collection, doc, setDoc } from "firebase/firestore";
