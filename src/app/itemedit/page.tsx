@@ -150,6 +150,7 @@ export default function passwordreissue() {
                   fullWidth
                   color="secondary"
                   sx={{ mb: 3 }}
+                  type="date"
                   {...register("date", {
                     required: "日付を入力してください",
                   })}

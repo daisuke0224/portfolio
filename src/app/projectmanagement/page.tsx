@@ -2,15 +2,7 @@
 "use client";
 import { Fragment, useEffect, useState } from "react";
 import styles from "./page.module.css";
-import {
-  Box,
-  Button,
-  Divider,
-  MenuItem,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import Customization from "../components/customization";
 import PrimarySearchAppBar from "../components/appbar";
 import ResponsiveAppBar from "../components/appmenubar";

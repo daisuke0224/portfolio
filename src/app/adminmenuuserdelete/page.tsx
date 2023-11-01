@@ -25,7 +25,7 @@ import {
   query,
   getDoc,
 } from "firebase/firestore";
-import { auth, db, storage } from "@/firebase/client";
+import { db } from "@/firebase/client";
 import { userFirebaseAuthContext } from "@/firebase/auth";
 import { functions } from "@/firebase/client";
 import { httpsCallable } from "firebase/functions";
