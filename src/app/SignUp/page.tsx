@@ -80,8 +80,10 @@ export const SignUp: FC<NextPage> = () => {
       const docRef = doc(collection(db, "users"), uid);
       await setDoc(docRef, userData);
       console.log("Document written with ID:", docRef.id);
+      alert("ユーザーを作成しました");
     } catch (error) {
       console.error("Error adding document:", error);
+      alert("ユーザーの作成に失敗しました");
     }
   };
 
