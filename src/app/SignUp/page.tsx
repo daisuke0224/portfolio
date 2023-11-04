@@ -30,7 +30,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export const SignUp: FC<NextPage> = () => {
+const SignUp = () => {
   const router = useRouter();
   const [userName, setUserName] = React.useState("");
   const [mailAddress, setMailAddress] = React.useState("");

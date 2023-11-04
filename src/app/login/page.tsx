@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 import * as React from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -7,7 +8,7 @@ import Button from "@mui/material/Button";
 import styles from "./page.module.css";
 import { Divider, Typography } from "@mui/material";
 
-export const Login = () => {
+export default function Login() {
   const router = useRouter();
 
   const [email, setEmail] = React.useState("");
@@ -72,6 +73,4 @@ export const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}

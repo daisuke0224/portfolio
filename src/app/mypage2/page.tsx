@@ -39,7 +39,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export const mypage = () => {
+const mypage = () => {
   const searchParams = useSearchParams();
   const userId = searchParams.get("id");
 
