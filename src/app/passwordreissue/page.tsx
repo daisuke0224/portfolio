@@ -33,7 +33,7 @@ export default function passwordreissue() {
       })
       .catch((error) => {
         setMessage("パスワード再発行に失敗しました。");
-        console.error(error);
+        // console.error(error);
       });
   };
 

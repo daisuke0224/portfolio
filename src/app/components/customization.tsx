@@ -155,10 +155,10 @@ export default function CustomizedTables() {
           );
         }
       });
-      console.log(venderTeamId);
-      console.log(isTeamAdmin);
+      // console.log(venderTeamId);
+      // console.log(isTeamAdmin);
 
-      console.log(filteredCustomersData);
+      // console.log(filteredCustomersData);
       setCustomerList(filteredCustomersData);
     };
     getCustomers();
@@ -191,7 +191,7 @@ export default function CustomizedTables() {
         setCustomerList(updatedCustomerList);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     } finally {
       //idとダイアログをリセット
       setCustomerToDelete(null);

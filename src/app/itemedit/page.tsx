@@ -33,7 +33,7 @@ export default function passwordreissue() {
     const costomerRef = doc(db, "customers", customerId);
     const costomerData = await getDoc(costomerRef);
     const costomer = costomerData.data();
-    console.log(costomer);
+    // console.log(costomer);
     setValue("date", costomer.date);
     setValue("customerName", costomer.customerName);
     setValue("projectTitle", costomer.projectTitle);

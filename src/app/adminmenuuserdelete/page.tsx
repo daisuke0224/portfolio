@@ -47,7 +47,7 @@ export default function adminMenuUserDelete() {
       const userRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userRef);
       const userData = userDoc.data();
-      console.log(userData);
+      // console.log(userData);
 
       //チームの情報を取得
       const usersQuery = query(
@@ -66,7 +66,7 @@ export default function adminMenuUserDelete() {
     await functionCall({
       userId: userId,
     });
-    setIsDeleteSuccess(true); //ユーザー削除成功時きどう
+    setIsDeleteSuccess(true); //ユーザー削除成功時起動
   };
 
   return (

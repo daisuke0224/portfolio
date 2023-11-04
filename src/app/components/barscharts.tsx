@@ -7,15 +7,15 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase/client";
 
 export default function StackedBarChart({ itemdatas, teamId }) {
-  console.log(itemdatas, teamId);
+  // console.log(itemdatas, teamId);
   const [completedData, setCompletedData] = React.useState([]);
   const [inprogressData, setInprogressData] = React.useState([]);
   const [lostOrderData, setLostOrderData] = React.useState([]);
   const [memberNames, setMemberNames] = React.useState([]);
-  console.log(completedData);
-  console.log(inprogressData);
-  console.log(lostOrderData);
-  console.log(memberNames);
+  // console.log(completedData);
+  // console.log(inprogressData);
+  // console.log(lostOrderData);
+  // console.log(memberNames);
 
   React.useEffect(() => {
     const fetch = async () => {

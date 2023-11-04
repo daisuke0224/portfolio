@@ -35,10 +35,10 @@ export default function adduser() {
   }, []);
 
   const onClickAdd = async () => {
-    console.log(userName);
-    console.log(mailAddress);
-    console.log(password);
-    console.log(reenterPassword);
+    // console.log(userName);
+    // console.log(mailAddress);
+    // console.log(password);
+    // console.log(reenterPassword);
     try {
       const functionCall = httpsCallable(functions, "createUser");
       await functionCall({
@@ -48,7 +48,7 @@ export default function adduser() {
       });
       setSuccess(true);
     } catch {
-      console.log("error");
+      //console.log("error");
     }
   };
 

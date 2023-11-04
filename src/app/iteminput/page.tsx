@@ -50,7 +50,7 @@ export default function passwordreissue() {
   const auth = userFirebaseAuthContext();
   const user = auth.currentUser;
   if (user) {
-    console.log(user);
+    // console.log(user);
   }
 
   const onClickAdd = async () => {

@@ -7,23 +7,23 @@ import { db } from "@/firebase/client";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default function AcquisitionBarChart({ itemdatas, teamId }) {
-  console.log({ itemdatas });
-  console.log({ teamId });
+  // console.log({ itemdatas });
+  // console.log({ teamId });
   const [completedData, setCompletedData] = React.useState([]);
   const [inprogressData, setInprogressData] = React.useState([]);
   const [memberNames, setMemberNames] = React.useState([]);
 
   const fetch = async () => {
-    console.log({ completedData });
-    console.log({ inprogressData });
-    console.log({ memberNames });
+    // console.log({ completedData });
+    // console.log({ inprogressData });
+    // console.log({ memberNames });
     if (!teamId) {
       return;
     }
     if (!itemdatas) {
       return;
     }
-    console.log(teamId);
+    // console.log(teamId);
     const teamMemberDatasQuery = query(
       collection(db, "users"),
       where("teamId", "==", teamId)
@@ -32,7 +32,7 @@ export default function AcquisitionBarChart({ itemdatas, teamId }) {
     const teamMemberDatas = teamMemberDatasSnapshot.docs.map((doc) =>
       doc.data()
     );
-    console.log(teamMemberDatas);
+    // console.log(teamMemberDatas);
     const necessaryTeamMemberDatas = teamMemberDatas.map((teamMemberData) => {
       return {
         name: teamMemberData.name,
@@ -73,11 +73,11 @@ export default function AcquisitionBarChart({ itemdatas, teamId }) {
   };
 
   React.useEffect(() => {
-    console.log("effect");
+    // console.log("effect");
     fetch().then(() => {
-      console.log({ completedData });
-      console.log({ inprogressData });
-      console.log({ memberNames });
+      // console.log({ completedData });
+      // console.log({ inprogressData });
+      // console.log({ memberNames });
     });
   }, [teamId, itemdatas]);
 

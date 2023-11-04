@@ -22,8 +22,8 @@ export default function passwordReissue() {
   }, []);
 
   const onClickAdd = () => {
-    console.log(password);
-    console.log(reenterPassword);
+    // console.log(password);
+    // console.log(reenterPassword);
   };
 
   return (

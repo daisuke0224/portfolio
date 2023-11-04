@@ -54,7 +54,7 @@ export default function PrimarySearchAppBar() {
     const userDocSnapshot = await getDoc(userRef);
     const userData = userDocSnapshot.data();
     const isTeamAdmin = userData.isTeamAdmin;
-    console.log(isTeamAdmin);
+    // console.log(isTeamAdmin);
     if (userData.isTeamAdmin === true) {
       setIsTeamAdmin(true);
     }

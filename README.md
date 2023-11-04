@@ -73,155 +73,122 @@
 - アカウント登録と同時にアカウント情報を Firebase Authentication に保存しています。
 
 ```Javascript
-export const SignUp: FC<NextPage> = () => {
-const router = useRouter();
-const [userName, setUserName] = React.useState("");
-const [mailAddress, setMailAddress] = React.useState("");
-const [password, setPassword] = React.useState("");
-const [imageFile, setImageFile] = React.useState(""); // 画像ファイルの初期化
-const [teamId, setTeamId] = React.useState(""); // チームの識別子を追加
+const SignUp = () => {
+  const router = useRouter();
+  const [userName, setUserName] = React.useState("");
+  const [mailAddress, setMailAddress] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [imageFile, setImageFile] = React.useState(""); // 画像ファイルの初期化
+  const [teamId, setTeamId] = React.useState(""); // チームの識別子を追加
 
+  const uploadImage = async (imageFile, userUID) => {
+    try {
+      const storageRef = ref(storage, "profile_images/" + userUID); //ユーザー毎にプロフィール画像を保存する
+      await uploadBytes(storageRef, imageFile);
 
-// コンポーネントがマウントされたときに、ユーザー情報を取得し、teamId を設定する
-React.useEffect(() => {
-// Firebase Authentication から auth オブジェクトを取得
-const auth = getAuth();
-// ユーザーがログインしているかどうかを確認
-onAuthStateChanged(auth, (user) => {
-if (user) {
-// ユーザーがログインしている場合、その UID を teamId に設定
-setTeamId(user.uid);
-}
-// else {
-// // ユーザーがログインしていない場合、適切な処理を行う（例：ログインページにリダイレクト）
-// router.push("/login");
-// }
-});
-}, []); // 空の依存配列を渡すことで、マウント時に1回だけ実行されます
+      //アップロードが完了したら、画像のURLを取得
+      const downloadURL = await getDownloadURL(storageRef);
 
+      // Firestoreのユーザードキュメントに画像のURLを追加
+      const docRef = doc(collection(db, "users"), userUID);
+      await updateDoc(docRef, {
+        photoURL: downloadURL,
+      });
 
-const uploadImage = async (imageFile, userUID) => {
-try {
-const storageRef = ref(storage, "profile_images/" + userUID); //ユーザー毎にプロフィール画像を保存する
-await uploadBytes(storageRef, imageFile);
+      return downloadURL;
+    } catch (error) {
+      // console.error("画像のアップロードエラー:", error);
+      return null;
+    }
+  };
 
+  //画像選択ボタンのイベントハンドラ
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+    // console.log(imageFile);
+  };
 
-//アップロードが完了したら、画像のURLを取得
-const downloadURL = await getDownloadURL(storageRef);
+  const addUser = async (uid) => {
+    try {
+      const userData = {
+        isValid: true, //有効なユーザーかどうか
+        isTeamAdmin: true, //チームの管理者かどうか
+        name: userName, //ユーザー名
+        teamId: uid, //チームの識別子
+        email: mailAddress, //メールアドレス
+        id: uid,
+      };
 
+      const docRef = doc(collection(db, "users"), uid);
+      await setDoc(docRef, userData);
+      // console.log("Document written with ID:", docRef.id);
+      alert("ユーザーを作成しました");
+    } catch (error) {
+      // console.error("Error adding document:", error);
+      alert("ユーザーの作成に失敗しました");
+    }
+  };
 
-// Firestoreのユーザードキュメントに画像のURLを追加
-const docRef = doc(collection(db, "users"), userUID);
-await updateDoc(docRef, {
-photoURL: downloadURL,
-});
+  //ドキュメントのTeamsの内容を追加
+  const addTeam = async (uid) => {
+    try {
+      const teamData = {
+        goalAmount: 0,
+        id: teamId,
+        adminUserId: teamId,
+      };
 
+      const teamRef = doc(collection(db, "teams"), teamId);
+      await setDoc(teamRef, teamData);
+      // console.log("Document written with ID:", teamRef.id);
+    } catch (error) {
+      // console.error("Error adding document:", error);
+    }
+  };
 
-return downloadURL;
-} catch (error) {
-console.error("画像のアップロードエラー:", error);
-return null;
-}
-};
+  const isValid = async (data: LoginForm) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
 
+      //ユーザーを作成した後に、ユーザーのUIDを取得
+      const userUID = userCredential.user.uid;
 
-//画像選択ボタンのイベントハンドラ
-const handleImageChange = (e) => {
-const file = e.target.files[0];
-setImageFile(file);
-console.log(imageFile);
-};
+      //Firestoreにユーザー情報を保存（UIDも含む）
+      await addUser(userUID);
+      await addTeam(userUID);
 
+      await updateProfile(userCredential.user, {
+        displayName: data.userName,
+        TeamId: teamId,
+      });
 
-const addUser = async (uid) => {
-try {
-const userData = {
-isValid: true, //有効なユーザーかどうか
-isTeamAdmin: true, //チームの管理者かどうか
-name: userName, //ユーザー名
-teamId: teamId, //チームの識別子
-email: mailAddress, //メールアドレス
-id: uid,
-};
+      if (imageFile) {
+        const imageUrl = await uploadImage(imageFile, userUID);
+        // console.log(imageUrl);
 
+        await updateProfile(userCredential.user, {
+          photoURL: imageUrl,
+        });
+      }
 
-const docRef = doc(collection(db, "users"), uid);
-await setDoc(docRef, userData);
-console.log("Document written with ID:", docRef.id);
-} catch (error) {
-console.error("Error adding document:", error);
-}
-};
+      router.push("/home2");
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        // console.log(e);
+      }
+    }
+  };
 
-
-//ドキュメントのTeamsの内容を追加
-const addTeam = async (uid) => {
-try {
-const teamData = {
-goalAmount: 0,
-id: teamId,
-adminUserId: teamId,
-};
-
-
-const teamRef = doc(collection(db, "teams"), teamId);
-await setDoc(teamRef, teamData);
-console.log("Document written with ID:", teamRef.id);
-} catch (error) {
-console.error("Error adding document:", error);
-}
-};
-
-
-const isValid = async (data: LoginForm) => {
-try {
-const userCredential = await createUserWithEmailAndPassword(
-auth,
-data.email,
-data.password
-);
-
-
-//ユーザーを作成した後に、ユーザーのUIDを取得
-const userUID = userCredential.user.uid;
-
-
-//Firestoreにユーザー情報を保存（UIDも含む）
-await addUser(userUID);
-await addTeam(userUID);
-
-
-await updateProfile(userCredential.user, {
-displayName: data.userName,
-TeamId: teamId,
-});
-
-
-if (imageFile) {
-const imageUrl = await uploadImage(imageFile, userUID);
-console.log(imageUrl);
-
-
-await updateProfile(userCredential.user, {
-photoURL: imageUrl,
-});
-}
-
-
-router.push("/home2");
-} catch (e) {
-if (e instanceof FirebaseError) {
-console.log(e);
-}
-}
-};
-
-
-const {
-register,
-handleSubmit,
-formState: { errors },
-} = useForm<LoginForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>();
 ```
 
 <h3>3.ログインページ（アカウント認証）</h3>
@@ -234,31 +201,27 @@ formState: { errors },
 - メールアドレス、パスワードが一致しない場合、エラーアラートが表示されて、ログインは出来ません。
 
 ```Javascript
-export const Login = () => {
-const router = useRouter();
+export default function Login() {
+  const router = useRouter();
 
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-const [email, setEmail] = React.useState("");
-const [password, setPassword] = React.useState("");
+  const logIn = async () => {
+    if (!email) return;
+    if (!password) return;
 
+    // ログイン処理：エラー時はとりあえずログを出しておく
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push("/home2");
+      alert("ログインしました");
+    } catch (e) {
+      alert("ログインに失敗しました");
 
-const logIn = async () => {
-if (!email) return;
-if (!password) return;
-
-
-// ログイン処理：エラー時はログを出す
-try {
-await signInWithEmailAndPassword(auth, email, password);
-router.push("/home2");
-alert("ログインしました");
-} catch (e) {
-alert("ログインに失敗しました");
-
-
-console.error(e);
-}
-};
+      // console.error(e);
+    }
+  };
 ```
 
 <h3>4.パスワード再発行画面</h3>
@@ -269,37 +232,34 @@ console.error(e);
 - 登録のメールアドレスにメールにて変更を行える URL が送信されます。
 
 ```Javascript
-export default function passwordReissue() {
-const [message, setMessage] = React.useState("");
-const [mailAddress, setMailAddress] = React.useState("");
+export default function passwordreissue() {
+  const [message, setMessage] = React.useState("");
+  const [mailAddress, setMailAddress] = React.useState("");
 
+  React.useEffect(() => {
+    setMessage("");
+  }, []);
 
-React.useEffect(() => {
-setMessage("");
-}, []);
+  const onClickAdd: any = (data: { mailAddress: string }) => {
+    const { mailAddress } = data;
+    //FireBaseでパスワード再発行リクエストを送信
+    sendPasswordResetEmail(auth, mailAddress)
+      .then(() => {
+        setMessage(
+          "パスワード再発行リンクを送信しました。メールをご確認ください。"
+        );
+      })
+      .catch((error) => {
+        setMessage("パスワード再発行に失敗しました。");
+        // console.error(error);
+      });
+  };
 
-
-const onClickAdd: any = (data: { mailAddress: string }) => {
-const { mailAddress } = data;
-//FireBaseでパスワード再発行リクエストを送信
-sendPasswordResetEmail(auth, mailAddress)
-.then(() => {
-setMessage(
-"パスワード再発行リンクを送信しました。メールをご確認ください。"
-);
-})
-.catch((error) => {
-setMessage("パスワード再発行に失敗しました。");
-console.error(error);
-});
-};
-
-
-const {
-register,
-handleSubmit,
-formState: { errors },
-} = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 ```
 
 <h3>5.ホーム画面</h3>
@@ -329,56 +289,51 @@ formState: { errors },
 
 ```Javascript
 export default function adduser() {
-const [userName, setUserName] = React.useState("");
-const [mailAddress, setMailAddress] = React.useState("");
-const [password, setPassword] = React.useState("");
-const [reenterPassword, setReenterPassword] = React.useState("");
-const [success, setSuccess] = React.useState(false);
+  const [userName, setUserName] = React.useState("");
+  const [mailAddress, setMailAddress] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [reenterPassword, setReenterPassword] = React.useState("");
+  const [success, setSuccess] = React.useState(false);
 
+  React.useEffect(() => {
+    setUserName("");
+    setMailAddress("");
+    setPassword("");
+    setReenterPassword("");
+  }, []);
 
-React.useEffect(() => {
-setUserName("");
-setMailAddress("");
-setPassword("");
-setReenterPassword("");
-}, []);
+  const onClickAdd = async () => {
+    // console.log(userName);
+    // console.log(mailAddress);
+    // console.log(password);
+    // console.log(reenterPassword);
+    try {
+      const functionCall = httpsCallable(functions, "createUser");
+      await functionCall({
+        userName: userName,
+        mailAddress: mailAddress,
+        password: password,
+      });
+      setSuccess(true);
+    } catch {
+      //console.log("error");
+    }
+  };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
 
-const onClickAdd = async () => {
-console.log(userName);
-console.log(mailAddress);
-console.log(password);
-console.log(reenterPassword);
-try {
-const functionCall = httpsCallable(functions, "createUser");
-await functionCall({
-userName: userName,
-mailAddress: mailAddress,
-password: password,
-});
-setSuccess(true);
-} catch {
-console.log("error");
-}
-};
+  //reenterPasswordの値の監視
+  const passwordValue = watch("password", "");
 
-
-const {
-register,
-handleSubmit,
-formState: { errors },
-watch,
-} = useForm();
-
-
-//reenterPasswordの値の監視
-const passwordValue = watch("password", "");
-
-
-// パスワードと確認用パスワードが一致するかをチェックする独自のバリデーションルール
-const validatePasswordMatch = (value: string) => {
-return value === passwordValue || "パスワードが一致しません";
-};
+  // パスワードと確認用パスワードが一致するかをチェックする独自のバリデーションルール
+  const validatePasswordMatch = (value: string) => {
+    return value === passwordValue || "パスワードが一致しません";
+  };
 ```
 
 <h3>8.管理者メニューユーザー削除ページ</h3>
@@ -390,44 +345,40 @@ return value === passwordValue || "パスワードが一致しません";
 
 ```Javascript
 export default function adminMenuUserDelete() {
-const [users, setUsers] = React.useState([]);
-const [isDeleteSuccess, setIsDeleteSuccess] = React.useState(false);
+  const [users, setUsers] = React.useState([]);
+  const [isDeleteSuccess, setIsDeleteSuccess] = React.useState(false);
 
+  const auth = userFirebaseAuthContext();
+  const user = auth.currentUser;
 
-const auth = userFirebaseAuthContext();
-const user = auth.currentUser;
+  React.useEffect(() => {
+    if (!user) return;
+    const fetchUsers = async () => {
+      //ログインしている本人の情報を取得
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.data();
+      // console.log(userData);
 
+      //チームの情報を取得
+      const usersQuery = query(
+        collection(db, "users"),
+        where("teamId", "==", userData.teamId)
+      );
+      const usersSnapshot = await getDocs(usersQuery);
+      const usersData = usersSnapshot.docs.map((doc) => doc.data());
+      setUsers(usersData);
+    };
+    fetchUsers();
+  }, [auth]);
 
-React.useEffect(() => {
-if (!user) return;
-const fetchUsers = async () => {
-//ログインしている本人の情報を取得
-const userRef = doc(db, "users", user.uid);
-const userDoc = await getDoc(userRef);
-const userData = userDoc.data();
-console.log(userData);
-
-
-//チームの情報を取得
-const usersQuery = query(
-collection(db, "users"),
-where("teamId", "==", userData.teamId)
-);
-const usersSnapshot = await getDocs(usersQuery);
-const usersData = usersSnapshot.docs.map((doc) => doc.data());
-setUsers(usersData);
-};
-fetchUsers();
-}, [auth]);
-
-
-const deleteUser = async (userId) => {
-const functionCall = httpsCallable(functions, "deleteUser");
-await functionCall({
-userId: userId,
-});
-setIsDeleteSuccess(true); //ユーザー削除成功時起動
-};
+  const deleteUser = async (userId) => {
+    const functionCall = httpsCallable(functions, "deleteUser");
+    await functionCall({
+      userId: userId,
+    });
+    setIsDeleteSuccess(true); //ユーザー削除成功時起動
+  };
 ```
 
 <h3>9.管理者メニュー目標数値入力ページ</h3>
@@ -460,60 +411,59 @@ setIsDeleteSuccess(true); //ユーザー削除成功時起動
 
 ```Javascript
 const [customerToDelete, setCustomerToDelete] = React.useState<string | null>(
-null
+　null
 );
 const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
-React.useState(false);
-削除
+　React.useState(false);
+//削除
 const handleDeleteCOnfirmed = async () => {
-try {
-//Firestoreから削除
-if (customerToDelete !== null) {
-await deleteDoc(doc(db, "customers", customerToDelete));
-//削除が成功したら顧客リストを更新
-const updatedCustomerList = customerList.filter(
-(customer) => customer.id !== customerToDelete
-);
-setCustomerList(updatedCustomerList);
-}
-} catch (error) {
-console.log(error);
-} finally {
-//idとダイアログをリセット
-setCustomerToDelete(null);
-setIsConfirmationDialogOpen(false);
-}
-};
+　try {
+　//Firestoreから削除
+　　if (customerToDelete !== null) {
+    　await deleteDoc(doc(db, "customers", customerToDelete));
+    　//削除が成功したら顧客リストを更新
+    　const updatedCustomerList = customerList.filter(
+    　　(customer) => customer.id !== customerToDelete
+    　);
+    　setCustomerList(updatedCustomerList);
+    }
+　} catch (error) {
+    // console.log(error);
+　} finally {
+    //idとダイアログをリセット
+    setCustomerToDelete(null);
+    setIsConfirmationDialogOpen(false);
+    }
+  };
 
 <TableHead>
-{customerToDelete && (
-<Dialog
-open={isConfirmationDialogOpen}
-onClose={handleCloseDialog}
-aria-labelledby="alert-dialog-title"
-aria-describedby="alert-dialog-description"
->
-<DialogTitle id="alert-dialog-title">削除の確認</DialogTitle>
-<DialogContent>
-<DialogContentText id="alert-dialog-description">
-本当に削除してもよろしいですか？
-</DialogContentText>
-</DialogContent>
-<DialogActions>
-<Button
-onClick={handleDeleteCOnfirmed}
-color="primary"
-autoFocus
->
-はい
-</Button>
-<Button onClick={handleCloseDialog} color="primary">
-いいえ
-</Button>
-</DialogActions>
-</Dialog>
-)}
-<TableRow>
+　{customerToDelete && (
+　　<Dialog
+　　　open={isConfirmationDialogOpen}
+     onClose={handleCloseDialog}
+     aria-labelledby="alert-dialog-title"
+     aria-describedby="alert-dialog-description"
+   >
+     <DialogTitle id="alert-dialog-title">削除の確認</DialogTitle>
+     <DialogContent>
+      <DialogContentText id="alert-dialog-description">
+       本当に削除してもよろしいですか？
+      </DialogContentText>
+     </DialogContent>
+     <DialogActions>
+      <Button
+        onClick={handleDeleteCOnfirmed}
+        color="primary"
+        autoFocus
+      >
+        はい
+      </Button>
+      <Button onClick={handleCloseDialog} color="primary">
+        いいえ
+      </Button>
+     </DialogActions>
+    </Dialog>
+  )}
 ```
 
 <h3>13.案件編集ページ</h3>
@@ -532,50 +482,45 @@ autoFocus
 
 ```Javascript
 export default function contactForm() {
-const [name, setName] = React.useState("");
-const [mailaddress, setMailAddress] = React.useState("");
-const [inquireyDetails, setInquireyDetails] = React.useState("");
-const [success, setSuccess] = React.useState(false);
+  const [name, setName] = React.useState("");
+  const [mailaddress, setMailAddress] = React.useState("");
+  const [inquireyDetails, setInquireyDetails] = React.useState("");
+  const [success, setSuccess] = React.useState(false);
 
+  React.useEffect(() => {
+    setName("");
+    setMailAddress("");
+    setInquireyDetails("");
+  }, []);
 
-React.useEffect(() => {
-setName("");
-setMailAddress("");
-setInquireyDetails("");
-}, []);
+  const onClickAdd = async () => {
+    const data = {
+      name: name,
+      email: mailaddress,
+      comment: inquireyDetails,
+      sentAt: 0,
+    };
 
+    try {
+      // Firestoreのcontactsコレクションにデータを追加
+      const docRef = await addDoc(collection(db, "contact"), data);
+      // console.log("Document added with ID: ", docRef.id);
+      setSuccess(true);
 
-const onClickAdd = async () => {
-const data = {
-name: name,
-email: mailaddress,
-comment: inquireyDetails,
-sentAt: 0,
-};
+      //データの送信が成功した場合、フォームをクリア
+      setName("");
+      setMailAddress("");
+      setInquireyDetails("");
+    } catch (e) {
+      // console.error("Error adding document: ", e);
+    }
+  };
 
-
-try {
-// Firestoreのcontactsコレクションにデータを追加
-const docRef = await addDoc(collection(db, "contact"), data);
-console.log("Document added with ID: ", docRef.id);
-setSuccess(true);
-
-
-//データの送信が成功した場合、フォームをクリア
-setName("");
-setMailAddress("");
-setInquireyDetails("");
-} catch (e) {
-console.error("Error adding document: ", e);
-}
-};
-
-
-const {
-register,
-handleSubmit,
-formState: { errors },
-} = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 ```
 
 <h3>15.バリデーション</h3>
@@ -590,55 +535,55 @@ formState: { errors },
 
 ```Javascript
 <TextField
-id="お名前（必須）"
-label="お名前（必須）"
-variant="outlined"
-fullWidth
-color="secondary"
-sx={{ mb: 3 }}
-value={name}
-{...register("name", {
-required: "お名前を入力してください",
-})}
-onChange={(e) => setName(e.target.value)}
-helperText={errors.name?.message as React.ReactNode}
-error={!!errors.name}
+　id="お名前（必須）"
+　label="お名前（必須）"
+  variant="outlined"
+  fullWidth
+  color="secondary"
+  sx={{ mb: 3 }}
+  value={name}
+  {...register("name", {
+    required: "お名前を入力してください",
+  })}
+  onChange={(e) => setName(e.target.value)}
+  helperText={errors.name?.message as React.ReactNode}
+  error={!!errors.name}
 />
 <TextField
-id="E-mailアドレス（必須）"
-label="E-mailアドレス（必須）"
-variant="outlined"
-fullWidth
-color="secondary"
-sx={{ mb: 3 }}
-value={mailaddress}
-{...register("mailaddress", {
-required: "E-mailアドレスを入力してください",
-pattern: {
-value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-message: "正しいE-mailアドレスを入力してください",
-},
-})}
-onChange={(e) => setMailAddress(e.target.value)}
-helperText={errors.mailaddress?.message as React.ReactNode}
-error={!!errors.mailaddress}
+  id="E-mailアドレス（必須）"
+  label="E-mailアドレス（必須）"
+  variant="outlined"
+  fullWidth
+  color="secondary"
+  sx={{ mb: 3 }}
+  value={mailaddress}
+  {...register("mailaddress", {
+   required: "E-mailアドレスを入力してください",
+   pattern: {
+    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+    message: "正しいE-mailアドレスを入力してください",
+   },
+  })}
+  onChange={(e) => setMailAddress(e.target.value)}
+  helperText={errors.mailaddress?.message as React.ReactNode}
+  error={!!errors.mailaddress}
 />
 <TextField
-id="お問合せ内容（必須）"
-label="お問合せ内容（必須）"
-fullWidth
-multiline
-rows={10}
-sx={{ mb: 3 }}
-value={inquireyDetails}
-{...register("inquireyDetails", {
-required: "お問合せ内容を入力してください",
-})}
-onChange={(e) => setInquireyDetails(e.target.value)}
-helperText={
-errors.inquireyDetails?.message as React.ReactNode
-}
-error={!!errors.inquireyDetails}
+ 　id="お問合せ内容（必須）"
+   label="お問合せ内容（必須）"
+   fullWidth
+   multiline
+   rows={10}
+   sx={{ mb: 3 }}
+   value={inquireyDetails}
+   {...register("inquireyDetails", {
+    required: "お問合せ内容を入力してください",
+   })}
+   onChange={(e) => setInquireyDetails(e.target.value)}
+   helperText={
+    errors.inquireyDetails?.message as React.ReactNode
+   }
+   error={!!errors.inquireyDetails}
 />
 ```
 

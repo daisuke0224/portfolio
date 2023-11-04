@@ -60,9 +60,9 @@ export default function passwordreissue() {
     const currentMonth = ("0" + (now.getMonth() + 1)).slice(-2);
     const currentDate = now.getDate();
 
-    console.log(currentYear);
-    console.log(currentMonth);
-    console.log(currentDate);
+    // console.log(currentYear);
+    // console.log(currentMonth);
+    // console.log(currentDate);
 
     const dateString = `${currentYear}-${currentMonth}-01`;
 
@@ -74,7 +74,7 @@ export default function passwordreissue() {
 
     const customersDocs = await getDocs(customersQuery);
     const customersData = customersDocs.docs.map((doc) => doc.data());
-    console.log(customersData);
+    // console.log(customersData);
     const pieChartData = customersData.map((customer) => {
       return {
         label: customer.negotiationflag,
@@ -90,7 +90,7 @@ export default function passwordreissue() {
         value: customer.income,
       };
     });
-    console.log(barChartData);
+    // console.log(barChartData);
     setBarChartDatas(barChartData);
 
     const numberofprojectschartsDatas = customersData.map((customer) => {
