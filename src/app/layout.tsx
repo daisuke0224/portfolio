@@ -22,7 +22,11 @@ export default function RootLayout({
       pathname === "/login" ||
       pathname === "/passwordreissue" ||
       pathname === "/" ||
-      pathname === "/signup"
+      pathname === "/signup" ||
+      pathname === "/login/" ||
+      pathname === "/passwordreissue/" ||
+      pathname === "/" ||
+      pathname === "/signup/"
     ) {
       return;
     }
