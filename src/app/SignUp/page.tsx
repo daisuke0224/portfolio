@@ -54,7 +54,7 @@ const SignUp = () => {
 
       return downloadURL;
     } catch (error) {
-      console.error("画像のアップロードエラー:", error);
+      // console.error("画像のアップロードエラー:", error);
       return null;
     }
   };
@@ -63,7 +63,7 @@ const SignUp = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file);
-    console.log(imageFile);
+    // console.log(imageFile);
   };
 
   const addUser = async (uid) => {
@@ -79,10 +79,10 @@ const SignUp = () => {
 
       const docRef = doc(collection(db, "users"), uid);
       await setDoc(docRef, userData);
-      console.log("Document written with ID:", docRef.id);
+      // console.log("Document written with ID:", docRef.id);
       alert("ユーザーを作成しました");
     } catch (error) {
-      console.error("Error adding document:", error);
+      // console.error("Error adding document:", error);
       alert("ユーザーの作成に失敗しました");
     }
   };
@@ -98,9 +98,9 @@ const SignUp = () => {
 
       const teamRef = doc(collection(db, "teams"), teamId);
       await setDoc(teamRef, teamData);
-      console.log("Document written with ID:", teamRef.id);
+      // console.log("Document written with ID:", teamRef.id);
     } catch (error) {
-      console.error("Error adding document:", error);
+      // console.error("Error adding document:", error);
     }
   };
 
@@ -126,7 +126,7 @@ const SignUp = () => {
 
       if (imageFile) {
         const imageUrl = await uploadImage(imageFile, userUID);
-        console.log(imageUrl);
+        // console.log(imageUrl);
 
         await updateProfile(userCredential.user, {
           photoURL: imageUrl,
@@ -136,7 +136,7 @@ const SignUp = () => {
       router.push("/home2");
     } catch (e) {
       if (e instanceof FirebaseError) {
-        console.log(e);
+        // console.log(e);
       }
     }
   };

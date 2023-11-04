@@ -17,7 +17,7 @@ export default function RootLayout({
   const router = useRouter();
   const pathname = usePathname();
   useEffect(() => {
-    console.log(pathname);
+    // console.log(pathname);
     if (
       pathname === "/login" ||
       pathname === "/passwordreissue" ||
@@ -31,7 +31,7 @@ export default function RootLayout({
       return;
     }
     const unsubscribed = auth.onAuthStateChanged(async (user) => {
-      console.log({ user });
+      // console.log({ user });
 
       if (user === null) {
         router.push("/login");

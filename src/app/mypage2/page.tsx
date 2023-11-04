@@ -53,7 +53,7 @@ const mypage = () => {
     const userRef = doc(db, "users", userId);
     const userData = await getDoc(userRef);
     const user = userData.data();
-    console.log(user);
+    // console.log(user);
     setUserName(user.name);
     setMailAddress(user.email);
     if (user.photoURL) {

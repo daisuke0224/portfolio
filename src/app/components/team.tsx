@@ -27,7 +27,7 @@ const ExampleComponent = ({ venderTeamId }: { venderTeamId: string }) => {
 
     fetchDocuments();
   }, [venderTeamId]);
-  console.log(documents);
+  // console.log(documents);
 
   return (
     <div>

@@ -6,7 +6,7 @@ export const logout = async () => {
   const auth = getAuth();
   await signOut(auth)
     .then(() => {
-      console.log("Sign-out successful.");
+      // console.log("Sign-out successful.");
     })
     .catch((e) => {
       alert("ログアウトに失敗しました");

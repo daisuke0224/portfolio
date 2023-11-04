@@ -53,11 +53,11 @@ export default function FullWidthGrid() {
     const teamData = teamDoc.exists() ? teamDoc.data() : {};
 
     // goalAmountの値を設定
-    console.log(teamData.goalAmount);
+    // console.log(teamData.goalAmount);
     setGoalAmount(teamData.goalAmount || 0);
-    console.log(goalAmount);
+    // console.log(goalAmount);
     // customersコレクションからvenderUidがteamDataのmemberIdsのいずれかと一致するドキュメントを取得
-    console.log(userData.teamId);
+    // console.log(userData.teamId);
     const customersQuery = query(
       collection(db, "customers"),
       where("venderTeamId", "==", userData.teamId),
@@ -66,7 +66,7 @@ export default function FullWidthGrid() {
 
     const customersDocs = await getDocs(customersQuery);
     const customersData = customersDocs.docs.map((doc) => doc.data());
-    console.log(customersData);
+    // console.log(customersData);
 
     // incomeの合計値を計算
     const totalIncome = customersData.reduce(
@@ -74,19 +74,19 @@ export default function FullWidthGrid() {
       0
     );
 
-    console.log(teamData); // customersDataの値を確認
-    console.log(customersData); // customersDataの値を確認
-    console.log(totalIncome); // totalIncomeの値を確認
+    // console.log(teamData); // customersDataの値を確認
+    // console.log(customersData); // customersDataの値を確認
+    // console.log(totalIncome); // totalIncomeの値を確認
 
     setTotalIncome(totalIncome);
 
-    console.log(goalAmount, totalIncome);
+    // console.log(goalAmount, totalIncome);
     const difference = goalAmount - totalIncome;
     setDifference(difference); // 追加
   };
 
   React.useEffect(() => {
-    console.log("effect");
+    // console.log("effect");
     fetchUser();
   }, [auth, goalAmount]);
 

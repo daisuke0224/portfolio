@@ -42,7 +42,7 @@ export default function contactForm() {
     try {
       // Firestoreのcontactsコレクションにデータを追加
       const docRef = await addDoc(collection(db, "contact"), data);
-      console.log("Document added with ID: ", docRef.id);
+      // console.log("Document added with ID: ", docRef.id);
       setSuccess(true);
 
       //データの送信が成功した場合、フォームをクリア
@@ -50,7 +50,7 @@ export default function contactForm() {
       setMailAddress("");
       setInquireyDetails("");
     } catch (e) {
-      console.error("Error adding document: ", e);
+      // console.error("Error adding document: ", e);
     }
   };
 

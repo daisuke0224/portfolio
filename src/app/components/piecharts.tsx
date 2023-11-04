@@ -32,7 +32,7 @@ const CustomPieChart = ({ data, innerRadius, outerRadius, centerText }) => {
 };
 
 export default function TwoSimplePieChart({ itemdatas }) {
-  console.log(itemdatas);
+  // console.log(itemdatas);
   let inprogressItemsTotalValue = 0;
   let completedItemsTotalValue = 0;
   itemdatas.map((itemdata) => {

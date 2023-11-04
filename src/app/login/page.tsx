@@ -26,7 +26,7 @@ export default function Login() {
     } catch (e) {
       alert("ログインに失敗しました");
 
-      console.error(e);
+      // console.error(e);
     }
   };
 
