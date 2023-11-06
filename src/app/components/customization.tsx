@@ -33,10 +33,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    fontSize: 16,
+    fontSize: 10,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
+    fontSize: 10,
   },
 }));
 
@@ -242,7 +242,7 @@ export default function CustomizedTables() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ marginBottom: 4, fontSize: 14 }}>
+                <div style={{ marginBottom: 4, fontSize: 10 }}>
                   更新日付
                   <br />
                   ↓以下より選択可能
@@ -291,7 +291,7 @@ export default function CustomizedTables() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ marginBottom: 4, fontSize: 14 }}>
+                <div style={{ marginBottom: 4, fontSize: 10 }}>
                   交渉フラグ
                   <br />
                   ↓以下より選択可能
@@ -325,7 +325,7 @@ export default function CustomizedTables() {
                   alignItems: "center",
                 }}
               >
-                <div style={{ marginBottom: 4, fontSize: 14 }}>
+                <div style={{ marginBottom: 4, fontSize: 10 }}>
                   獲得月
                   <br />
                   ↓以下より選択可能
