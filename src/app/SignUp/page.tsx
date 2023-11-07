@@ -6,8 +6,6 @@ import { FirebaseError } from "firebase/app";
 import { updateDoc } from "firebase/firestore";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { NextPage } from "next";
-import { FC } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { LoginForm } from "@/features/common/types";
