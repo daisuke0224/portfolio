@@ -87,28 +87,9 @@ https://github.com/daisuke0224/portfolio/blob/main/src/app/SignUp/page.tsx
 - アラートが表示されてページ遷移します。（ホーム画面に遷移します）
 - メールアドレス、パスワードが一致しない場合、エラーアラートが表示されて、ログインは出来ません。
 
-```Javascript
-export default function Login() {
-  const router = useRouter();
-
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
-  const logIn = async () => {
-    if (!email) return;
-    if (!password) return;
-
-    // ログイン処理：エラー時はとりあえずログを出しておく
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push("/home2");
-      alert("ログインしました");
-    } catch (e) {
-      alert("ログインに失敗しました");
-
-      // console.error(e);
-    }
-  };
+```
+※以下URLにコードを書いています。
+https://github.com/daisuke0224/portfolio/blob/main/src/app/login/page.tsx
 ```
 
 <h3>4.パスワード再発行画面</h3>
@@ -118,35 +99,9 @@ export default function Login() {
 - パスワードを忘れた方は、再発行画面からパスワードを再発行することが可能です。
 - 登録のメールアドレスにメールにて変更を行える URL が送信されます。
 
-```Javascript
-export default function passwordreissue() {
-  const [message, setMessage] = React.useState("");
-  const [mailAddress, setMailAddress] = React.useState("");
-
-  React.useEffect(() => {
-    setMessage("");
-  }, []);
-
-  const onClickAdd: any = (data: { mailAddress: string }) => {
-    const { mailAddress } = data;
-    //FireBaseでパスワード再発行リクエストを送信
-    sendPasswordResetEmail(auth, mailAddress)
-      .then(() => {
-        setMessage(
-          "パスワード再発行リンクを送信しました。メールをご確認ください。"
-        );
-      })
-      .catch((error) => {
-        setMessage("パスワード再発行に失敗しました。");
-        // console.error(error);
-      });
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+```
+※以下URLにコードを書いています。
+https://github.com/daisuke0224/portfolio/blob/main/src/app/passwordreissue/page.tsx
 ```
 
 <h3>5.ホーム画面</h3>
@@ -174,53 +129,9 @@ export default function passwordreissue() {
 - アカウント登録と同時にアカウント情報を Firebase Authentication に保存しています。
 - 管理者権限の為、functions にて実行。
 
-```Javascript
-export default function adduser() {
-  const [userName, setUserName] = React.useState("");
-  const [mailAddress, setMailAddress] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [reenterPassword, setReenterPassword] = React.useState("");
-  const [success, setSuccess] = React.useState(false);
-
-  React.useEffect(() => {
-    setUserName("");
-    setMailAddress("");
-    setPassword("");
-    setReenterPassword("");
-  }, []);
-
-  const onClickAdd = async () => {
-    // console.log(userName);
-    // console.log(mailAddress);
-    // console.log(password);
-    // console.log(reenterPassword);
-    try {
-      const functionCall = httpsCallable(functions, "createUser");
-      await functionCall({
-        userName: userName,
-        mailAddress: mailAddress,
-        password: password,
-      });
-      setSuccess(true);
-    } catch {
-      //console.log("error");
-    }
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm();
-
-  //reenterPasswordの値の監視
-  const passwordValue = watch("password", "");
-
-  // パスワードと確認用パスワードが一致するかをチェックする独自のバリデーションルール
-  const validatePasswordMatch = (value: string) => {
-    return value === passwordValue || "パスワードが一致しません";
-  };
+```
+※以下URLにコードを書いています。
+https://github.com/daisuke0224/portfolio/blob/main/src/app/adduser/page.tsx
 ```
 
 <h3>8.管理者メニューユーザー削除ページ</h3>
@@ -230,42 +141,9 @@ export default function adduser() {
 - 自身の管理するユーザーのアカウントを削除することが出来ます。
 - 管理者権限の為、functions にて実行。
 
-```Javascript
-export default function adminMenuUserDelete() {
-  const [users, setUsers] = React.useState([]);
-  const [isDeleteSuccess, setIsDeleteSuccess] = React.useState(false);
-
-  const auth = userFirebaseAuthContext();
-  const user = auth.currentUser;
-
-  React.useEffect(() => {
-    if (!user) return;
-    const fetchUsers = async () => {
-      //ログインしている本人の情報を取得
-      const userRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userRef);
-      const userData = userDoc.data();
-      // console.log(userData);
-
-      //チームの情報を取得
-      const usersQuery = query(
-        collection(db, "users"),
-        where("teamId", "==", userData.teamId)
-      );
-      const usersSnapshot = await getDocs(usersQuery);
-      const usersData = usersSnapshot.docs.map((doc) => doc.data());
-      setUsers(usersData);
-    };
-    fetchUsers();
-  }, [auth]);
-
-  const deleteUser = async (userId) => {
-    const functionCall = httpsCallable(functions, "deleteUser");
-    await functionCall({
-      userId: userId,
-    });
-    setIsDeleteSuccess(true); //ユーザー削除成功時起動
-  };
+```
+※以下URLにコードを書いています。
+https://github.com/daisuke0224/portfolio/blob/main/src/app/adminmenuuserdelete/page.tsx
 ```
 
 <h3>9.管理者メニュー目標数値入力ページ</h3>
@@ -367,47 +245,9 @@ const handleDeleteCOnfirmed = async () => {
 - お問い合わせフォームから送信が可能。
 - Zapier を使用しており、管理者宛に slack にて通知がされます。
 
-```Javascript
-export default function contactForm() {
-  const [name, setName] = React.useState("");
-  const [mailaddress, setMailAddress] = React.useState("");
-  const [inquireyDetails, setInquireyDetails] = React.useState("");
-  const [success, setSuccess] = React.useState(false);
-
-  React.useEffect(() => {
-    setName("");
-    setMailAddress("");
-    setInquireyDetails("");
-  }, []);
-
-  const onClickAdd = async () => {
-    const data = {
-      name: name,
-      email: mailaddress,
-      comment: inquireyDetails,
-      sentAt: 0,
-    };
-
-    try {
-      // Firestoreのcontactsコレクションにデータを追加
-      const docRef = await addDoc(collection(db, "contact"), data);
-      // console.log("Document added with ID: ", docRef.id);
-      setSuccess(true);
-
-      //データの送信が成功した場合、フォームをクリア
-      setName("");
-      setMailAddress("");
-      setInquireyDetails("");
-    } catch (e) {
-      // console.error("Error adding document: ", e);
-    }
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+```
+※以下URLにコードを書いています。
+https://github.com/daisuke0224/portfolio/blob/main/src/app/contactform/page.tsx
 ```
 
 <h3>15.バリデーション</h3>
