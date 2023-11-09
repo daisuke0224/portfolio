@@ -1,6 +1,5 @@
 //@ts-nocheck
 "use client";
-import { Fragment, useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import Customization from "../components/customization";
