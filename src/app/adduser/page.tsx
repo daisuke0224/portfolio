@@ -12,8 +12,6 @@ import {
   Stack,
   TextField,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { functions } from "@/firebase/client";
 import { httpsCallable } from "firebase/functions";
