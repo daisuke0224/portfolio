@@ -14,6 +14,9 @@ import {
   Stack,
   TextField,
   Typography,
+  FormControl,
+  InputLabel,
+  Select,
 } from "@mui/material";
 import { db } from "@/firebase/client";
 import { doc, setDoc, collection, getDoc } from "firebase/firestore";
@@ -50,7 +53,7 @@ export default function passwordreissue() {
   const auth = userFirebaseAuthContext();
   const user = auth.currentUser;
   if (user) {
-    // console.log(user);
+    console.log(user);
   }
 
   const onClickAdd = async () => {
